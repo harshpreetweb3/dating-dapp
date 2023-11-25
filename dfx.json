@@ -1,0 +1,30 @@
+{
+  "canisters": {
+    "DDate_backend": {
+      "candid": "src/DDate_backend/DDate_backend.did",
+      "package": "DDate_backend",
+      "type": "rust"
+    },
+    "DDate_frontend": {
+      "dependencies": [
+        "DDate_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/DDate_frontend/src/index.html"
+      },
+      "source": [
+        "src/DDate_frontend/assets",
+        "dist/DDate_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
