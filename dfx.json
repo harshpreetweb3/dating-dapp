@@ -1,0 +1,30 @@
+{
+  "canisters": {
+    "dateEveryday_backend": {
+      "candid": "src/dateEveryday_backend/dateEveryday_backend.did",
+      "package": "dateEveryday_backend",
+      "type": "rust"
+    },
+    "dateEveryday_frontend": {
+      "dependencies": [
+        "dateEveryday_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/dateEveryday_frontend/src/index.html"
+      },
+      "source": [
+        "src/dateEveryday_frontend/assets",
+        "dist/dateEveryday_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
