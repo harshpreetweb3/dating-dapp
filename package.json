@@ -1,5 +1,5 @@
 {
-  "name": "DDate_frontend",
+  "name": "ddate_frontend",
   "version": "0.2.0",
   "description": "Internet Computer starter application",
   "keywords": [
@@ -63,5 +63,16 @@
     "last 2 firefox version",
     "last 2 safari version",
     "last 2 edge version"
-  ]
+  ],
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinayakkalra/DDate-ICP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinayakkalra/DDate-ICP/issues"
+  },
+  "homepage": "https://github.com/vinayakkalra/DDate-ICP#readme"
 }

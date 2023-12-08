@@ -1,7 +1,7 @@
 {
   "canisters": {
     "DDate_backend": {
-      "candid": "src/DDate_backend/DDate_backend.did",
+      "candid": "src/DDate_backend/DDate.did",
       "package": "DDate_backend",
       "type": "rust"
     },
@@ -28,3 +28,5 @@
   "output_env_file": ".env",
   "version": 1
 }
+
+

@@ -1,0 +1,121 @@
+//type Preference = record { key: text; value: text };
+type Principal = principal;
+
+type UpdateUserProfileParams = record {
+    id: Principal;
+    new_name: opt text;
+    new_email: opt text;
+    new_mobile_number: opt text;
+    new_dob: opt text;
+    new_gender_pronouns: opt text;
+    new_religion: opt text;
+    new_height: opt text;
+    new_zodiac: opt text;
+    new_diet: opt text;
+    new_occupation: opt text;
+    new_looking_for: opt text;
+    new_smoking: opt text;
+    new_drinking: opt text;
+    new_hobbies: opt vec text;
+    new_sports: opt vec text;
+    new_art_and_culture: opt vec text;
+    new_pets: opt text;
+    new_general_habits: opt vec text;
+    new_outdoor_activities: opt vec text;
+    new_travel: opt vec text;
+    new_movies: opt vec text;
+    new_interests_in: opt text;
+    new_age: opt nat64;
+    new_location: opt text;
+    new_min_preferred_age: opt nat64;
+    new_max_preferred_age: opt nat64;
+    new_preferred_gender: opt text;
+    new_preferred_location: opt text;
+    new_matched: opt bool;
+    new_introduction: opt text;
+};
+
+
+type UserProfileParams = record {
+    id: Principal;
+    gender: text;
+    email: text;
+    name: text;
+    mobile_number: text;
+    dob: text;
+    gender_pronouns: text;
+    religion: text;
+    height: text;
+    zodiac: text;
+    diet: text;
+    occupation: text;
+    looking_for: text;
+    smoking: text;
+    drinking: text;
+    hobbies: vec text;
+    sports: vec text;
+    art_and_culture: vec text;
+    pets: text;
+    general_habits: vec text;
+    outdoor_activities: vec text;
+    travel: vec text;
+    movies: vec text;
+    interests_in: text;
+    age: nat64;
+    location: text;
+    min_preferred_age: nat64;
+    max_preferred_age: nat64;
+    preferred_gender: text;
+    preferred_location: text;
+    introduction: text;
+};
+
+
+
+type OptionalText = opt text;
+type OptionalNat64 = opt nat64;
+
+type Profile = record {
+    username: text;
+    age: nat32;
+    //preferences: vec Preference;
+};
+
+type MatchRequest = record {
+    requester: text;
+    target: text;
+};
+
+type MatchResult = record {
+    success: bool;
+    message: text;
+};
+
+service : {
+
+    //id : Principal,username: String, age: u64, gender: String, min_age: u64, max_age: u64, preferred_gender: String
+    //add_user_profile: (Principal, text, nat32) -> ();
+    // add_user_profile : (principal, text, nat64, text,text, nat64, nat64, text, text) -> ();
+    add_user_profile : (UserProfileParams) -> () oneway;
+    get_profile: (principal) -> ();    
+    update_profile : (UpdateUserProfileParams) -> (); 
+    delete_profile : (principal) -> ();
+    //request_match: (MatchRequest) -> (MatchResult);
+    //call_print_user_profiles : () -> ();
+    // Other functions like update_profile, get_profile, delete_profile
+    // update_profile: ... ;
+    // get_profile: ... ;
+    // delete_profile: ... ;
+
+    // update_profile: (
+    //     principal, 
+    //     OptionalText, 
+    //     OptionalNat64, 
+    //     OptionalText,
+    //     OptionalText, 
+    //     OptionalNat64, 
+    //     OptionalNat64, 
+    //     OptionalText,
+    //     OptionalText
+    // ) -> ();
+}
