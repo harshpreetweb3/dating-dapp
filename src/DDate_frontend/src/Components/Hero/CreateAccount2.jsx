@@ -1,0 +1,230 @@
+
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
+
+const CreateAccount2 = () => {
+  const navigate = useNavigate();
+  const [selectedGender, setSelectedGender] = useState('');
+  const [selectedReligion, setSelectedReligion] = useState('');
+  const [selectedFooding, setSelectedFooding] = useState('');
+  const [selectedWhatYouDo, setSelectedWhatYouDo] = useState('');
+  const [selectedlookingFor, setSelectedlookingFor] = useState('');
+  const [selectedHeight, setSelectedHeight] = useState('');
+  const [selectedZodiac,setSelectedZodiac]=useState('')
+
+  const backpageHandler = () => {
+    navigate('/CreateAccount1');
+  };
+
+  const nextPageHandler = () => {
+    navigate('/CreateAccount3');
+  };
+
+  const handleGenderSelect = (value) => {
+    setSelectedGender(value);
+  };
+
+  const handleReligionSelect = (value) => {
+    setSelectedReligion(value);
+  };
+
+  const handleFoodingSelect = (value) => {
+    setSelectedFooding(value);
+  };
+
+  const handleWhatYouDoSelect = (value) => {
+    setSelectedWhatYouDo(value);
+  };
+
+  const handlelookingForSelect = (value) => {
+    setSelectedlookingFor(value);
+  };
+
+  const handleHeightSelect =(value)=>{
+    setSelectedHeight(value)
+  }
+
+const handleZodiacSelect=(value)=>{
+  setSelectedZodiac(value)
+
+}
+
+  return (
+    <div className="flex w-full h-screen md:flex-row">
+    {/* Image container for larger screens */}
+    <div className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0" style={{ backgroundImage: `url(${createAccountImage})` }}>
+     
+    <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
+  <div className="w-full max-w-xl mx-auto text-left">
+    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Create Your</h1>
+    <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">account here</h2>
+    <p className="text-white text-bold md:text-2xl">Welcome ..</p>
+    <p className="text-white font-light md:text-xl">Complete Your Profile Here.</p>
+    <p className="text-white font-extralight md:text-lg">Tell us about yourself and let us help you finding the perfect match</p>
+    <p className='italic text-yellow-700 md:text-lg'>Good Luck!</p>
+  </div>
+</div>
+     
+      {/* Image Overlay for smaller screens */}
+      <div className="w-full h-full bg-black opacity-50 md:opacity-0"></div>
+    </div>
+
+    {/* Form container */}
+    <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
+      <div className="w-full max-w-md my-10">
+      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">Allow us to know you</h2>
+        <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
+
+        <form className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none" onSubmit={e => e.preventDefault()}>
+       
+            {/* Gender Selection */}
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Gender Pronouns</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
+                {['He/His', 'She/Her', 'They/Them'].map((gender) => (
+                  <button
+                    key={gender}
+                    type="button"
+                    onClick={() => handleGenderSelect(gender)}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      selectedGender === gender
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
+                    }`}
+                  >
+                    {gender}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Religion</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+                {['Hindu', 'Muslim', 'Sikh', 'Christian', 'Others'].map((religion) => (
+                  <button
+                    key={religion}
+                    type="button"
+                    onClick={() => handleReligionSelect(religion)}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      selectedReligion === religion
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
+                    }`}
+                  >
+                    {religion}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+              {/* Height and Zodiac Sign Selection */}
+    <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
+      {/* Height Input */}
+      <div className="flex-1 mb-4 md:mb-0">
+        <label htmlFor="height" className="font-medium mb-1 text-white md:text-black block">Height</label>
+        <input 
+          type="text" 
+          id="height" 
+          name="height"
+          placeholder="Your height"
+          value={selectedHeight}
+          onChange={(e) => handleHeightSelect(e.target.value)}
+          className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
+        />
+      </div>
+
+      {/* Zodiac Sign Input */}
+      <div className="flex-1">
+        <label htmlFor="zodiac" className="font-medium mb-1 text-white md:text-black block">Zodiac Sign</label>
+        <input 
+          type="text" 
+          id="zodiac" 
+          name="zodiac"
+          placeholder="Your zodiac sign"
+          value={selectedZodiac}
+          onChange={(e) => handleZodiacSelect(e.target.value)}
+          className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
+        />
+      </div>
+    </div>
+
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-2 text-white md:text-black">Fooding</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+                {['Lacto-vegeterian', 'Ovo-vegeterian', 'Non-vegeterian'].map((Fooding) => (
+                  <button
+                    key={Fooding}
+                    type="button"
+                    onClick={() => handleFoodingSelect(Fooding)}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      selectedFooding === Fooding
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
+                    }`}
+                  >
+                    {Fooding}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What You do</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+                {['In School', 'In College', 'Employed', 'Unemployed'].map((WhatYouDo) => (
+                  <button
+                    key={WhatYouDo}
+                    type="button"
+                    onClick={() => handleWhatYouDoSelect(WhatYouDo)}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      selectedWhatYouDo === WhatYouDo
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
+                    }`}
+                  >
+                    {WhatYouDo}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What are you looking for</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+                {['Friendship', 'Short-term relationship', 'Long-term relationship', 'Dating', 'XYZ'].map((lookingFor) => (
+                  <button
+                    key={lookingFor}
+                    type="button"
+                    onClick={() => handlelookingForSelect(lookingFor)}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      selectedlookingFor === lookingFor
+                        ? 'bg-yellow-500 text-black'
+                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
+                    }`}
+                  >
+                    {lookingFor}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+            {/* Form Buttons */}
+            <div className="flex justify-between mt-6">
+              <button type="button" className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black" onClick={backpageHandler}>Back</button>
+              <button type="button" className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600" onClick={nextPageHandler}>Next</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateAccount2;
