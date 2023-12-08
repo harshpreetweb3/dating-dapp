@@ -1,8 +1,8 @@
 {
   "canisters": {
-    "dateEveryday_backend": {
-      "candid": "src/dateEveryday_backend/dateEveryday_backend.did",
-      "package": "dateEveryday_backend",
+    "DDate_backend": {
+      "candid": "src/DDate_backend/DDate.did",
+      "package": "DDate_backend",
       "type": "rust"
     }
   },
