@@ -1,22 +1,31 @@
 mod user_profiles;
-use ic_cdk::export::{candid::{CandidType, Deserialize}};
-use user_profiles::create_kro_profile;
-use user_profiles::get_kro_profile;
-use user_profiles::delete_kro_profile;
-use user_profiles::update_kro_profile;
 mod profile_matcher;
+mod profile_picture_uploader;
+
+use ic_cdk::export::candid::{CandidType, Deserialize};
+
+use user_profiles::create_kro_profile;
+use user_profiles::delete_kro_profile;
+use user_profiles::get_kro_profile;
+use user_profiles::update_kro_profile;
+use user_profiles::{Notification, NotificationType, ProfileViewRequest, UserProfiles};
 
 use candid::Principal;
-extern crate ic_cdk;
-//use ic_cdk::api;  // dekha ge
+
 use ic_cdk_macros::*;
 
-//use user_profiles::UserProfileParamss;
+use crate::user_profiles::USER_PROFILES;
+
+use profile_picture_uploader::ProfilePictureUploader;
+extern crate ic_cdk;
+
+
+// struct for updation
 
 #[derive(CandidType, Deserialize)]
 pub struct UpdateUserProfileParams {
-    id: Principal, 
-    new_name: Option<String>, 
+    id: Principal,
+    new_name: Option<String>,
     new_email: Option<String>,
     new_mobile_number: Option<String>,
     new_dob: Option<String>,
@@ -40,14 +49,16 @@ pub struct UpdateUserProfileParams {
     new_interests_in: Option<String>,
     new_age: Option<u64>,
     new_location: Option<String>,
-    new_min_preferred_age: Option<u64>, 
-    new_max_preferred_age: Option<u64>, 
+    new_min_preferred_age: Option<u64>,
+    new_max_preferred_age: Option<u64>,
     new_preferred_gender: Option<String>,
     new_preferred_location: Option<String>,
     new_matched: Option<bool>,
-    new_introduction: Option<String>
+    new_introduction: Option<String>,
 }
 
+
+//struct for profile creation
 #[derive(CandidType, Deserialize, Clone)]
 struct UserProfileParams {
     id: Principal,
@@ -83,32 +94,28 @@ struct UserProfileParams {
     introduction: String,
 }
 
-
-// Example of a public function that can be called on the blockchain
+// create_profie function
 
 #[update]
 #[ic_cdk::export::candid::candid_method]
-//fn add_user_profile(id : Principal,username: String, age: u64, gender: String, location: String, min_age: u64, max_age: u64, preferred_gender: String, preferred_location: String) {
-    fn add_user_profile(
-        params: UserProfileParams
-    ){    // Logging the received data
+fn add_user_profile(params: UserProfileParams) {
     ic_cdk::println!("Received username: {}", params.name);
     ic_cdk::println!("Received age: {}", params.age);
-   
-create_kro_profile(params)
-}
-// b5pqo-yef5a-lut3t-kmrpc-h7dnp-v3d2t-ls6di-y33wa-clrtb-xdhl4-dae
-#[update]
-fn get_profile(id: Principal){
 
+    create_kro_profile(params)
+}
+
+// get_profile
+
+#[update]
+fn get_profile(id: Principal) {
     let user_profile = get_kro_profile(id);
 
     match user_profile {
         Some(profile) => {
             // Do something with the profile
             ic_cdk::println!("Got user profile: {:?}", profile);
-            
-        },
+        }
         None => {
             ic_cdk::println!("No profile found for given ID");
         }
@@ -116,53 +123,63 @@ fn get_profile(id: Principal){
 }
 
 #[update]
-fn delete_profile(id : Principal){
+fn delete_profile(id: Principal) {
     delete_kro_profile(id);
-    //ic_cdk::println!()
 }
 
-
 #[update]
-fn update_profile( params : UpdateUserProfileParams){
+fn update_profile(params: UpdateUserProfileParams) {
     update_kro_profile(params);
 }
 
-
-// #[update]
-// fn update_profile( id: Principal, 
-//     new_name: Option<String>, 
-//     new_age: Option<u64>, 
-//     new_gender: Option<String>, 
-//     new_location: Option<String>,
-//     new_min_preferred_age: Option<u64>, 
-//     new_max_preferred_age: Option<u64>, 
-//     new_preferred_gender: Option<String>,
-//     new_preferred_location: Option<String>){
-//     update_kro_profile(
-//         id, 
-//         new_name, 
-//         new_age, 
-//         new_gender, 
-//         new_location,
-//         new_min_preferred_age, 
-//         new_max_preferred_age, 
-//         new_preferred_gender,
-//         new_preferred_location
-//     );
-// }
-
-
-
-// More functions and implementation details for your smart contracts
+// Image upload function which is currently being developed
 #[update]
-fn call_print_user_profiles() {
-    // Calling the method
-    //UserProfileParamss::print_user_profiles();
-    
-    // ... rest of the function ...
+pub fn upload_user_profile_picture(user_id: Principal, image_data: Vec<u8>) {
+    let uploader = ProfilePictureUploader::new("path/to/storage/directory".to_string());
+    let file_name = format!("{}_profile_pic.jpg", user_id);
+
+    match uploader.upload(&image_data, &file_name) {
+        Ok(_) => ic_cdk::println!("Profile picture uploaded successfully."),
+        Err(e) => ic_cdk::println!("Failed to upload profile picture: {}", e),
+    }
 }
 
+// Currently keeping these functions to make them serve some purpose
+// they are being used for some other purpose which is not desired
 
+#[update]
+pub fn send_profile_view_request(from_user: Principal, to_user: Principal) {
+    let notification = Notification {
+        notification_type: NotificationType::ProfileViewRequest(ProfileViewRequest {
+            from_user,
+            to_user,
+        }),
+    };
+    USER_PROFILES.with(|profiles| {
+        profiles
+            .borrow_mut()
+            .add_notification(to_user, notification);
+    });
+    ic_cdk::println!("request is sent!");
+}
+
+#[update]
+pub fn get_user_notifications(user_id: Principal) -> Vec<Notification> {
+    USER_PROFILES.with(|profiles| profiles.borrow().get_notifications(&user_id))
+}
+
+#[update]
+pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, accept: bool) {
+    user_profiles::USER_PROFILES.with(|profiles| {
+        let mut profiles = profiles.borrow_mut();
+        if accept {
+            profiles.add_friend(user_id, requester_id);
+        } else {
+            profiles.reject_friend_request(user_id, requester_id);
+        }
+        profiles.remove_notification(user_id, requester_id);
+    });
+}
 
 //minter
 // tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae
