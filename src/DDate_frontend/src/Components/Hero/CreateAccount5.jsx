@@ -16,7 +16,7 @@ const CreateAccount5 = () => {
   };
 
   const nextPageHandler = () => {
-    navigate('/');
+    navigate('/Swipe');
   };
 
   const handleintrestsSelect = (value) => {
