@@ -1,16 +1,36 @@
 use crate::profile_matcher;
 use crate::profile_matcher::find_matches ;
 use std::cell::RefCell;
-use std::io::Read; // Import the Read trait
+use std::io::Read; 
 use std::collections::HashMap;
 use ic_cdk::api::stable::{StableWriter, StableReader};
 use ic_cdk_macros::{pre_upgrade, post_upgrade, update};
 use serde::{Serialize, Deserialize};
 use bincode;
-use candid::Principal;
-// Import the match_logic module
-use crate::call_print_user_profiles;
+use candid::{CandidType, Principal};
+
 use crate::{UserProfileParams, UpdateUserProfileParams};
+
+// Notification-related structs
+#[derive(Serialize, Deserialize, CandidType, Clone, Debug)]
+pub struct ProfileViewRequest {
+    pub from_user: Principal,
+    pub to_user: Principal,
+}
+
+#[derive(Serialize, Deserialize, CandidType, Clone, Debug)]
+pub enum NotificationType {
+    ProfileViewRequest(ProfileViewRequest),
+    // Other notification types can be added here
+}
+
+#[derive(Serialize, Deserialize, CandidType, Clone, Debug)]
+pub struct Notification {
+    pub notification_type: NotificationType,
+    // Add other fields like timestamp, read/unread status, etc.
+}
+
+// 
 
 #[pre_upgrade]
 fn pre_upgrade() {
@@ -59,45 +79,48 @@ fn pre_upgrade() {
 //     pub matched: bool, // Track if the user is matched
 // }
 #[derive(Debug)]
-pub struct UserProfile {
-    pub id: Principal,
-    pub gender: String,
-    pub email: String,
-    pub name: String,
-    pub mobile_number: String,
-    pub dob: String,
-    pub gender_pronouns: String,
-    pub religion: String,
-    pub height: String,
-    pub zodiac: String,
-    pub diet: String,
-    pub occupation: String,
-    pub looking_for: String,
-    pub smoking: String,
-    pub drinking: String,
-    pub hobbies: Vec<String>,
-    pub sports: Vec<String>,
-    pub art_and_culture: Vec<String>,
-    pub pets: String,
-    pub general_habits: Vec<String>,
-    pub outdoor_activities: Vec<String>,
-    pub travel: Vec<String>,
-    pub movies: Vec<String>,
-    pub interests_in: String,
-    pub age: u64,
-    pub location: String,
-    pub min_preferred_age: u64,
-    pub max_preferred_age: u64,
-    pub preferred_gender: String,
-    pub preferred_location: String, 
-    pub matched: bool, 
-    pub introduction: String,
-}
+    pub struct UserProfile {
+        pub id: Principal,
+        pub gender: String,
+        pub email: String,
+        pub name: String,
+        pub mobile_number: String,
+        pub dob: String,
+        pub gender_pronouns: String,
+        pub religion: String,
+        pub height: String,
+        pub zodiac: String,
+        pub diet: String,
+        pub occupation: String,
+        pub looking_for: String,
+        pub smoking: String,
+        pub drinking: String,
+        pub hobbies: Vec<String>,
+        pub sports: Vec<String>,
+        pub art_and_culture: Vec<String>,
+        pub pets: String,
+        pub general_habits: Vec<String>,
+        pub outdoor_activities: Vec<String>,
+        pub travel: Vec<String>,
+        pub movies: Vec<String>,
+        pub interests_in: String,
+        pub age: u64,
+        pub location: String, // missing 
+        pub min_preferred_age: u64,
+        pub max_preferred_age: u64,
+        pub preferred_gender: String, // hai
+        pub preferred_location: String, // missing 
+        pub matched: bool, 
+        pub introduction: String,
+        pub notifications: Vec<Notification>,
+        pub friends: Vec<Principal>,
+        pub rejected_requests: Vec<Principal>, 
+    }
 
-// pub struct UserProfileParams {
-//     pub id: Principal,
-//     pub gender: String,
-//     pub email: String,
+    // pub struct UserProfileParams {
+    //     pub id: Principal,
+    //     pub gender: String,
+    //     pub email: String,
 //     pub name: String,
 //     pub mobile_number: String,
 //     pub dob: String,
@@ -137,8 +160,8 @@ pub struct UserProfiles {
 }
 
 // Wrap UserProfiles in a RefCell for interior mutability
-thread_local! {
-    static USER_PROFILES: RefCell<UserProfiles> = RefCell::new(UserProfiles::new());
+ thread_local! {
+    pub static USER_PROFILES: RefCell<UserProfiles> = RefCell::new(UserProfiles::new());
 }
 
 impl UserProfiles {
@@ -202,6 +225,9 @@ impl UserProfiles {
             preferred_location: params.preferred_location.clone(),
             introduction: params.introduction.clone(),
             matched: false,
+            notifications: Vec::new(),
+            friends: Vec::new(),
+            rejected_requests : Vec::new()
         };
         ic_cdk::println!("Profile created for user: {}", profile.name);
         self.profiles.insert(profile.id.clone(), profile);
@@ -354,6 +380,63 @@ impl UserProfiles {
         }
     }
     
+
+    pub fn add_notification(&mut self, user_id: Principal, notification: Notification) {
+        if let Some(profile) = self.profiles.get_mut(&user_id) {
+            profile.notifications.push(notification);
+        }
+    }
+
+    pub fn get_notifications(&self, user_id: &Principal) -> Vec<Notification> {
+        self.profiles.get(user_id).map_or_else(Vec::new, |profile| profile.notifications.clone())
+    }
+
+    pub fn add_friend(&mut self, user_id: Principal, friend_id: Principal) {
+        if let Some(profile) = self.profiles.get_mut(&user_id) {
+            profile.friends.push(friend_id);
+            ic_cdk::println!("You have added them as a friend")
+        }
+    }
+
+    pub fn remove_notification(&mut self, user_id: Principal, requester_id: Principal) {
+        if let Some(profile) = self.profiles.get_mut(&user_id) {
+            profile.notifications.retain(|notification| {
+                if let NotificationType::ProfileViewRequest(req) = &notification.notification_type {
+                    !(req.from_user == requester_id && req.to_user == user_id)
+                } else {
+                    true
+                }
+            });
+
+            ic_cdk::println!("notification is removed");
+
+             // Add the requester_id to the rejected requests list
+             if !profile.rejected_requests.contains(&requester_id) {
+                profile.rejected_requests.push(requester_id);
+            }
+        }
+    }
+
+    pub fn reject_friend_request(&mut self, user_id: Principal, requester_id: Principal) {
+        if let Some(profile) = self.profiles.get_mut(&user_id) {
+            // Remove the friend request notification
+            profile.notifications.retain(|notification| {
+                if let NotificationType::ProfileViewRequest(req) = &notification.notification_type {
+                    !(req.from_user == requester_id && req.to_user == user_id)
+
+                } else {
+                    true
+                }
+            });
+
+            ic_cdk::println!("reject function is called");
+
+            // Add the requester_id to the rejected requests list
+            if !profile.rejected_requests.contains(&requester_id) {
+                profile.rejected_requests.push(requester_id);
+            }
+        }
+    }
 
 //     pub fn update_profile(
 //         &mut self, 

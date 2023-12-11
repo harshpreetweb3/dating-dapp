@@ -1,6 +1,21 @@
 //type Preference = record { key: text; value: text };
 type Principal = principal;
 
+
+type NotificationType = variant {
+    ProfileViewRequest: ProfileViewRequest;
+    // ... other notification types
+};
+type ProfileViewRequest = record {
+    from_user: Principal;
+    to_user: Principal;
+};
+type Notification = record {
+    notification_type: NotificationType;
+    // ... other fields for Notification
+};
+
+
 type UpdateUserProfileParams = record {
     id: Principal;
     new_name: opt text;
@@ -100,6 +115,9 @@ service : {
     get_profile: (principal) -> ();    
     update_profile : (UpdateUserProfileParams) -> (); 
     delete_profile : (principal) -> ();
+    send_profile_view_request: (from_user: Principal, to_user: Principal) -> ();
+    get_user_notifications: (user_id: Principal) -> (vec Notification);
+    respond_to_friend_request : (Principal, Principal, bool) -> ();
     //request_match: (MatchRequest) -> (MatchResult);
     //call_print_user_profiles : () -> ();
     // Other functions like update_profile, get_profile, delete_profile
