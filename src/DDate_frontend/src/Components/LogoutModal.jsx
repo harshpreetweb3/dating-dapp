@@ -5,14 +5,14 @@ const LogoutModal = ({ isOpen, onClose }) => {
 
 
  const logoutHandler=()=>{
-    localStorage.removeItem('principal')
+    localStorage.removeItem('id')
     localStorage.removeItem('identity')
     localStorage.removeItem('wallet')
 
     onClose()
  }
 
- let principal =localStorage.getItem('principal')
+ let principal =localStorage.getItem('id')
 
     return (
         <div className="fixed inset-0 flex justify-end overflow-hidden items-start pt-24 z-50" onClick={onClose}>
