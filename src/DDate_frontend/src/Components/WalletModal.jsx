@@ -23,7 +23,7 @@ const WalletModal = ({ isOpen, onClose }) => {
         onSuccess: () => {
           const identity = authClient.getIdentity();
           const principal = identity.getPrincipal().toString();
-          localStorage.setItem('principal',JSON.stringify(principal))
+          localStorage.setItem('id',JSON.stringify(principal))
           // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
           localStorage.setItem('identity',JSON.stringify(identity))
           onClose()
@@ -89,10 +89,10 @@ const WalletModal = ({ isOpen, onClose }) => {
   
                   let principal = await window.ic.plug.agent.getPrincipal();  
                   let principalText = principal.toText();
-                  console.log("Principal ID:", principalText);
+                  console.log("id", principalText);
                   // let limitedPrincipalText = principalText.substring(0, 15);
 
-                  localStorage.setItem('principal',JSON.stringify(principalText))
+                  localStorage.setItem('id',principalText)
                   localStorage.setItem('wallet',JSON.stringify('PlugWallet'))
 
                   onClose()

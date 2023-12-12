@@ -12,10 +12,10 @@ const HeroRight = () => {
   const [isWalletModalOpen, setWalletModalOpen] = useState(false);
   const [isLogoutModal, setLogoutModal] = useState(false);
 
-  const isUserLoggedIn = localStorage.getItem('principal') !== null;
+  const isUserLoggedIn = localStorage.getItem('id') !== null;
 
-  const principal =localStorage.getItem('principal')
-  console.log(principal)
+  const id =localStorage.getItem('id')
+  console.log(id)
 
   const createAccountHandler = () => {
     navigate('/CreateAccount1');

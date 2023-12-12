@@ -1,55 +1,45 @@
-
-
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
 
 const CreateAccount2 = () => {
   const navigate = useNavigate();
-  const [selectedGender, setSelectedGender] = useState('');
-  const [selectedReligion, setSelectedReligion] = useState('');
-  const [selectedFooding, setSelectedFooding] = useState('');
-  const [selectedWhatYouDo, setSelectedWhatYouDo] = useState('');
-  const [selectedlookingFor, setSelectedlookingFor] = useState('');
-  const [selectedHeight, setSelectedHeight] = useState('');
-  const [selectedZodiac,setSelectedZodiac]=useState('')
+
+  const [formData, setFormData] = useState({
+    genderPronouns: "",
+    selectedReligion: "",
+    selectedFooding: "",
+    selectedWhatYouDo: "",
+    selectedlookingFor: "",
+    selectedHeight:0,
+    selectedZodiac:''
+  });
+
 
   const backpageHandler = () => {
     navigate('/CreateAccount1');
   };
 
-  const nextPageHandler = () => {
-    navigate('/CreateAccount3');
+  useEffect(() => {
+    const savedData = localStorage.getItem("form2");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    localStorage.setItem("form2", JSON.stringify(formData));
+    console.log(formData);
+    navigate("/CreateAccount3");
   };
 
-  const handleGenderSelect = (value) => {
-    setSelectedGender(value);
-  };
-
-  const handleReligionSelect = (value) => {
-    setSelectedReligion(value);
-  };
-
-  const handleFoodingSelect = (value) => {
-    setSelectedFooding(value);
-  };
-
-  const handleWhatYouDoSelect = (value) => {
-    setSelectedWhatYouDo(value);
-  };
-
-  const handlelookingForSelect = (value) => {
-    setSelectedlookingFor(value);
-  };
-
-  const handleHeightSelect =(value)=>{
-    setSelectedHeight(value)
-  }
-
-const handleZodiacSelect=(value)=>{
-  setSelectedZodiac(value)
-
-}
+  
 
   return (
     <div className="flex w-full h-screen md:flex-row">
@@ -77,76 +67,87 @@ const handleZodiacSelect=(value)=>{
       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">Allow us to know you</h2>
         <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
 
-        <form className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none" onSubmit={e => e.preventDefault()}>
+        <form className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none" onSubmit={handleSubmit}>
        
             {/* Gender Selection */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Gender Pronouns</legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
-                {['He/His', 'She/Her', 'They/Them'].map((gender) => (
-                  <button
-                    key={gender}
-                    type="button"
-                    onClick={() => handleGenderSelect(gender)}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      selectedGender === gender
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
-                    }`}
-                  >
-                    {gender}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+                {['He/His', 'She/Her', 'They/Them'].map((genPro) => (
+                   <label
+                   key={genPro}
+                   className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                     formData.genderPronouns === genPro
+                       ? "bg-yellow-500 text-black"
+                       : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                   }`}
+                 >
+                   <input
+                     type="radio"
+                     name="genderPronouns"
+                     value={genPro}
+                     onChange={handleFormChange}
+                     style={{ display: "none" }} 
+                   />
+                   {genPro}
+                 </label>
+               ))}
+             </div>
+           </fieldset>
 
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Religion</legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
                 {['Hindu', 'Muslim', 'Sikh', 'Christian', 'Others'].map((religion) => (
-                  <button
-                    key={religion}
-                    type="button"
-                    onClick={() => handleReligionSelect(religion)}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      selectedReligion === religion
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
-                    }`}
-                  >
-                    {religion}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+                  <label
+                  key={religion}
+                  className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                    formData.selectedReligion === religion
+                      ? "bg-yellow-500 text-black"
+                      : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="selectedReligion"
+                    value={religion}
+                    onChange={handleFormChange}
+                    style={{ display: "none" }} 
+                  />
+                  {religion}
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
               {/* Height and Zodiac Sign Selection */}
     <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
       {/* Height Input */}
       <div className="flex-1 mb-4 md:mb-0">
-        <label htmlFor="height" className="font-medium mb-1 text-white md:text-black block">Height</label>
-        <input 
-          type="text" 
-          id="height" 
-          name="height"
-          placeholder="Your height"
-          value={selectedHeight}
-          onChange={(e) => handleHeightSelect(e.target.value)}
-          className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
-        />
-      </div>
+  <label htmlFor="selectedHeight" className="font-medium mb-1 text-white md:text-black block">Height (feet)</label>
+  <input 
+    type="number" 
+    id="selectedHeight" 
+    name="selectedHeight"
+    placeholder="Your height in feet"
+    value={formData.selectedHeight}
+    onChange={handleFormChange}
+    className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
+  />
+</div>
+
 
       {/* Zodiac Sign Input */}
       <div className="flex-1">
-        <label htmlFor="zodiac" className="font-medium mb-1 text-white md:text-black block">Zodiac Sign</label>
+        <label htmlFor="selectedZodiac" className="font-medium mb-1 text-white md:text-black block">Zodiac Sign</label>
         <input 
           type="text" 
-          id="zodiac" 
-          name="zodiac"
+          id="selectedZodiac" 
+          name="selectedZodiac"
           placeholder="Your zodiac sign"
-          value={selectedZodiac}
-          onChange={(e) => handleZodiacSelect(e.target.value)}
+          value={formData.selectedZodiac}
+          onChange={handleFormChange}
           className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
         />
       </div>
@@ -157,68 +158,82 @@ const handleZodiacSelect=(value)=>{
               <legend className="block text-lg font-semibold mb-2 text-white md:text-black">Fooding</legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
                 {['Lacto-vegeterian', 'Ovo-vegeterian', 'Non-vegeterian'].map((Fooding) => (
-                  <button
-                    key={Fooding}
-                    type="button"
-                    onClick={() => handleFoodingSelect(Fooding)}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      selectedFooding === Fooding
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
-                    }`}
-                  >
-                    {Fooding}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+                 <label
+                 key={Fooding}
+                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                   formData.selectedFooding === Fooding
+                     ? "bg-yellow-500 text-black"
+                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                 }`}
+               >
+                 <input
+                   type="radio"
+                   name="selectedFooding"
+                   value={Fooding}
+                   onChange={handleFormChange}
+                   style={{ display: "none" }} 
+                 />
+                 {Fooding}
+               </label>
+             ))}
+           </div>
+         </fieldset>
 
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What You do</legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
                 {['In School', 'In College', 'Employed', 'Unemployed'].map((WhatYouDo) => (
-                  <button
-                    key={WhatYouDo}
-                    type="button"
-                    onClick={() => handleWhatYouDoSelect(WhatYouDo)}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      selectedWhatYouDo === WhatYouDo
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
-                    }`}
-                  >
-                    {WhatYouDo}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+                 <label
+                 key={WhatYouDo}
+                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                   formData.selectedWhatYouDo === WhatYouDo
+                     ? "bg-yellow-500 text-black"
+                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                 }`}
+               >
+                 <input
+                   type="radio"
+                   name="selectedWhatYouDo"
+                   value={WhatYouDo}
+                   onChange={handleFormChange}
+                   style={{ display: "none" }} 
+                 />
+                 {WhatYouDo}
+               </label>
+             ))}
+           </div>
+         </fieldset>
 
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What are you looking for</legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
                 {['Friendship', 'Short-term relationship', 'Long-term relationship', 'Dating', 'XYZ'].map((lookingFor) => (
-                  <button
-                    key={lookingFor}
-                    type="button"
-                    onClick={() => handlelookingForSelect(lookingFor)}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      selectedlookingFor === lookingFor
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black'
-                    }`}
-                  >
-                    {lookingFor}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
-
+                 <label
+                 key={lookingFor}
+                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                   formData.selectedlookingFor === lookingFor
+                     ? "bg-yellow-500 text-black"
+                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                 }`}
+               >
+                 <input
+                   type="radio"
+                   name="selectedlookingFor"
+                   value={lookingFor}
+                   onChange={handleFormChange}
+                   style={{ display: "none" }} 
+                 />
+                 {lookingFor}
+               </label>
+             ))}
+           </div>
+         </fieldset>
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">
               <button type="button" className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black" onClick={backpageHandler}>Back</button>
-              <button type="button" className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600" onClick={nextPageHandler}>Next</button>
+              <button type="text" className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600" >Next</button>
             </div>
           </form>
         </div>
