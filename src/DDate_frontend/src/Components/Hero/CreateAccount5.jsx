@@ -303,7 +303,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
-import { DDate_backend } from "../../../../declarations/DDate_backend/index";
+// import { DDate_backend } from "../../../../declarations/DDate_backend/index";
 import { Principal } from '@dfinity/principal';
 
 const CreateAccount5 = () => {
@@ -359,7 +359,6 @@ const CreateAccount5 = () => {
 
     localStorage.setItem("form5", JSON.stringify(formData));
     console.log(formData);
-    navigate("/CreateAccount5");
 
     const formKeys = ["form1", "form2", "form3", "form4", "form5"];
     const userData = {};
@@ -420,7 +419,9 @@ const CreateAccount5 = () => {
       console.log("objectSendToBackendFormat", objectSendToBackendFormat);
 
       try {
-        await DDate_backend.add_user_profile(objectSendToBackendFormat);
+        // await DDate_backend.add_user_profile(objectSendToBackendFormat);
+        navigate("/Swipe");
+
       } catch (error) {
         console.error("Error sending data to the backend:", error);
       }
