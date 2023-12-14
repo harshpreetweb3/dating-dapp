@@ -1,15 +1,45 @@
-import React from 'react';
+import React from "react";
 import one from "../../assets/Images/UserProfiles/one.png";
-import p1 from '../../assets/Images/UserProfiles/p1.png';
-import p2 from '../../assets/Images/UserProfiles/p2.png';
-import p3 from '../../assets/Images/UserProfiles/p3.png';
-import p4 from '../../assets/Images/UserProfiles/p4.png';
-import p5 from '../../assets/Images/UserProfiles/p5.png';
-import SidebarComponent from './SidebarComponent';
+import p1 from "../../assets/Images/UserProfiles/p1.png";
+import p2 from "../../assets/Images/UserProfiles/p2.png";
+import p3 from "../../assets/Images/UserProfiles/p3.png";
+import p4 from "../../assets/Images/UserProfiles/p4.png";
+import p5 from "../../assets/Images/UserProfiles/p5.png";
+import SidebarComponent from "./SidebarComponent";
+import { Principal } from "@dfinity/principal";
+import { useState } from "react";
 
+// import { DDate_backend } from "../../../declarations/DDate_backend/index";
 
 const Swipe = () => {
-  // Dummy data - replace with actual data as needed
+  const principalString = localStorage.getItem("id");
+
+  const principal = convertStringToPrincipal(principalString);
+
+  function convertStringToPrincipal(principalString) {
+    try {
+      const principal = Principal.fromText(principalString);
+      console.log("Converted Principal: ", principal.toText());
+      return principal;
+    } catch (error) {
+      console.error("Error converting string to Principal: ", error);
+      return null;
+    }
+  }
+
+  console.log("pri =>", principal);
+
+  const [formData, setFormData] = useState({
+    selectedintrests: "",
+    selectedpreferAge: "",
+    selectedLocation: "",
+    selectedPrefferedLocation: "",
+    selectedIntro: "",
+  });
+
+  
+  // const getData=DDate_backend.get_profile(principal)
+
   const userData = {
     name: "Elena Gilbert",
     pronouns: "she/her",
@@ -18,66 +48,65 @@ const Swipe = () => {
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   };
 
-//   const photos = [
-//     '../../assets/Images/UserProfiles/p1.png', // Replace with actual paths to images
-//     '../../assets/Images/UserProfiles/p2.png',
-//     '../../assets/Images/UserProfiles/p3.png',
-//     '../../assets/Images/UserProfiles/p4.png',
-//     '../../assets/Images/UserProfiles/p5.png'
-//   ];
-
-const photos = [
-    p1, p2, p3, p4, p5
-  ];
+  const photos = [p1, p2, p3, p4, p5];
 
   return (
-    <div className="flex">
+    <div className="h-screen grid grid-cols-12">
+      <div className="col-span-3">
         <SidebarComponent />
-    <div className="bg-white rounded-lg shadow-lg p-6 flex">
-      <div className="flex-1">
-        <div className="rounded-lg bg-yellow-300 h-96 w-72 flex justify-center items-center">
+      </div>
+      <div className="col-span-9 flex flex-col justify-center items-center">
+        <div className="bg-white shadow-lg rounded-fully h-screen w-98 flex justify-center items-center  mx-auto relative">
           <img
-            //src="/path/to/main-photo.jpg" // Replace with the actual path to the main image
-            //src="../../assets/Images/UserProfiles/one.png"
-            src={one}   
+            src={one}
             alt="Profile"
             className="rounded-lg object-cover h-full w-full"
-          />
+          /> 
+          <div className="flex justify-center flex-start mt-4 gap-4 absolute ml-4 cursor-pointer bottom-1 left-1">
+      
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 63 63"
+              fill="none"
+            >
+              <circle cx="31.275" cy="31.275" r="31.275" fill="#E13131" />
+              <path
+                d="M41.6356 44.7888L30.897 34.0402L20.1584 44.7888L17.7607 42.3927L28.5162 31.661L17.7607 20.9293L20.1584 18.5332L30.897 29.2818L41.6356 18.5501L44.0163 20.9293L33.2777 31.661L44.0163 42.3927L41.6356 44.7888Z"
+                fill="black"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 63 63"
+              fill="none"
+            >
+              <circle cx="31.7242" cy="31.275" r="31.275" fill="#3FB844" />
+              <path
+                d="M26.7715 44.7888L14.3496 32.3433L17.4551 29.2319L26.7715 38.566L46.7664 18.5332L49.8718 21.6446L26.7715 44.7888Z"
+                fill="#ECECEC"
+              />
+            </svg>
+          </div> 
+        <div className="mt-4 ml-4 absolute bottom-16 left-0 text-white"> 
+          <h2 className="text-4xl font-bold text-gray-400">
+            {userData.name} 
+          </h2>
+          <p className="text-lg text-gray-700 font-bold "> 
+             {userData.jobTitle} - Since {userData.joinDate}
+          </p>
+          <p className="mt-2 font-bold">{userData.bio}</p>
         </div>
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold">{userData.name} ({userData.pronouns})</h2>
-          <p className="text-sm text-gray-600">{userData.jobTitle} - Since {userData.joinDate}</p>
-          <p className="text-gray-700 mt-2">{userData.bio}</p>
-          <div className="flex mt-4">
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-              X
-            </button>
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
-              ✓
-            </button>
-          </div>
         </div>
+      
       </div>
-      <div className="flex-1">
-        <div className="flex justify-end">
-          <div className="flex flex-col items-end">
-            <h3 className="text-lg font-semibold mb-2">Available Photos</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {photos.map((photo, index) => (
-                <img
-                  key={index}
-                  src={photo}
-                  alt={`Profile ${index}`}
-                  className="object-cover h-24 w-24 rounded-lg"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   );
 };
+
 
 export default Swipe;
