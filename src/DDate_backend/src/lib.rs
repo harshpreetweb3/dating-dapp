@@ -22,7 +22,7 @@ extern crate ic_cdk;
 
 // struct for updation
 
-#[derive(CandidType, Deserialize)]
+#[derive(CandidType, Deserialize, Clone)]
 pub struct UpdateUserProfileParams {
     id: Principal,
     new_name: Option<String>,

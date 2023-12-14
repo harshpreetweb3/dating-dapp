@@ -8,7 +8,7 @@ use ic_cdk_macros::{pre_upgrade, post_upgrade, update};
 use serde::{Serialize, Deserialize};
 use bincode;
 use candid::{CandidType, Principal};
-
+use ic_cdk::api::caller;
 use crate::{UserProfileParams, UpdateUserProfileParams};
 
 // Notification-related structs
@@ -44,19 +44,19 @@ fn pre_upgrade() {
 }
 
 
-// #[post_upgrade]
-// fn post_upgrade() {
-//     // Read and deserialize data from stable storage
-//     let mut reader = StableReader::default();
-//     let mut data = Vec::new();
-//     reader.read_to_end(&mut data).expect("Failed to read from stable storage");
-//     let profiles: UserProfiles = bincode::deserialize(&data).expect("Deserialization failed");
-//     // Restore data
-//     USER_PROFILES.with(|p| {
-//         *p.borrow_mut() = profiles;
-//     });
-//     ic_cdk::println!("pre upgrade is implemented");
-// }
+#[post_upgrade]
+fn post_upgrade() {
+    // Read and deserialize data from stable storage
+    let mut reader = StableReader::default();
+    let mut data = Vec::new();
+    reader.read_to_end(&mut data).expect("Failed to read from stable storage");
+    let profiles: UserProfiles = bincode::deserialize(&data).expect("Deserialization failed");
+    // Restore data
+    USER_PROFILES.with(|p| {
+        *p.borrow_mut() = profiles;
+    });
+    ic_cdk::println!("post upgrade is implemented");
+}
 
 #[derive(Serialize, Deserialize, Clone)] // Derive the Clone trait for UserProfile
 // pub struct UserProfile {
@@ -438,6 +438,8 @@ impl UserProfiles {
         }
     }
 
+    
+
 //     pub fn update_profile(
 //         &mut self, 
 //         id: Principal, 
@@ -687,31 +689,233 @@ pub fn update_kro_profile( params : UpdateUserProfileParams) {
 }
 
 
+// Assuming this is in the same file as your UserProfiles implementation
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+
+    // A helper function to set up a testing environment
+    fn setup() -> (UserProfiles, UserProfileParams) {
+        
+        // Set a fake caller principal for testing
+        // caller::set_principal(Principal::anonymous());
+
+        let test_principal = Principal::anonymous(); 
+
+        // Create a UserProfiles instance
+        let user_profiles = UserProfiles::new();
+
+        // Define a UserProfileParams instance with test data
+        let params = UserProfileParams {
+            id: test_principal,
+            gender: "female".to_string(),
+            email: "test@example.com".to_string(),
+            name: "Alice".to_string(),
+            mobile_number: "1234567890".to_string(),
+            dob: "1990-01-01".to_string(),
+            gender_pronouns: "she/her".to_string(),
+            religion: "None".to_string(),
+            height: "170cm".to_string(),
+            zodiac: "Aquarius".to_string(),
+            diet: "Vegetarian".to_string(),
+            occupation: "Adventurer".to_string(),
+            looking_for: "Friendship".to_string(),
+            smoking: "No".to_string(),
+            drinking: "Occasionally".to_string(),
+            hobbies: vec!["Exploring", "Reading"].into_iter().map(String::from).collect(),
+            sports: vec!["Croquet"].into_iter().map(String::from).collect(),
+            art_and_culture: vec!["Classical Music"].into_iter().map(String::from).collect(),
+            pets: "Dinah the Cat".to_string(),
+            general_habits: vec!["Early Riser"].into_iter().map(String::from).collect(),
+            outdoor_activities: vec!["Gardening"].into_iter().map(String::from).collect(),
+            travel: vec!["Wonderland"].into_iter().map(String::from).collect(),
+            movies: vec!["Alice in Wonderland"].into_iter().map(String::from).collect(),
+            interests_in: "Puzzles".to_string(),
+            age: 30,
+            location: "Wonderland".to_string(),
+            min_preferred_age: 18,
+            max_preferred_age: 35,
+            preferred_gender: "male".to_string(),
+            preferred_location: "Wonderland".to_string(),
+            introduction: "I love adventures!".to_string(),
+        };
+
+        (user_profiles, params)
+    }
+
+    #[test]
+    fn test_create_profile() {
+        let (mut user_profiles, params) = setup();
+
+        // Call the create_profile function
+        user_profiles.create_profile(params.clone());
+
+        // Assert that the profile has been added
+        let profile = user_profiles.get_profile(&params.id);
+        assert!(profile.is_some(), "Profile should be present after creation");
+
+        // Assert that the profile fields are correctly set
+        let profile = profile.unwrap();
+        assert_eq!(profile.name, params.name);
+        assert_eq!(profile.email, params.email);
+        assert_eq!(profile.mobile_number, params.mobile_number);
+        assert_eq!(profile.dob, params.dob);
+        assert_eq!(profile.gender_pronouns, params.gender_pronouns);
+        assert_eq!(profile.religion, params.religion);
+        assert_eq!(profile.height, params.height);
+        assert_eq!(profile.zodiac, params.zodiac);
+        assert_eq!(profile.diet, params.diet);
+        assert_eq!(profile.occupation, params.occupation);
+        assert_eq!(profile.looking_for, params.looking_for);
+        assert_eq!(profile.smoking, params.smoking);
+        assert_eq!(profile.drinking, params.drinking);
+        assert_eq!(profile.hobbies, params.hobbies);
+        assert_eq!(profile.sports, params.sports);
+        assert_eq!(profile.art_and_culture, params.art_and_culture);
+        assert_eq!(profile.pets, params.pets);
+        assert_eq!(profile.general_habits, params.general_habits);
+        assert_eq!(profile.outdoor_activities, params.outdoor_activities);
+        assert_eq!(profile.travel, params.travel);
+        assert_eq!(profile.movies, params.movies);
+        assert_eq!(profile.interests_in, params.interests_in);
+        assert_eq!(profile.age, params.age);
+        assert_eq!(profile.location, params.location);
+        assert_eq!(profile.min_preferred_age, params.min_preferred_age);
+        assert_eq!(profile.max_preferred_age, params.max_preferred_age);
+        assert_eq!(profile.preferred_gender, params.preferred_gender);
+        assert_eq!(profile.preferred_location, params.preferred_location);
+        assert_eq!(profile.matched, false); // Assuming a new profile is not matched
+        assert_eq!(profile.introduction, params.introduction);
+        // Ensure the notifications, friends, and rejected_requests vectors are initially empty
+        assert!(profile.notifications.is_empty());
+        assert!(profile.friends.is_empty());
+        assert!(profile.rejected_requests.is_empty());
+    }
+
+
+    #[test]
+    fn test_get_profile() {
+        let (mut user_profiles, params) = setup();
+
+        // First, create a profile to ensure there is one to retrieve.
+        user_profiles.create_profile(params.clone());
+
+        // Now, try to retrieve the profile.
+        let profile = user_profiles.get_profile(&params.id);
+        assert!(profile.is_some(), "Profile should be retrieved successfully");
+
+        // Optionally, assert that the retrieved profile has the expected data.
+        let profile = profile.unwrap();
+        assert_eq!(profile.name, params.name, "Profile name should match the expected value");
+        // Add more asserts for each field if necessary.
+    }
+
+    #[test]
+    fn test_delete_profile() {
+        let (mut user_profiles, params) = setup();
+
+        // First, create a profile to ensure there is one to delete.
+        user_profiles.create_profile(params.clone());
+
+        // Make sure the profile exists before attempting to delete.
+        let profile = user_profiles.get_profile(&params.id);
+        assert!(profile.is_some(), "Profile should exist before deletion");
+
+        // Perform the deletion.
+        user_profiles.delete_profile(params.id);
+
+        // Now, try to retrieve the profile after deletion.
+        let profile_after_deletion = user_profiles.get_profile(&params.id);
+        assert!(profile_after_deletion.is_none(), "Profile should not exist after deletion");
+    }
 
 
 
 
+    #[test]
+    fn test_update_profile() {
+        let (mut user_profiles, params) = setup();
+
+        // First, create a profile.
+        user_profiles.create_profile(params.clone());
+
+        // Define new values for updating the profile.
+        let update_params = UpdateUserProfileParams {
+            id: params.id.clone(),
+            new_name: Some("Updated Alice".to_string()),
+            new_email: Some("updated_email@example.com".to_string()),
+            new_mobile_number: Some("9876543210".to_string()),
+            new_dob: Some("1991-01-01".to_string()),
+            new_gender_pronouns: Some("she/her".to_string()),
+            new_religion: Some("Updated Religion".to_string()),
+            new_height: Some("175cm".to_string()),
+            new_zodiac: Some("Updated Zodiac".to_string()),
+            new_diet: Some("Updated Diet".to_string()),
+            new_occupation: Some("Updated Occupation".to_string()),
+            new_looking_for: Some("Updated Looking For".to_string()),
+            new_smoking: Some("Updated Smoking".to_string()),
+            new_drinking: Some("Updated Drinking".to_string()),
+            new_hobbies: Some(vec!["Updated Hobby1", "Updated Hobby2"].into_iter().map(String::from).collect()),
+            new_sports: Some(vec!["Updated Sport"].into_iter().map(String::from).collect()),
+            new_art_and_culture: Some(vec!["Updated Art and Culture"].into_iter().map(String::from).collect()),
+            new_pets: Some("Updated Pets".to_string()),
+            new_general_habits: Some(vec!["Updated General Habit"].into_iter().map(String::from).collect()),
+            new_outdoor_activities: Some(vec!["Updated Outdoor Activity"].into_iter().map(String::from).collect()),
+            new_travel: Some(vec!["Updated Travel"].into_iter().map(String::from).collect()),
+            new_movies: Some(vec!["Updated Movie"].into_iter().map(String::from).collect()),
+            new_interests_in: Some("Updated Interests".to_string()),
+            new_age: Some(31),
+            new_location: Some("Updated Location".to_string()),
+            new_min_preferred_age: Some(19),
+            new_max_preferred_age: Some(36),
+            new_preferred_gender: Some("Updated Preferred Gender".to_string()),
+            new_preferred_location: Some("Updated Preferred Location".to_string()),
+            new_matched: Some(true),
+            new_introduction: Some("Updated Introduction".to_string()),
+        };
+
+        // Call the update_profile function.
+        user_profiles.update_profile(update_params.clone());
+
+        // Retrieve the updated profile and assert the changes.
+        let updated_profile = user_profiles.get_profile(&params.id).expect("Profile should exist");
+
+        // Assert that the updated fields are set correctly.
+        assert_eq!(updated_profile.name, update_params.new_name.unwrap());
+        assert_eq!(updated_profile.email, update_params.new_email.unwrap());
+        assert_eq!(updated_profile.mobile_number, update_params.new_mobile_number.unwrap());
+        assert_eq!(updated_profile.dob, update_params.new_dob.unwrap());
+        assert_eq!(updated_profile.gender_pronouns, update_params.new_gender_pronouns.unwrap());
+        assert_eq!(updated_profile.religion, update_params.new_religion.unwrap());
+        assert_eq!(updated_profile.height, update_params.new_height.unwrap());
+        assert_eq!(updated_profile.zodiac, update_params.new_zodiac.unwrap());
+        assert_eq!(updated_profile.diet, update_params.new_diet.unwrap());
+        assert_eq!(updated_profile.occupation, update_params.new_occupation.unwrap());
+        assert_eq!(updated_profile.looking_for, update_params.new_looking_for.unwrap());
+        assert_eq!(updated_profile.smoking, update_params.new_smoking.unwrap());
+        assert_eq!(updated_profile.drinking, update_params.new_drinking.unwrap());
+        assert_eq!(updated_profile.hobbies, update_params.new_hobbies.unwrap());
+        assert_eq!(updated_profile.sports, update_params.new_sports.unwrap());
+        assert_eq!(updated_profile.art_and_culture, update_params.new_art_and_culture.unwrap());
+        assert_eq!(updated_profile.pets, update_params.new_pets.unwrap());
+        assert_eq!(updated_profile.general_habits, update_params.new_general_habits.unwrap());
+        assert_eq!(updated_profile.outdoor_activities, update_params.new_outdoor_activities.unwrap());
+        assert_eq!(updated_profile.travel, update_params.new_travel.unwrap());
+        assert_eq!(updated_profile.movies, update_params.new_movies.unwrap());
+        assert_eq!(updated_profile.interests_in, update_params.new_interests_in.unwrap());
+        assert_eq!(updated_profile.age, update_params.new_age.unwrap());
+        assert_eq!(updated_profile.location, update_params.new_location.unwrap());
+        assert_eq!(updated_profile.min_preferred_age, update_params.new_min_preferred_age.unwrap());
+        assert_eq!(updated_profile.max_preferred_age, update_params.new_max_preferred_age.unwrap());
+        assert_eq!(updated_profile.preferred_gender, update_params.new_preferred_gender.unwrap());
+        assert_eq!(updated_profile.preferred_location, update_params.new_preferred_location.unwrap());
+        assert_eq!(updated_profile.matched, update_params.new_matched.unwrap());
+        assert_eq!(updated_profile.introduction, update_params.new_introduction.unwrap());
+
+        // Ensure fields not updated remain as originally set
+        // For fields you didn't update, assert they are equal to the original value
+    }
 
 
-// pub fn print_user_profiles() {
-//     println!("print_user_profiles function called!");
-
-//     USER_PROFILES.with(|profiles| {
-//         let profiles = profiles.borrow();
-
-//         // Debugging: Check the number of profiles
-//         let profile_count = profiles.profiles.len();
-//         ic_cdk::println!("Number of user profiles: {}", profile_count);
-
-//         if profile_count == 0 {
-//             ic_cdk::println!("No user profiles found.");
-//         }
-
-//         for (username, profile) in profiles.profiles.iter() {
-//             // Print each user profile
-//             ic_cdk::println!("Username: {}, Age: {}", username, profile.age);
-//             // Uncomment to print additional data if available
-//             // ic_cdk::println!("Additional Data: {:?}", profile.preferences);
-//         }
-//     });
-// }
+}
