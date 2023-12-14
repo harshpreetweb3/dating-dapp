@@ -1,14 +1,26 @@
 mod user_profiles;
 mod profile_matcher;
 mod profile_picture_uploader;
+mod image_upload;
+mod right_and_left_swipe; 
+mod notification;
+
+use right_and_left_swipe::check_for_match;
+
+use crate::notification::get_notifications;
+
+use crate::user_profiles::{Notification, NotificationType};
+// use crate::user_profiles::NotificationType;
 
 use ic_cdk::export::candid::{CandidType, Deserialize};
+use serde::ser::Impossible;
 
+use crate::image_upload::IMAGE_STORAGE;
 use user_profiles::create_kro_profile;
 use user_profiles::delete_kro_profile;
 use user_profiles::get_kro_profile;
 use user_profiles::update_kro_profile;
-use user_profiles::{Notification, NotificationType, ProfileViewRequest, UserProfiles};
+use user_profiles::{ UserProfiles};
 
 use candid::Principal;
 
@@ -55,6 +67,7 @@ pub struct UpdateUserProfileParams {
     new_preferred_location: Option<String>,
     new_matched: Option<bool>,
     new_introduction: Option<String>,
+    images : Vec<String>
 }
 
 
@@ -92,6 +105,7 @@ struct UserProfileParams {
     preferred_gender: String,
     preferred_location: String,
     introduction: String,
+    images : Vec<String>
 }
 
 // create_profie function
@@ -147,39 +161,62 @@ pub fn upload_user_profile_picture(user_id: Principal, image_data: Vec<u8>) {
 // Currently keeping these functions to make them serve some purpose
 // they are being used for some other purpose which is not desired
 
+// #[update]
+// pub fn send_profile_view_request(from_user: Principal, to_user: Principal) {
+//     let notification = Notification {
+//         notification_type: NotificationType::ProfileViewRequest(ProfileViewRequest {
+//             from_user,
+//             to_user,
+//         }),
+//     };
+//     USER_PROFILES.with(|profiles| {
+//         profiles
+//             .borrow_mut()
+//             .add_notification(to_user, notification);
+//     });
+//     ic_cdk::println!("request is sent!");
+// }
+
+// #[update]
+// pub fn get_user_notifications(user_id: Principal) -> Vec<Notification> {
+//     USER_PROFILES.with(|profiles| profiles.borrow().get_notifications(&user_id))
+// }
+
+
 #[update]
-pub fn send_profile_view_request(from_user: Principal, to_user: Principal) {
-    let notification = Notification {
-        notification_type: NotificationType::ProfileViewRequest(ProfileViewRequest {
-            from_user,
-            to_user,
-        }),
-    };
-    USER_PROFILES.with(|profiles| {
-        profiles
-            .borrow_mut()
-            .add_notification(to_user, notification);
-    });
-    ic_cdk::println!("request is sent!");
+pub fn upload_image(image_id: String, base_64: String){
+    IMAGE_STORAGE.with(|images| images.borrow_mut().store_image(image_id, base_64))
 }
 
 #[update]
-pub fn get_user_notifications(user_id: Principal) -> Vec<Notification> {
-    USER_PROFILES.with(|profiles| profiles.borrow().get_notifications(&user_id))
-}
-
-#[update]
-pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, accept: bool) {
-    user_profiles::USER_PROFILES.with(|profiles| {
-        let mut profiles = profiles.borrow_mut();
-        if accept {
-            profiles.add_friend(user_id, requester_id);
+pub fn get_image(img_id :String){
+    IMAGE_STORAGE.with(|images| {
+        let images = images.borrow();
+        if let Some(data) = images.get_image(&img_id) {
+            // Process the data here.
+            ic_cdk::println!("Image Data: {}", data);
         } else {
-            profiles.reject_friend_request(user_id, requester_id);
+            ic_cdk::println!("Image not found.");
         }
-        profiles.remove_notification(user_id, requester_id);
     });
 }
+
+
+// #[update]
+// pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, accept: bool) {
+//     user_profiles::USER_PROFILES.with(|profiles| {
+//         let mut profiles = profiles.borrow_mut();
+//         if accept {
+//             profiles.add_friend(user_id, requester_id);
+//         } else {
+//             profiles.reject_friend_request(user_id, requester_id);
+//         }
+//         profiles.remove_notification(user_id, requester_id);
+//     });
+// }
+
+
+
 
 //minter
 // tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae
@@ -195,3 +232,35 @@ pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, ac
 
 //default
 //b5p7m-si2ig-xo4us-iqu6c-q4rql-w6pfk-l6qat-wgmjf-id2av-z3te7-gqe
+
+
+
+// #[update]
+// fn like_user(current_user_id: Principal, liked_user_id: Principal) {
+//     USER_PROFILES.with(|user_profiles| {
+//         let mut user_profiles = user_profiles.borrow_mut();
+//         let profiles = &mut user_profiles.profiles; // Access the HashMap
+//         like_profile(profiles, current_user_id, liked_user_id);
+//     });
+// }
+
+#[update]
+fn check_user_match(current_user_id: Principal, potential_match_id: Principal) -> bool {
+    USER_PROFILES.with(|user_profiles| {
+        let mut user_profiles = user_profiles.borrow_mut();
+        let profiles = &mut user_profiles.profiles; // Access the HashMap
+        check_for_match(profiles, current_user_id, potential_match_id)
+    })
+}
+
+#[update]
+pub fn retrieve_notifications_for_user(user_id: Principal) -> Vec<Notification> {
+    // Call the get_notifications function and convert VecDeque to Vec
+    let notifications: Vec<Notification> = get_notifications(user_id)
+        .iter() // Use iter() to create an iterator
+        .cloned() // Clone each item (Notification) in the iterator
+        .collect(); // Collect the cloned items into a Vec<Notification>
+
+    // Return the notifications as Vec<Notification>
+    notifications
+}

@@ -6,6 +6,7 @@ import p3 from '../../assets/Images/UserProfiles/p3.png';
 import p4 from '../../assets/Images/UserProfiles/p4.png';
 import p5 from '../../assets/Images/UserProfiles/p5.png';
 import SidebarComponent from './SidebarComponent';
+import { DDate_backend } from '../../../declarations/DDate_backend/index';
 
 
 const Swipe = () => {

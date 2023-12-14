@@ -7,6 +7,7 @@ import CreateAccount3 from "./Components/Hero/CreateAccount3";
 import CreateAccount4 from "./Components/Hero/CreateAccount4";
 import CreateAccount5 from "./Components/Hero/CreateAccount5";
 import Swipe from "./Components/Swipe";
+import ImageUploader from "./Components/ImageUploader";
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
         <Route path="/CreateAccount4" element={<CreateAccount4/>} />
         <Route path="/CreateAccount5" element={<CreateAccount5/>} />
         <Route path="/Swipe" element={<Swipe/>} />
-
+        {/* <Route path="/Upload" element={<ImageUploader/>} /> */}
       </Routes>
     </>
   );
