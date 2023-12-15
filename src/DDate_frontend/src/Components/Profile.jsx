@@ -1,30 +1,71 @@
-import React, { useState } from "react";
-// import p1 from "../../assets/Images/UserProfiles/p1.png";
+import React, { useState, useEffect } from "react";
 import SidebarComponent from "./SidebarComponent";
 import { Principal } from "@dfinity/principal";
 import back from "../../assets/Images/CreateAccount/back.svg";
 import { useNavigate } from "react-router-dom";
+import { DDate_backend } from "../../../declarations/DDate_backend/index";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
     gender: "",
     email: "",
-    username: "",
-    mobile: "",
-    intro: "",
-    profileImage: null,
+    name: "",
+    mobile_number: "",
+    introduction: "",
+    images: null,
+    gender_pronouns:"",
   });
+  const [userProfile, setUserProfile] = useState(null);
 
   const navigate = useNavigate();
 
-  const principalString = localStorage.getItem("id");
-  const principal = convertStringToPrincipal(principalString);
+  let principal;
+  useEffect(() => {
+    const principalString = localStorage.getItem("id");
+    if (principalString) {
+       principal = convertStringToPrincipal(principalString);
+
+      const fetchUserProfile = async () => {
+        try {
+          const userProfileData = await DDate_backend.get_profile(principal);
+
+          setFormData({
+            gender: userProfileData.gender || "",
+            email: userProfileData.email || "",
+            name: userProfileData.name || "",
+            mobile_number: userProfileData.mobile_number || "",
+            introduction: userProfileData.introduction || "",
+            images: userProfileData.images || null,
+            gender_pronouns:userProfileData.gender_pronouns || "",
+          });
+          console.log("Fetched User Profile: ", userProfileData);
+        } catch (error) {
+          console.error("Error fetching user profile: ", error);
+        }
+      };
+
+      fetchUserProfile();
+    } else {
+      console.warn("Principal string is null or empty.");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userProfile) {
+      console.log("User Profile: ", userProfile);
+    }
+  }, [userProfile]);
 
   function convertStringToPrincipal(principalString) {
     try {
-      const principal = Principal.fromText(principalString);
-      console.log("Converted Principal: ", principal.toText());
-      return principal;
+      if (principalString && principalString.trim() !== "") {
+        const principal = Principal.fromText(principalString);
+        console.log("Converted Principal: ", principal.toText());
+        return principal;
+      } else {
+        console.error("Principal string is null or empty.");
+        return null;
+      }
     } catch (error) {
       console.error("Error converting string to Principal: ", error);
       return null;
@@ -41,27 +82,120 @@ const Profile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      profileImage: file,
-    }));
+
+    if (file) {
+      // Create an object URL for the selected image
+      const imageUrl = URL.createObjectURL(file);
+
+      // Update the state with the selected image and its object URL
+      setFormData((prevData) => ({
+        ...prevData,
+        images: {
+          file,       // The selected image file
+          imageUrl,   // The object URL for displaying the image
+        },
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-  };
 
-  const userData = {
-    gender: "man",
-    email: "xyzabc123@gmail.com",
-    name: "gibriel",
-    mobile: "1234567890",
-    DOB: "10th Dec 2020",
-    pronouns: "he/his",
-    jobTitle: "Artist",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  };
+    if (imageFiles.length === 0) {
+      setImageError(true);
+      return;
+    }
+
+    // localStorage.setItem("form5", JSON.stringify(formData));
+    // console.log(formData);
+
+    // const formKeys = ["form1", "form2", "form3", "form4", "form5"];
+    // const userData = {};
+    // const principalString = localStorage.getItem("id");
+    // console.log(principalString);
+
+    // Convert the principal string to a Principal object
+    // const principal = convertStringToPrincipal(principalString);
+
+    // if (principal) {
+    //   formKeys.forEach((key) => {
+    //     userData[key] = localStorage.getItem(key);
+    //   });
+
+      // const formData = {};
+
+      // for (const key in userData) {
+      //   if (userData.hasOwnProperty(key)) {
+      //     const formData = JSON.parse(userData[key]);
+      //     Object.assign(formData, formData);
+      //   }
+      // }
+
+      const objectSendToBackendFormat = {
+        id: principal,
+        gender: formData.gender,
+        email: formData.email,
+        name: formData.name,
+        mobile_number: formData.mobile_number.toString(),
+        dob: formData.dob,
+        gender_pronouns: formData.gender_pronouns,
+        religion: formData.religion,
+        height: formData.height,
+        zodiac: formData.zodiac,
+        diet: formData.diet,
+        occupation: formData.occupation,
+        looking_for: formData.looking_for,
+        smoking: formData.smoking,
+        drinking: formData.drinking,
+        hobbies: formData.hobbies,
+        sports: formData.sports,
+        art_and_culture: formData.art_and_culture,
+        pets: formData.pets,
+        general_habits: formData.general_habits,
+        outdoor_activities: formData.outdoor_activities,
+        travel: formData.travel,
+        movies: formData.movies,
+        interests_in: formData.interests_in,
+        age: formData.age,
+        location: formData.location,
+        min_preferred_age: formData.min_preferred_age,
+        max_preferred_age: formData.max_preferred_age,
+        preferred_gender: formData.preferred_gender,
+        preferred_location: formData.preferred_location,
+        introduction: formData.introduction,
+        images: imageFiles, 
+      };
+
+      console.log("objectSendToBackendFormat", objectSendToBackendFormat);
+
+      try {
+        await DDate_backend.add_user_profile(objectSendToBackendFormat);
+        console.log(imageFiles);
+        navigate("/Swipe");
+      } catch (error) {
+        console.error("Error sending data to the backend:", error);
+      }
+    } 
+    // else {
+    //   console.error("Error converting principal string to Principal object.");
+    // }
+  // };
+
+  useEffect(() => {
+    if (userProfile) {
+      setFormData({
+        gender: userProfile.gender || "",
+        email: userProfile.email || "",
+        name: userProfile.name || "",
+        mobile_number: userProfile.mobile_number || "",
+        introduction: userProfile.introduction || "",
+        gender_pronouns: userProfile.gender_pronouns || "",
+        occupation: userProfile.occupation || "",
+        bio: userProfile.bio || "",
+        images: userProfile.images || null,
+      });
+    }
+  }, [userProfile]);
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -96,15 +230,17 @@ const Profile = () => {
         </div>
         <div className="h-auto w-auto flex items-center justify-center flex-col">
           <div className="mb-4 relative">
-            <input
-              id="profileImage"
+            <img
+              src={images}
+              alt="images"
+              id="images"
               type="file"
-              name="profileImage"
+              name="images"
               onChange={handleImageChange}
               className="hidden"
             />
             <label
-              htmlFor="profileImage"
+              htmlFor="images"
               className="h-32 w-32 rounded-full border-2 border-gray-300 cursor-pointer flex items-center justify-center"
               style={{
                 background:
@@ -112,9 +248,9 @@ const Profile = () => {
                 backgroundBlendMode: "multiply",
               }}
             >
-              {formData.profileImage ? (
+              {formData.images ? (
                 <img
-                  src={URL.createObjectURL(formData.profileImage)}
+                  src={formData.images.imageUrl}
                   alt="Profile"
                   className="rounded-full w-full h-full object-cover"
                   style={{ marginTop: "-10px" }}
@@ -131,9 +267,9 @@ const Profile = () => {
           </div>
 
           <div className="mb-4 text-center flex flex-row">
-            <h2 className="text-2xl font-bold text-black">{userData.name}</h2>
+            <h2 className="text-2xl font-bold text-black">{formData.name}</h2>
             <p className="text-lg text-gray-700 font-bold">
-              ({userData.pronouns})
+              ({formData.gender_pronouns})
             </p>
           </div>
         </div>
@@ -150,7 +286,8 @@ const Profile = () => {
                 id="gender"
                 type="text"
                 name="gender"
-                value={userData.gender}
+                value={formData.gender}
+                onChange={handleFormChange}
                 className="form-input w-full px-2 py-1.5 rounded-3xl"
               />
             </div>
@@ -165,36 +302,54 @@ const Profile = () => {
                 id="email"
                 type="email"
                 name="email"
-                value={userData.email}
+                value={formData.email}
+                onChange={handleFormChange}
                 className="form-input w-full px-2 py-1.5 rounded-3xl"
               />
             </div>
 
             <div className="flex items-center">
-              <label htmlFor="mobile" className="text-lg font-medium">
-                Mobile
+              <label htmlFor="name" className="text-lg font-medium">
+                name
               </label>
             </div>
             <div>
               <input
-                id="mobile"
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleFormChange}
+                className="form-input w-full px-2 py-1.5 rounded-3xl"
+              />
+            </div>
+
+            <div className="flex items-center">
+              <label htmlFor="mobile_number" className="text-lg font-medium">
+                mobile_number
+              </label>
+            </div>
+            <div>
+              <input
+                id="mobile_number"
                 type="tel"
-                name="mobile"
-                value={userData.mobile}
+                name="mobile_number"
+                value={formData.mobile_number.toString()} 
+                onChange={handleFormChange}
                 className="form-input w-full px-2 py-1.5 rounded-3xl"
               />
             </div>
 
             <div className="flex items-center mb-4">
-              <label htmlFor="intro" className="text-lg font-medium">
-                My Intro
+              <label htmlFor="introduction" className="text-lg font-medium">
+                My introduction
               </label>
             </div>
             <div className="col-auto">
               <textarea
-                id="intro"
-                name="intro"
-                value={userData.bio}
+                id="introduction"
+                name="introduction"
+                value={formData.introduction}
                 onChange={handleFormChange}
                 rows="4"
                 className="form-input w-full px-2 py-1.5 rounded-3xl bg-gray-200"
@@ -205,7 +360,7 @@ const Profile = () => {
           <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10  text-black hover:bg-yellow-600"
+              className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
             >
               Save Changes
             </button>
