@@ -1,18 +1,73 @@
 //type Preference = record { key: text; value: text };
 type Principal = principal;
 
-
+// NotificationType enum
 type NotificationType = variant {
-    ProfileViewRequest: ProfileViewRequest;
-    // ... other notification types
+    Like;
+    // Add other notification types as needed
 };
-type ProfileViewRequest = record {
-    from_user: Principal;
-    to_user: Principal;
-};
+
+// Notification struct
 type Notification = record {
+    sender_id: Principal;
+    receiver_id: Principal;
     notification_type: NotificationType;
-    // ... other fields for Notification
+    // Additional fields as needed
+};
+
+
+// type NotificationType = variant {
+//     Like: Like;
+//     // ... other notification types
+// };
+// type ProfileViewRequest = record {
+//     from_user: Principal;
+//     to_user: Principal;
+// };
+// type Notification = record {
+//     sender_id : Principal;
+//     receiver_id: Principal;
+//     notification_type: NotificationType;
+//     // ... other fields for Notification
+// };
+
+type UserProfile = record {
+    id: Principal;
+    gender: text;
+    email: text;
+    name: text;
+    mobile_number: text;
+    dob: text;
+    gender_pronouns: text;
+    religion: text;
+    height: text;
+    zodiac: text;
+    diet: text;
+    occupation: text;
+    looking_for: text;
+    smoking: text;
+    drinking: text;
+    hobbies: vec text;
+    sports: vec text;
+    art_and_culture: vec text;
+    pets: text;
+    general_habits: vec text;
+    outdoor_activities: vec text;
+    travel: vec text;
+    movies: vec text;
+    interests_in: text;
+    age: nat64;
+    location: text;
+    min_preferred_age: nat64;
+    max_preferred_age: nat64;
+    preferred_gender: text;
+    preferred_location: text;
+    introduction: text;
+    likes: vec Principal;
+    matches: vec Principal;
+    notifications: vec Notification; // Define the Notification type if it's a custom struct
+    images: vec text;
+    matched_profiles: vec Principal;
 };
 
 
@@ -48,6 +103,7 @@ type UpdateUserProfileParams = record {
     new_preferred_location: opt text;
     new_matched: opt bool;
     new_introduction: opt text;
+    images : vec text;
 };
 
 
@@ -60,7 +116,7 @@ type UserProfileParams = record {
     dob: text;
     gender_pronouns: text;
     religion: text;
-    height: text;herher
+    height: text;
     zodiac: text;
     diet: text;
     occupation: text;
@@ -83,6 +139,7 @@ type UserProfileParams = record {
     preferred_gender: text;
     preferred_location: text;
     introduction: text;
+    images : vec text;
 };
 
 
@@ -111,20 +168,26 @@ service : {
     //id : Principal,username: String, age: u64, gender: String, min_age: u64, max_age: u64, preferred_gender: String
     //add_user_profile: (Principal, text, nat32) -> ();
     // add_user_profile : (principal, text, nat64, text,text, nat64, nat64, text, text) -> ();
+    upload_image : (image_id: text, base_64: text) -> ();
     add_user_profile : (UserProfileParams) -> () oneway;
-    get_profile: (principal) -> ();    
+    //get_profile: (principal) -> ();
+    get_profile: (Principal) -> (UserProfile);    
     update_profile : (UpdateUserProfileParams) -> (); 
     delete_profile : (principal) -> ();
-    send_profile_view_request: (from_user: Principal, to_user: Principal) -> ();
-    get_user_notifications: (user_id: Principal) -> (vec Notification);
-    respond_to_friend_request : (Principal, Principal, bool) -> ();
+    //send_profile_view_request: (from_user: Principal, to_user: Principal) -> ();
+    // retrieve_notifications_for_user: (user_id: Principal) -> (vec Notification);
+    retrieve_notifications_for_user : (user_id: Principal) -> (vec Notification);
+    //respond_to_friend_request : (Principal, Principal, bool) -> ();
+     get_image : (img_id: text) -> ();
     //request_match: (MatchRequest) -> (MatchResult);
     //call_print_user_profiles : () -> ();
     // Other functions like update_profile, get_profile, delete_profile
     // update_profile: ... ;
     // get_profile: ... ;
     // delete_profile: ... ;
-
+  check_user_match: (Principal, Principal) -> (bool);
+  find_matches_for_me: (Principal) -> ();
+  get_matched_profiles: (Principal) -> (vec Principal);
     // update_profile: (
     //     principal, 
     //     OptionalText, 

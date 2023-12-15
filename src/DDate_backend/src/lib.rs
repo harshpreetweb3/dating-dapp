@@ -1,14 +1,31 @@
 mod user_profiles;
-mod profile_matcher;
 mod profile_picture_uploader;
+mod image_upload;
+mod right_and_left_swipe; 
+mod notification;
+
+
+mod profile_matcher;
+use profile_matcher::find_matches;
+
+use std::collections::{HashMap, HashSet, VecDeque};
+
+use right_and_left_swipe::check_for_match;
+
+use crate::notification::get_notifications;
+
+use crate::user_profiles::{Notification, NotificationType, UserProfile,};
+// use crate::user_profiles::NotificationType;
 
 use ic_cdk::export::candid::{CandidType, Deserialize};
+use serde::ser::Impossible;
 
+use crate::image_upload::IMAGE_STORAGE;
 use user_profiles::create_kro_profile;
 use user_profiles::delete_kro_profile;
 use user_profiles::get_kro_profile;
 use user_profiles::update_kro_profile;
-use user_profiles::{Notification, NotificationType, ProfileViewRequest, UserProfiles};
+use user_profiles::{ UserProfiles};
 
 use candid::Principal;
 
@@ -21,6 +38,7 @@ extern crate ic_cdk;
 
 
 // struct for updation
+
 
 #[derive(CandidType, Deserialize, Clone)]
 pub struct UpdateUserProfileParams {
@@ -55,12 +73,13 @@ pub struct UpdateUserProfileParams {
     new_preferred_location: Option<String>,
     new_matched: Option<bool>,
     new_introduction: Option<String>,
+    images : Vec<String>
 }
 
 
 //struct for profile creation
 #[derive(CandidType, Deserialize, Clone)]
-struct UserProfileParams {
+pub struct UserProfileParams {
     id: Principal,
     gender: String,
     email: String,
@@ -92,6 +111,7 @@ struct UserProfileParams {
     preferred_gender: String,
     preferred_location: String,
     introduction: String,
+    images : Vec<String>
 }
 
 // create_profie function
@@ -108,17 +128,58 @@ fn add_user_profile(params: UserProfileParams) {
 // get_profile
 
 #[update]
-fn get_profile(id: Principal) {
+fn get_profile(id: Principal) -> UserProfile {
     let user_profile = get_kro_profile(id);
 
     match user_profile {
         Some(profile) => {
             // Do something with the profile
             ic_cdk::println!("Got user profile: {:?}", profile);
+            profile
         }
-        None => {
-            ic_cdk::println!("No profile found for given ID");
+        // None => {
+        //     ic_cdk::println!("No profile found for given ID");
+            
+        // }
+        None => UserProfile {
+            id: Principal::anonymous(),
+            gender: String::new(),
+            email: String::new(),
+            name: String::from("Unknown"),
+            mobile_number: String::new(),
+            dob: String::new(),
+            gender_pronouns: String::new(),
+            religion: String::new(),
+            height: String::new(),
+            zodiac: String::new(),
+            diet: String::new(),
+            occupation: String::new(),
+            looking_for: String::new(),
+            smoking: String::new(),
+            drinking: String::new(),
+            hobbies: Vec::new(),
+            sports: Vec::new(),
+            art_and_culture: Vec::new(),
+            pets: String::new(),
+            general_habits: Vec::new(),
+            outdoor_activities: Vec::new(),
+            travel: Vec::new(),
+            movies: Vec::new(),
+            interests_in: String::new(),
+            age: 0,
+            location: String::new(),
+            min_preferred_age: 0,
+            max_preferred_age: 0,
+            preferred_gender: String::new(),
+            preferred_location: String::new(),
+            introduction: String::new(),
+            likes: HashSet::new(),
+            matches: HashSet::new(),
+            notifications: VecDeque::new(),
+            images: Vec::new(),
+            matched_profiles: Vec::new(),
         }
+        
     }
 }
 
@@ -147,39 +208,62 @@ pub fn upload_user_profile_picture(user_id: Principal, image_data: Vec<u8>) {
 // Currently keeping these functions to make them serve some purpose
 // they are being used for some other purpose which is not desired
 
-#[update]
-pub fn send_profile_view_request(from_user: Principal, to_user: Principal) {
-    let notification = Notification {
-        notification_type: NotificationType::ProfileViewRequest(ProfileViewRequest {
-            from_user,
-            to_user,
-        }),
-    };
-    USER_PROFILES.with(|profiles| {
-        profiles
-            .borrow_mut()
-            .add_notification(to_user, notification);
-    });
-    ic_cdk::println!("request is sent!");
-}
+// #[update]
+// pub fn send_profile_view_request(from_user: Principal, to_user: Principal) {
+//     let notification = Notification {
+//         notification_type: NotificationType::ProfileViewRequest(ProfileViewRequest {
+//             from_user,
+//             to_user,
+//         }),
+//     };
+//     USER_PROFILES.with(|profiles| {
+//         profiles
+//             .borrow_mut()
+//             .add_notification(to_user, notification);
+//     });
+//     ic_cdk::println!("request is sent!");
+// }
 
-#[update]
-pub fn get_user_notifications(user_id: Principal) -> Vec<Notification> {
-    USER_PROFILES.with(|profiles| profiles.borrow().get_notifications(&user_id))
-}
+// #[update]
+// pub fn get_user_notifications(user_id: Principal) -> Vec<Notification> {
+//     USER_PROFILES.with(|profiles| profiles.borrow().get_notifications(&user_id))
+// }
 
-#[update]
-pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, accept: bool) {
-    user_profiles::USER_PROFILES.with(|profiles| {
-        let mut profiles = profiles.borrow_mut();
-        if accept {
-            profiles.add_friend(user_id, requester_id);
-        } else {
-            profiles.reject_friend_request(user_id, requester_id);
-        }
-        profiles.remove_notification(user_id, requester_id);
-    });
-}
+
+// #[update]
+// pub fn upload_image(image_id: String, base_64: String){
+//     IMAGE_STORAGE.with(|images| images.borrow_mut().store_image(image_id, base_64))
+// }
+
+// #[update]
+// pub fn get_image(img_id :String){
+//     IMAGE_STORAGE.with(|images| {
+//         let images = images.borrow();
+//         if let Some(data) = images.get_image(&img_id) {
+//             // Process the data here.
+//             ic_cdk::println!("Image Data: {}", data);
+//         } else {
+//             ic_cdk::println!("Image not found.");
+//         }
+//     });
+// }
+
+
+// #[update]
+// pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, accept: bool) {
+//     user_profiles::USER_PROFILES.with(|profiles| {
+//         let mut profiles = profiles.borrow_mut();
+//         if accept {
+//             profiles.add_friend(user_id, requester_id);
+//         } else {
+//             profiles.reject_friend_request(user_id, requester_id);
+//         }
+//         profiles.remove_notification(user_id, requester_id);
+//     });
+// }
+
+
+
 
 //minter
 // tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae
@@ -195,3 +279,92 @@ pub fn respond_to_friend_request(user_id: Principal, requester_id: Principal, ac
 
 //default
 //b5p7m-si2ig-xo4us-iqu6c-q4rql-w6pfk-l6qat-wgmjf-id2av-z3te7-gqe
+
+
+
+// #[update]
+// fn like_user(current_user_id: Principal, liked_user_id: Principal) {
+//     USER_PROFILES.with(|user_profiles| {
+//         let mut user_profiles = user_profiles.borrow_mut();
+//         let profiles = &mut user_profiles.profiles; // Access the HashMap
+//         like_profile(profiles, current_user_id, liked_user_id);
+//     });
+// }
+
+#[update]
+fn check_user_match(current_user_id: Principal, potential_match_id: Principal) -> bool {
+    USER_PROFILES.with(|user_profiles| {
+        let mut user_profiles = user_profiles.borrow_mut();
+        let profiles = &mut user_profiles.profiles; // Access the HashMap
+        check_for_match(profiles, current_user_id, potential_match_id)
+    })
+}
+
+#[update]
+pub fn retrieve_notifications_for_user(user_id: Principal) -> Vec<Notification> {
+    // Call the get_notifications function and convert VecDeque to Vec
+    let notifications: Vec<Notification> = get_notifications(user_id)
+        .iter() // Use iter() to create an iterator
+        .cloned() // Clone each item (Notification) in the iterator
+        .collect(); // Collect the cloned items into a Vec<Notification>
+
+    // Return the notifications as Vec<Notification>
+    notifications
+}
+
+// #[update]
+// pub fn find_matches_for_me(profile_id: Principal) {
+//     USER_PROFILES.with(|profiles| {
+//         let profiles_borrowed = profiles.borrow();
+//         let matched_principals = find_matches(&profiles_borrowed.profiles, &profile_id);
+        
+//         // Now, update the UserProfile with the matched profiles
+//         if let Some(user_profile) = profiles.borrow_mut().profiles.get_mut(&profile_id) {
+//             user_profile.matched_profiles = matched_principals;
+            
+//         }
+//     });
+// }
+
+#[update]
+pub fn find_matches_for_me(profile_id: Principal) {
+    USER_PROFILES.with(|profiles| {
+        let matched_principals = {
+            let profiles_borrowed = profiles.borrow();
+            find_matches(&profiles_borrowed.profiles, &profile_id)
+        };
+
+        // At this point, the immutable borrow is dropped, so we can borrow mutably
+        if let Some(user_profile) = profiles.borrow_mut().profiles.get_mut(&profile_id) {
+            user_profile.matched_profiles = matched_principals;
+        }
+    });
+}
+
+// pub fn get_matched_profiles(user_id: Principal) -> Vec<UserProfile> {
+//     USER_PROFILES.with(|profiles| {
+//         let profiles = profiles.borrow();
+        
+//         if let Some(user_profile) = profiles.profiles.get(&user_id) {
+//             user_profile.matched_profiles.iter()
+//                 .filter_map(|id| profiles.profiles.get(id))
+//                 .cloned()
+//                 .collect()
+//         } else {
+//             Vec::new()
+//         }
+//     })
+// }
+
+#[update]
+pub fn get_matched_profiles(user_id: Principal) -> Vec<Principal> {
+    USER_PROFILES.with(|profiles| {
+        let profiles = profiles.borrow();
+
+        if let Some(user_profile) = profiles.profiles.get(&user_id) {
+            user_profile.matched_profiles.clone()
+        } else {
+            Vec::new()
+        }
+    })
+}
