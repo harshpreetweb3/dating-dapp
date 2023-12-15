@@ -70,7 +70,7 @@ pub struct UpdateUserProfileParams {
     new_preferred_location: Option<String>,
     new_matched: Option<bool>,
     new_introduction: Option<String>,
-    images: Vec<String>,
+    images: Option<Vec<String>>,
 }
 
 //struct for profile creation
@@ -183,10 +183,10 @@ fn delete_profile(id: Principal) {
     delete_kro_profile(id);
 }
 
-// #[update]
-// fn update_profile(params: UpdateUserProfileParams) {
-//     update_kro_profile(params);
-// }
+#[update]
+fn update_profile(params: UpdateUserProfileParams) {
+    update_kro_profile(params);
+}
 
 // // Image upload function which is currently being developed
 // #[update]

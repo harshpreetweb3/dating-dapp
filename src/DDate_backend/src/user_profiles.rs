@@ -404,8 +404,15 @@ impl UserProfiles {
             // if let Some(matched) = params.new_matched {
             //     profile.matched = matched;
             // }
+
+            
+            
             if let Some(introduction) = params.new_introduction {
                 profile.introduction = introduction;
+            }
+
+            if let Some(images) = params.images {
+                profile.images = images;
             }
     
             ic_cdk::println!("Profile for {} updated successfully.", params.id);
