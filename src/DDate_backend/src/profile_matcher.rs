@@ -4,9 +4,9 @@ use std::collections::HashMap;
 
 
 
-pub fn find_matches(profiles: &HashMap<Principal, UserProfile>, new_profile: &UserProfile) -> Vec<Principal> {
+// pub fn find_matches(profiles: &HashMap<Principal, UserProfile>, new_profile: &UserProfile) -> Vec<Principal> {
 
-    ic_cdk::println!("find_match fun is being called!!!");
+//     ic_cdk::println!("find_match fun is being called!!!");
 
     
 //     profiles.iter()
@@ -138,9 +138,7 @@ pub fn find_matches(
                 Some(*id)
             } else {
                 None
-
             }
         })
         .collect()
 }
-

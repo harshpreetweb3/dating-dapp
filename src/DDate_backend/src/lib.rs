@@ -17,7 +17,9 @@ use crate::user_profiles::{Notification, NotificationType, UserProfile};
 // use crate::user_profiles::NotificationType;
 
 use ic_cdk::export::candid::{CandidType, Deserialize};
+use serde::ser::Impossible;
 
+use crate::image_upload::IMAGE_STORAGE;
 use user_profiles::create_kro_profile;
 use user_profiles::delete_kro_profile;
 use user_profiles::get_kro_profile;
@@ -73,7 +75,7 @@ pub struct UpdateUserProfileParams {
 
 //struct for profile creation
 #[derive(CandidType, Deserialize, Clone)]
-struct UserProfileParams {
+pub struct UserProfileParams {
     id: Principal,
     gender: String,
     email: String,
@@ -122,13 +124,14 @@ fn add_user_profile(params: UserProfileParams) {
 // get_profile
 
 #[update]
-fn get_profile(id: Principal) {
+fn get_profile(id: Principal) -> UserProfile {
     let user_profile = get_kro_profile(id);
 
     match user_profile {
         Some(profile) => {
             // Do something with the profile
             ic_cdk::println!("Got user profile: {:?}", profile);
+            profile
         }
         // None => {
         //     ic_cdk::println!("No profile found for given ID");

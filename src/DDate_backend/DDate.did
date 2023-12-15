@@ -60,7 +60,7 @@ type UserProfileParams = record {
     dob: text;
     gender_pronouns: text;
     religion: text;
-    height: text;herher
+    height: text;
     zodiac: text;
     diet: text;
     occupation: text;
