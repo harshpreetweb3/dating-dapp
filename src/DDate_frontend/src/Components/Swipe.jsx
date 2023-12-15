@@ -1,5 +1,3 @@
-import React from "react";
-import one from "../../assets/Images/UserProfiles/one.png";
 import p1 from "../../assets/Images/UserProfiles/p1.png";
 import p2 from "../../assets/Images/UserProfiles/p2.png";
 import p3 from "../../assets/Images/UserProfiles/p3.png";
@@ -7,7 +5,8 @@ import p4 from "../../assets/Images/UserProfiles/p4.png";
 import p5 from "../../assets/Images/UserProfiles/p5.png";
 import SidebarComponent from "./SidebarComponent";
 import { Principal } from "@dfinity/principal";
-import { useState } from "react";
+import React,{ useState } from "react";
+import one from "../../assets/Images/UserProfiles/one.png";
 
 // import { DDate_backend } from "../../../declarations/DDate_backend/index";
 
