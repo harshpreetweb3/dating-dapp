@@ -404,7 +404,9 @@ impl UserProfiles {
             // if let Some(matched) = params.new_matched {
             //     profile.matched = matched;
             // }
-
+            if let Some(gender) = params.new_gender {
+                profile.gender = gender;
+            }
             
             
             if let Some(introduction) = params.new_introduction {

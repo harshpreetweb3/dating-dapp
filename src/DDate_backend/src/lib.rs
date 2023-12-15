@@ -71,6 +71,7 @@ pub struct UpdateUserProfileParams {
     new_matched: Option<bool>,
     new_introduction: Option<String>,
     images: Option<Vec<String>>,
+    new_gender: Option<String>
 }
 
 //struct for profile creation
