@@ -2,3 +2,4 @@
 members = [
     "src/DDate_backend",
 ]
+resolver = "2"
