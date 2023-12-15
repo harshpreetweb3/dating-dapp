@@ -121,6 +121,9 @@ pub fn find_matches(
     profiles: &HashMap<Principal, UserProfile>,
     profile_id: &Principal
 ) -> Vec<Principal> {
+
+    ic_cdk::println!("wait find match function is being calles");
+
     let new_profile = profiles.get(profile_id)
         .expect("Profile not found");
 
@@ -131,7 +134,7 @@ pub fn find_matches(
                existing_profile.gender == new_profile.preferred_gender &&
                existing_profile.location == new_profile.preferred_location &&
                id != profile_id {
-
+                ic_cdk::println!("Match found: {:?}", id);
                 Some(*id)
             } else {
                 None
@@ -139,3 +142,4 @@ pub fn find_matches(
         })
         .collect()
 }
+
