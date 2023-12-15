@@ -139,7 +139,7 @@ const CreateAccount5 = () => {
       console.log("objectSendToBackendFormat", objectSendToBackendFormat);
 
       try {
-        // await DDate_backend.add_user_profile(objectSendToBackendFormat);
+        await DDate_backend.add_user_profile(objectSendToBackendFormat);
         console.log(imageFiles);
         navigate("/Swipe");
       } catch (error) {
