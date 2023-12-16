@@ -86,51 +86,78 @@ const Profile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-  
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const images = reader.result;
-        setImageFiles([images]); 
-        setFormData((prevData) => ({
+        const newImageBase64 = reader.result;
+        setFormData(prevData => ({
           ...prevData,
-          images: images,
+          images: newImageBase64
         }));
       };
-    }
+    }    
+
   };
   
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setImageError(false);
-
-    if (!formData.images) {
+  
+    // Check if the image is provided
+    if (!formData.images && !userProfile?.images) {
       setImageError(true);
       return;
     }
   
-    const objectSendToBackendFormat = {
-      id: principal, 
-      ...userProfile, // Spread the original userProfile data
-      ...formData, // Spread the updated formData, this will overwrite the original data where changes are made
-      images: formData.images || userProfile.images, // handle images
-      // Ensure all required fields are included
-      new_preferred_location: formData.preferred_location || userProfile.preferred_location || null,
-      // Add other required fields in a similar manner
+    // Construct updated profile data with original data as fallback
+    const updatedProfileData = {
+      id: principal,
+      new_name: formData.name !== userProfile?.name ? formData.name : userProfile?.name,
+      new_email: formData.email !== userProfile?.email ? formData.email : userProfile?.email,
+      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? formData.mobile_number.toString() : userProfile?.mobile_number,
+      new_gender_pronouns: formData.gender_pronouns !== userProfile?.gender_pronouns ? formData.gender_pronouns : userProfile?.gender_pronouns,
+      new_introduction: formData.introduction !== userProfile?.introduction ? formData.introduction : userProfile?.introduction,
+      images: formData.images || userProfile?.images,
+      // Ensuring all other fields are either their updated values or the original
+      new_dob: userProfile?.dob,
+      new_religion: userProfile?.religion,
+      new_height: userProfile?.height,
+      new_zodiac: userProfile?.zodiac,
+      new_diet: userProfile?.diet,
+      new_occupation: userProfile?.occupation,
+      new_looking_for: userProfile?.looking_for,
+      new_smoking: userProfile?.smoking,
+      new_drinking: userProfile?.drinking,
+      new_hobbies: userProfile?.hobbies,
+      new_sports: userProfile?.sports,
+      new_art_and_culture: userProfile?.art_and_culture,
+      new_pets: userProfile?.pets,
+      new_general_habits: userProfile?.general_habits,
+      new_outdoor_activities: userProfile?.outdoor_activities,
+      new_travel: userProfile?.travel,
+      new_movies: userProfile?.movies,
+      new_interests_in: userProfile?.interests_in,
+      new_age: userProfile?.age,
+      new_location: userProfile?.location,
+      new_min_preferred_age: userProfile?.min_preferred_age,
+      new_max_preferred_age: userProfile?.max_preferred_age,
+      new_preferred_gender: userProfile?.preferred_gender,
+      new_preferred_location: userProfile?.preferred_location,
+      new_matched: userProfile?.matched
     };
   
-    console.log(objectSendToBackendFormat);
-  
+    console.log("updatedProfileData =>", updatedProfileData)
     try {
-      await DDate_backend.update_profile(objectSendToBackendFormat);
+      await DDate_backend.update_profile(updatedProfileData);
       navigate("/Swipe");
     } catch (error) {
       console.error("Error sending data to the backend:", error);
     }
   };
-
+  
+  
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -182,9 +209,7 @@ const Profile = () => {
               }}
             >
               {formData.images ? (
-                <img
-                  src={formData.images[0]}
-                  alt="Profile"
+                <img src={formData.images || 'https://via.placeholder.com/150'} alt="Profile"
                   className="rounded-full w-full h-full object-cover"
                   style={{ marginTop: "-10px" }}
                 />
