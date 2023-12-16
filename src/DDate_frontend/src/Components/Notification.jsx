@@ -31,7 +31,7 @@ const Notification = () => {
           <img
             src={back}
             alt="back"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Swipe")}
             className="w-4 h-4 cursor-pointer"
           />
           <div className="ml-2 text-lg font-medium">Notification</div>

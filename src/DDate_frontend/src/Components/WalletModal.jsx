@@ -26,6 +26,7 @@ const WalletModal = ({ isOpen, onClose }) => {
           localStorage.setItem('id',JSON.stringify(principal))
           // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
           localStorage.setItem('identity',JSON.stringify(identity))
+          navigate('/CreateAccount1')
           onClose()
         },
       });
@@ -94,7 +95,7 @@ const WalletModal = ({ isOpen, onClose }) => {
 
                   localStorage.setItem('id',principalText)
                   localStorage.setItem('wallet',JSON.stringify('PlugWallet'))
-
+                  navigate('/CreateAccount1')
                   onClose()
               }
           } catch (error) {

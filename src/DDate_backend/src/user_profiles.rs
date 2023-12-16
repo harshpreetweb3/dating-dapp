@@ -44,19 +44,19 @@ fn pre_upgrade() {
 }
 
 
-// #[post_upgrade]
-// fn post_upgrade() {
-//     // Read and deserialize data from stable storage
-//     let mut reader = StableReader::default();
-//     let mut data = Vec::new();
-//     reader.read_to_end(&mut data).expect("Failed to read from stable storage");
-//     let profiles: UserProfiles = bincode::deserialize(&data).expect("Deserialization failed");
-//     // Restore data
-//     USER_PROFILES.with(|p| {
-//         *p.borrow_mut() = profiles;
-//     });
-//     ic_cdk::println!("post upgrade is implemented");
-// }
+#[post_upgrade]
+fn post_upgrade() {
+    // Read and deserialize data from stable storage
+    let mut reader = StableReader::default();
+    let mut data = Vec::new();
+    reader.read_to_end(&mut data).expect("Failed to read from stable storage");
+    let profiles: UserProfiles = bincode::deserialize(&data).expect("Deserialization failed");
+    // Restore data
+    USER_PROFILES.with(|p| {
+        *p.borrow_mut() = profiles;
+    });
+    ic_cdk::println!("post upgrade is implemented");
+}
 
 #[derive(Serialize, Deserialize, Clone)] // Derive the Clone trait for UserProfile
 // pub struct UserProfile {

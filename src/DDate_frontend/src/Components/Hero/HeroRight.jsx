@@ -87,9 +87,9 @@ const HeroRight = () => {
         >
           Connect Wallet
         </button>
-        <button onClick={createAccountHandler} className="font-custom font-thin text-base bg-green-400 hover:bg-black text-black hover:text-white py-2 px-8 md:px-14 mt-10 rounded-full mr-4 mb-4">
+        {/* <button onClick={createAccountHandler} className="font-custom font-thin text-base bg-green-400 hover:bg-black text-black hover:text-white py-2 px-8 md:px-14 mt-10 rounded-full mr-4 mb-4">
           create account
-        </button>
+        </button> */}
         {/* <button onClick={uploadHandler}>upload</button> */}
       </div>
       <WalletModal isOpen={isWalletModalOpen} onClose={toggleWalletModal} />
