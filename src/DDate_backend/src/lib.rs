@@ -280,6 +280,7 @@ fn update_profile(params: UpdateUserProfileParams) {
 //     });
 // }
 
+
 #[update]
 fn check_user_match(current_user_id: Principal, potential_match_id: Principal) -> bool {
     USER_PROFILES.with(|user_profiles| {

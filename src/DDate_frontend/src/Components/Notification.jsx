@@ -64,3 +64,73 @@ const Notification = () => {
 };
 
 export default Notification;
+
+
+// import React, { useEffect, useState } from "react";
+// import SidebarComponent from "./SidebarComponent";
+// import { useNavigate } from "react-router-dom";
+// import { getProfileComponent } from "./GetProfileComponent"; // Assume this is the component that uses get_profile
+
+// // ... other imports
+
+// const Notification = () => {
+//   const navigate = useNavigate();
+//   const [notifications, setNotifications] = useState([]);
+//   const [selectedUserPrincipal, setSelectedUserPrincipal] = useState(null);
+
+//   // Replace 'currentUserId' with the actual logged-in user's ID
+//   const currentUserId = '...';
+
+//   useEffect(() => {
+//     const fetchNotifications = async () => {
+//       try {
+//         const notificationData = await DDate_backend.retrieve_notifications_for_user(currentUserId);
+//         setNotifications(notificationData);
+//       } catch (error) {
+//         console.error("Failed to fetch notifications:", error);
+//       }
+//     };
+
+//     fetchNotifications();
+//   }, [currentUserId]);
+
+//   // Handler for when a notification is clicked
+//   const handleNotificationClick = (senderId) => {
+//     setSelectedUserPrincipal(senderId);
+//     // You can then pass 'selectedUserPrincipal' to the getProfileComponent or navigate to a route that handles it
+//     navigate(`/profile/${senderId}`); // This is just an example. Replace with your actual routing logic.
+//   };
+
+//   const notificationElements = notifications.map((notification, index) => (
+//     <div key={index} className="h-auto w-auto flex items-center justify-start flex-row ml-12 mb-2" onClick={() => handleNotificationClick(notification.sender_id)}>
+//       <img src={/* Map notification.sender_id to image */} alt={`User ${notification.sender_id}`} className="w-12 h-12 mr-4 rounded-full" />
+//       <p className="text-black font-lg">Someone liked your profile</p>
+//     </div>
+//   ));
+
+// const handleLike = () => {
+//   console.log("Like button is clicked");
+//   const isMatch = DDate_backend.check_user_match(currentUserId, potentialMatchId);
+
+//   if (isMatch) {
+//     console.log('Its a match');
+//   } else {
+//     console.log('You have liked the profile but match could not be made');
+//   }
+//   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+// };
+
+//   return (
+//     <div className="h-screen grid grid-cols-12">
+//       <div className="col-span-3">
+//         <SidebarComponent />
+//       </div>
+//       <div className="col-span-9 flex flex-col">
+//         {/* ... */}
+//         {notificationElements}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Notification;
