@@ -16,11 +16,11 @@ const MessagePage = () => {
 
   // Dummy data for message list
   const messages = [
-    { id: 1, name: 'alyxstar', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p1 },
-    { id: 2, name: 'Voilet Myers', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p2},
-    { id: 3, name: 'Mia Malkova', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p3 },
-    { id: 4, name: 'Natasha Nice', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p4 },
-    { id: 5, name: 'Lena Paul', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p5 },
+    { id: 1, name: 'Ann Chovey', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p1 },
+    { id: 2, name: 'Hazel Nutt', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p2},
+    { id: 3, name: 'Christian', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p3 },
+    { id: 4, name: 'Marsha Mellow', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p4 },
+    { id: 5, name: 'Aida Bugg', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', avatar:p5 },
 
   ];
 
@@ -38,7 +38,7 @@ const MessagePage = () => {
           <img
             src={back}
             alt="back"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Swipe")}
             className="w-4 h-4 cursor-pointer"
           />
           <div className="ml-2 text-lg font-medium">Your Messages</div>

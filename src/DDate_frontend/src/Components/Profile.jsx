@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 
 const Profile = () => {
+
   const [formData, setFormData] = useState({
     gender: "",
     email: "",
@@ -13,22 +14,27 @@ const Profile = () => {
     mobile_number: "",
     introduction: "",
     images: null,
-    gender_pronouns:"",
+    gender_pronouns: "",
   });
+  
+  const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imageError, setImageError] = useState(false);
 
   const navigate = useNavigate();
 
-  let principal;
   useEffect(() => {
     const principalString = localStorage.getItem("id");
+    console.log(principalString);
+    
     if (principalString) {
-       principal = convertStringToPrincipal(principalString);
+      const newPrincipal = convertStringToPrincipal(principalString);
+      setPrincipal(newPrincipal);
 
       const fetchUserProfile = async () => {
         try {
-          const userProfileData = await DDate_backend.get_profile(principal);
-
+          const userProfileData = await DDate_backend.get_profile(newPrincipal);
           setFormData({
             gender: userProfileData.gender || "",
             email: userProfileData.email || "",
@@ -36,9 +42,8 @@ const Profile = () => {
             mobile_number: userProfileData.mobile_number || "",
             introduction: userProfileData.introduction || "",
             images: userProfileData.images || null,
-            gender_pronouns:userProfileData.gender_pronouns || "",
+            gender_pronouns: userProfileData.gender_pronouns || "",
           });
-          console.log("Fetched User Profile: ", userProfileData);
         } catch (error) {
           console.error("Error fetching user profile: ", error);
         }
@@ -50,27 +55,25 @@ const Profile = () => {
     }
   }, []);
 
+  
+  function convertStringToPrincipal(principalString) {
+    try {
+      const principal = Principal.fromText(principalString);
+      console.log("Converted Principal: ", principal.toText());
+      return principal;
+    } catch (error) {
+      console.error("Error converting string to Principal: ", error);
+      return null;
+    }
+  }
+
+
   useEffect(() => {
     if (userProfile) {
       console.log("User Profile: ", userProfile);
     }
   }, [userProfile]);
 
-  function convertStringToPrincipal(principalString) {
-    try {
-      if (principalString && principalString.trim() !== "") {
-        const principal = Principal.fromText(principalString);
-        console.log("Converted Principal: ", principal.toText());
-        return principal;
-      } else {
-        console.error("Principal string is null or empty.");
-        return null;
-      }
-    } catch (error) {
-      console.error("Error converting string to Principal: ", error);
-      return null;
-    }
-  }
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -80,122 +83,81 @@ const Profile = () => {
     }));
   };
 
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
-      // Create an object URL for the selected image
-      const imageUrl = URL.createObjectURL(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const newImageBase64 = reader.result;
+        setFormData(prevData => ({
+          ...prevData,
+          images: newImageBase64
+        }));
+      };
+    }    
 
-      // Update the state with the selected image and its object URL
-      setFormData((prevData) => ({
-        ...prevData,
-        images: {
-          file,       // The selected image file
-          imageUrl,   // The object URL for displaying the image
-        },
-      }));
-    }
   };
-
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (imageFiles.length === 0) {
+    setImageError(false);
+  
+    // Check if the image is provided
+    if (!formData.images && !userProfile?.images) {
       setImageError(true);
       return;
     }
-
-    // localStorage.setItem("form5", JSON.stringify(formData));
-    // console.log(formData);
-
-    // const formKeys = ["form1", "form2", "form3", "form4", "form5"];
-    // const userData = {};
-    // const principalString = localStorage.getItem("id");
-    // console.log(principalString);
-
-    // Convert the principal string to a Principal object
-    // const principal = convertStringToPrincipal(principalString);
-
-    // if (principal) {
-    //   formKeys.forEach((key) => {
-    //     userData[key] = localStorage.getItem(key);
-    //   });
-
-      // const formData = {};
-
-      // for (const key in userData) {
-      //   if (userData.hasOwnProperty(key)) {
-      //     const formData = JSON.parse(userData[key]);
-      //     Object.assign(formData, formData);
-      //   }
-      // }
-
-      const objectSendToBackendFormat = {
-        id: principal,
-        gender: formData.gender,
-        email: formData.email,
-        name: formData.name,
-        mobile_number: formData.mobile_number.toString(),
-        dob: formData.dob,
-        gender_pronouns: formData.gender_pronouns,
-        religion: formData.religion,
-        height: formData.height,
-        zodiac: formData.zodiac,
-        diet: formData.diet,
-        occupation: formData.occupation,
-        looking_for: formData.looking_for,
-        smoking: formData.smoking,
-        drinking: formData.drinking,
-        hobbies: formData.hobbies,
-        sports: formData.sports,
-        art_and_culture: formData.art_and_culture,
-        pets: formData.pets,
-        general_habits: formData.general_habits,
-        outdoor_activities: formData.outdoor_activities,
-        travel: formData.travel,
-        movies: formData.movies,
-        interests_in: formData.interests_in,
-        age: formData.age,
-        location: formData.location,
-        min_preferred_age: formData.min_preferred_age,
-        max_preferred_age: formData.max_preferred_age,
-        preferred_gender: formData.preferred_gender,
-        preferred_location: formData.preferred_location,
-        introduction: formData.introduction,
-        images: imageFiles, 
-      };
-
-      console.log("objectSendToBackendFormat", objectSendToBackendFormat);
-
-      try {
-        await DDate_backend.add_user_profile(objectSendToBackendFormat);
-        console.log(imageFiles);
-        navigate("/Swipe");
-      } catch (error) {
-        console.error("Error sending data to the backend:", error);
-      }
-    } 
-    // else {
-    //   console.error("Error converting principal string to Principal object.");
-    // }
-  // };
-
-  useEffect(() => {
-    if (userProfile) {
-      setFormData({
-        gender: userProfile.gender || "",
-        email: userProfile.email || "",
-        name: userProfile.name || "",
-        mobile_number: userProfile.mobile_number || "",
-        introduction: userProfile.introduction || "",
-        gender_pronouns: userProfile.gender_pronouns || "",
-        occupation: userProfile.occupation || "",
-        bio: userProfile.bio || "",
-        images: userProfile.images || null,
-      });
+  
+    // Construct updated profile data with original data as fallback
+    const updatedProfileData = {
+      id: principal,
+      new_name: formData.name !== userProfile?.name ? formData.name : userProfile?.name,
+      new_email: formData.email !== userProfile?.email ? formData.email : userProfile?.email,
+      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? formData.mobile_number.toString() : userProfile?.mobile_number,
+      new_gender_pronouns: formData.gender_pronouns !== userProfile?.gender_pronouns ? formData.gender_pronouns : userProfile?.gender_pronouns,
+      new_introduction: formData.introduction !== userProfile?.introduction ? formData.introduction : userProfile?.introduction,
+      images: formData.images || userProfile?.images,
+      // Ensuring all other fields are either their updated values or the original
+      new_dob: userProfile?.dob,
+      new_religion: userProfile?.religion,
+      new_height: userProfile?.height,
+      new_zodiac: userProfile?.zodiac,
+      new_diet: userProfile?.diet,
+      new_occupation: userProfile?.occupation,
+      new_looking_for: userProfile?.looking_for,
+      new_smoking: userProfile?.smoking,
+      new_drinking: userProfile?.drinking,
+      new_hobbies: userProfile?.hobbies,
+      new_sports: userProfile?.sports,
+      new_art_and_culture: userProfile?.art_and_culture,
+      new_pets: userProfile?.pets,
+      new_general_habits: userProfile?.general_habits,
+      new_outdoor_activities: userProfile?.outdoor_activities,
+      new_travel: userProfile?.travel,
+      new_movies: userProfile?.movies,
+      new_interests_in: userProfile?.interests_in,
+      new_age: userProfile?.age,
+      new_location: userProfile?.location,
+      new_min_preferred_age: userProfile?.min_preferred_age,
+      new_max_preferred_age: userProfile?.max_preferred_age,
+      new_preferred_gender: userProfile?.preferred_gender,
+      new_preferred_location: userProfile?.preferred_location,
+      new_matched: userProfile?.matched
+    };
+  
+    console.log("updatedProfileData =>", updatedProfileData)
+    try {
+      await DDate_backend.update_profile(updatedProfileData);
+      navigate("/Swipe");
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
     }
-  }, [userProfile]);
+  };
+  
+  
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -207,7 +169,7 @@ const Profile = () => {
           <img
             src={back}
             alt="back"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Swipe")}
             className="w-4 h-4 cursor-pointer"
           />
           <div className="ml-2 text-lg font-medium">Edit Your Profile</div>
@@ -230,9 +192,7 @@ const Profile = () => {
         </div>
         <div className="h-auto w-auto flex items-center justify-center flex-col">
           <div className="mb-4 relative">
-            <img
-              src={images}
-              alt="images"
+            <input
               id="images"
               type="file"
               name="images"
@@ -249,9 +209,7 @@ const Profile = () => {
               }}
             >
               {formData.images ? (
-                <img
-                  src={formData.images.imageUrl}
-                  alt="Profile"
+                <img src={formData.images || 'https://via.placeholder.com/150'} alt="Profile"
                   className="rounded-full w-full h-full object-cover"
                   style={{ marginTop: "-10px" }}
                 />
@@ -334,7 +292,7 @@ const Profile = () => {
                 id="mobile_number"
                 type="tel"
                 name="mobile_number"
-                value={formData.mobile_number.toString()} 
+                value={formData.mobile_number.toString()}
                 onChange={handleFormChange}
                 className="form-input w-full px-2 py-1.5 rounded-3xl"
               />

@@ -15,13 +15,13 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/" element={<HomePage />} />
         <Route path="/CreateAccount1" element={<CreateAccount1 />} />
         <Route path="/CreateAccount2" element={<CreateAccount2 />} />
         <Route path="/CreateAccount3" element={<CreateAccount3/>} />
         <Route path="/CreateAccount4" element={<CreateAccount4/>} />
-        <Route path="/CreateAccount5" element={<CreateAccount5/>} /> 
-       <Route path="/Swipe" element={<Swipe/>} /> 
+        <Route path="/CreateAccount5" element={<CreateAccount5/>} />  */}
+       <Route path="/" element={<Swipe/>} /> 
          <Route path="/Profile" element={<Profile/>} />
         <Route path="/Notification" element={<Notification/>} />
         <Route path="/MessagePage" element={<MessagePage/>} />
