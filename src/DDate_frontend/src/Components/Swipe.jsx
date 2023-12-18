@@ -261,6 +261,7 @@ import SidebarComponent from "./SidebarComponent"; // Importing SidebarComponent
 import "./Swipe.css";
 import { Principal } from "@dfinity/principal";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
+import NoMatchModal from "./NoMatchModal";
 // const db = [
 //   {
 //     name: "Richard Hendricks",
@@ -269,7 +270,7 @@ import { DDate_backend } from "../../../declarations/DDate_backend/index";
 //   {
 //     name: "Erlich Bachman",
 //     url: "./img/erlich.jpg",
-//   },
+//   },4444444444444444444444444444
 //   {
 //     name: "Monica Hall",
 //     url: "./img/monica.jpg",
@@ -293,7 +294,10 @@ import { DDate_backend } from "../../../declarations/DDate_backend/index";
 function Swipe() {
 
 
-  const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
+  // const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
+
+  const principalString = localStorage.getItem("id");
+
   console.log("this is principal strinng", principalString);
 
   const [pToLike, setPToLike] = useState('');
@@ -398,11 +402,18 @@ function Swipe() {
 
   // DDate_backend.get_matched_profiles(principal);
 
+  const [noMatch, setNoMatch] = useState(false);
+
+  function closeKrna() {
+    setNoMatch(false)
+  }
+
   const getMatchedProfiles = async (principal) => {
     try {
       const matchedProfiles = await DDate_backend.get_matched_profiles(principal);
       if (matchedProfiles.length === 0) {
         console.log("No matches found.");
+        setNoMatch(true);
 
       } else {
         console.log("Matched Profiles:", matchedProfiles);
@@ -450,10 +461,10 @@ function Swipe() {
   console.log("selected idd dekhde aa ke milda", selectedId);
 
   //const
- 
 
 
-const [indexxx, setIndexxx]= useState();
+
+  const [indexxx, setIndexxx] = useState();
 
 
   // set last direction and decrease current index
@@ -489,7 +500,7 @@ const [indexxx, setIndexxx]= useState();
 
 
 
-  const[match, setMatch] = useState(false);
+  const [match, setMatch] = useState(false);
 
   // Define the checkMatch function
   const checkMatch = async (id) => {
@@ -513,7 +524,7 @@ const [indexxx, setIndexxx]= useState();
   useEffect(() => {
     if (selectedId !== null) {
 
-  checkMatch(selectedId);
+      checkMatch(selectedId);
       // You can now perform actions that depend on the updated value of selectedId
       // Example:
       // const isMatch = await DDate_backend.check_user_match(principal, selectedId);
@@ -524,7 +535,7 @@ const [indexxx, setIndexxx]= useState();
       // }
     }
   }, [selectedId]);
-  
+
 
   console.log("swiped profile has this principal", selectedId);
 
@@ -597,47 +608,78 @@ const [indexxx, setIndexxx]= useState();
       </div>
 
       {/* Main Content */}
-      <div className="col-span-9 flex flex-col items-center">
+      <div className="col-span-9 flex flex-col justify-center items-center">
         {/* Title */}
         {/* <h1>React Tinder Card</h1> */}
 
         {/* Card Container */}
-        <div className="cardContainer">
+        <div className="bg-white shadow-lg rounded-fully h-screen w-98 flex justify-center items-center mx-auto relative">
           {db.map((character, index) => (
             <TinderCard
               ref={childRefs[index]}
               className="swipe"
               key={character.name}
-              onSwipe={(dir) =>   swiped(dir, character.name, index)}
+              onSwipe={(dir) => swiped(dir, character.name, index)}
               onCardLeftScreen={() => outOfFrame(character.name, index)}
             >
               <div
                 style={{ backgroundImage: "url(" + character.images[0] + ")" }}
                 className="card"
               >
-                {/* <img src={character.images[0]}></img> */}
-                <h3>{character.name}</h3>
-                <h4>{character.location}</h4>
-                {/* <h4>{character.id}</h4> */}
-                {console.log(character.id)}
-                {console.log(character.location)}
-                {console.log(character.images[0])}
-                <h5>{character.introduction}</h5>
-                {/* {setPToLike(character.id)} */}
 
-
-
-
-                <div className="buttons">
-                  <button onClick={() => swipe("left")}>X</button>
-                  <button onClick={() => swipe("right")}>✔</button>
+                <div className="flex justify-center flex-start mt-4 gap-4 absolute ml-4 cursor-pointer bottom-1 left-1">
+                  <button onClick={() => swipe("left")}> <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 63 63"
+                    fill="none"
+                  >
+                    <circle cx="31.275" cy="31.275" r="31.275" fill="#E13131" />
+                    <path
+                      d="M41.6356 44.7888L30.897 34.0402L20.1584 44.7888L17.7607 42.3927L28.5162 31.661L17.7607 20.9293L20.1584 18.5332L30.897 29.2818L41.6356 18.5501L44.0163 20.9293L33.2777 31.661L44.0163 42.3927L41.6356 44.7888Z"
+                      fill="black"
+                    />
+                  </svg></button>
+                  <button onClick={() => swipe("right")}>  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 63 63"
+                    fill="none"
+                  >
+                    <circle cx="31.7242" cy="31.275" r="31.275" fill="#3FB844" />
+                    <path
+                      d="M26.7715 44.7888L14.3496 32.3433L17.4551 29.2319L26.7715 38.566L46.7664 18.5332L49.8718 21.6446L26.7715 44.7888Z"
+                      fill="#ECECEC"
+                    />
+                  </svg></button>
                 </div>
+
+                <div className="mt-4 ml-4 absolute bottom-16 left-0 text-white">
+                  {/* <img src={character.images[0]}></img> */}
+                  <h2 className="text-4xl font-bold text-white">{character.name}</h2>
+                  
+                  <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018]">{character.name}</h2>
+                  <p className="text-lg text-gray-700 font-bold ">{character.location}</p>
+                  {/* <h4>{character.id}</h4> */}
+                  {console.log(character.id)}
+                  {console.log(character.location)}
+                  {console.log(character.images[0])}
+                  <p className="mt-2 font-bold text-white">{character.introduction}</p>
+                  {/* {setPToLike(character.id)} */}</div>
+
+
+
+
+
+
               </div>
-              {match &&  (
-        <ProfileModal profile={db[indexxx]} indexxx={indexxx} onClose={handleCloseModal} />
-      )}
+              {match && (
+                <ProfileModal profile={db[indexxx]} indexxx={indexxx} onClose={handleCloseModal} />
+              )}
             </TinderCard>
-            
+
           ))}
         </div>
       </div>

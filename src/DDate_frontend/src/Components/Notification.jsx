@@ -80,7 +80,9 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const [selectedUserPrincipal, setSelectedUserPrincipal] = useState(null);
 
-  const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
+  // const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
+
+  const principalString = localStorage.getItem("id");
   console.log("this is principal strinng", principalString);
 
 

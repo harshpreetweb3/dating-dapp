@@ -366,6 +366,8 @@ const SidebarComponent = () => {
         type="submit"
         className="bg-yellow-500 text-black font-light justify-center font-sm py-2 px-16 rounded-full hover:bg-yellow-600"
         // onClick={nextPageHandler}
+        //onClick={() => navigate("/Swipe")}
+        onClick={() => navigate("/Swipe", { state: { forceRerender: Date.now() } })}
       >
         Apply
       </button>
