@@ -9,7 +9,7 @@ import CreateAccount5 from "./Components/Hero/CreateAccount5";
 import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
-import MessagePage from "./Components/MessagePage";
+import ChattingPage from "./Components/Chatting/ChattingPage";
 
 const App = () => {
   return (
@@ -20,11 +20,11 @@ const App = () => {
         <Route path="/CreateAccount2" element={<CreateAccount2 />} />
         <Route path="/CreateAccount3" element={<CreateAccount3/>} />
         <Route path="/CreateAccount4" element={<CreateAccount4/>} />
-        <Route path="/CreateAccount5" element={<CreateAccount5/>} />  */}
-       <Route path="/" element={<Swipe/>} /> 
+        <Route path="/CreateAccount5" element={<CreateAccount5/>} /> 
+       <Route path="/Swipe" element={<Swipe/>} /> 
          <Route path="/Profile" element={<Profile/>} />
-        <Route path="/Notification" element={<Notification/>} />
-        <Route path="/MessagePage" element={<MessagePage/>} />
+        <Route path="/Notification" element={<Notification/>} /> */}
+        <Route path="/" element={<ChattingPage/>} />
 
 
       </Routes>
