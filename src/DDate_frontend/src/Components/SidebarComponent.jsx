@@ -1,24 +1,162 @@
 import React from "react";
-import userpic from "../../assets/Images/UserProfiles/userpic.svg";
+// import userpic from "../../assets/Images/UserProfiles/userpic.svg";
 import logo from "../../assets/Images/CreateAccount/logo.png";
-
+import {useState, useEffect } from "react";
+import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { useNavigate } from "react-router-dom";
+import { Principal } from '@dfinity/principal';
 
 const SidebarComponent = () => {
-  const navigate = useNavigate();
 
-  const profileHandler = () => {
-    navigate("/Profile");
+  const [formData, setFormData] = useState({
+    preferred_location: "",
+    interests_in: "",
+    location: "",
+    max_preferred_age:"",
+    min_preferred_age: "",
+    images: null,
+    combinedAge: "",
+
+    // gender_pronouns: "",
+  });
+
+
+  const [principal, setPrincipal] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+
+ const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    const principalString = localStorage.getItem("id");
+    console.log(principalString);
+    
+    if (principalString) {
+      const newPrincipal = convertStringToPrincipal(principalString);
+      setPrincipal(newPrincipal);
+
+      const fetchUserProfile = async () => {
+        try {
+          const userProfileData = await DDate_backend.get_profile(newPrincipal);
+          console.log("userProfileData ==>>>> ",userProfileData)
+          setFormData({
+            preferred_location: userProfileData.preferred_location || "",
+            interests_in: userProfileData.interests_in || "",
+            location: userProfileData.location || "",
+            max_preferred_age: userProfileData.max_preferred_age || "",
+            min_preferred_age: userProfileData.min_preferred_age || "",
+            combinedAge: userProfileData.min_preferred_age + "-" + userProfileData.max_preferred_age,
+            images: userProfileData.images || null,
+            // gender_pronouns: userProfileData.gender_pronouns || "",
+          });
+        } catch (error) {
+          console.error("Error fetching user profile: ", error);
+        }
+      };
+
+      fetchUserProfile();
+    } else {
+      console.warn("Principal string is null or empty.");
+    }
+  }, []);
+
+ 
+ function convertStringToPrincipal(principalString) {
+    try {
+      const principal = Principal.fromText(principalString);
+      console.log("Converted Principal: ", principal.toText());
+      return principal;
+    } catch (error) {
+      console.error("Error converting string to Principal: ", error);
+      return null;
+    }
+  }
+
+ const handleFormChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "preferAge") {
+
+      let minAge, maxAge;
+    if (formData.combinedAge === "above 30") {
+        minAge = 30;
+        maxAge = 60;
+      } else {
+        // Split the selected age range into minimum and maximum values
+        [minAge, maxAge] = value.split("-").map(Number);
+      }
+
+      setFormData((prevData) => ({
+        ...prevData,
+        min_preferred_age: minAge,
+        max_preferred_age: maxAge,
+        combinedAge: value,
+      }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
   };
 
-  const messageHandler=()=>{
-    navigate("/MessagePage");
 
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // setImageError(false);
+  
+    // Check if the image is provided
+    // if (!formData.images && !userProfile?.images) {
+    //   setImageError(true);
+    //   return;
+    // }
+  
 
-  const notificationHandler=()=>{
-    navigate("/Notification");
-  }
+    // Construct updated profile data with original data as fallback
+    const updatedFilterData = {
+      id: principal,
+      new_preferred_location: formData.preferred_location !== userProfile?.preferred_location ? [formData.preferred_location] : [userProfile?.preferred_location],
+      new_interests_in: formData.interests_in !== userProfile?.interests_in ? [formData.interests_in] : [userProfile?.interests_in],
+      new_location: formData.location !== userProfile?.location ? [formData.location] : [userProfile?.location],
+      new_max_preferred_age: formData.max_preferred_age !== userProfile?.max_preferred_age ? [Number(formData.max_preferred_age) ]: [userProfile?.max_preferred_age],
+      new_min_preferred_age: formData.min_preferred_age !== userProfile?.min_preferred_age ? [Number(formData.min_preferred_age)] : [userProfile?.min_preferred_age],
+      // new_introduction: formData.introduction !== userProfile?.introduction ? [formData.introduction] : [userProfile?.introduction],
+      new_introduction: userProfile?.introduction|| [],
+      images: userProfile?.images|| [],
+      new_dob: userProfile?.dob|| [],
+      new_religion: userProfile?.religion||[],
+      new_height: userProfile?.height||[],
+      new_zodiac: userProfile?.zodiac||[],
+      new_diet: userProfile?.diet||[],
+      new_occupation: userProfile?.occupation||[],
+      new_looking_for: userProfile?.looking_for||[],
+      new_smoking: userProfile?.smoking||[],
+      new_drinking: userProfile?.drinking||[],
+      new_hobbies:userProfile?.hobbies||[],
+      new_sports: userProfile?.sports||[],
+      new_art_and_culture: userProfile?.art_and_culture||[],
+      new_pets: userProfile?.pets||[],
+      new_general_habits: userProfile?.general_habits||[],
+      new_outdoor_activities: userProfile?.outdoor_activities||[],
+      new_travel: userProfile?.travel||[],
+      new_movies: userProfile?.movies||[],
+      new_gender: userProfile?.gender||[],
+      new_age: userProfile?.age||[],
+      new_email: userProfile?.email||[],
+      new_gender_pronouns: userProfile?.gender_pronouns||[],
+      new_mobile_number: userProfile?.mobile_number||[],
+      new_preferred_gender: userProfile?.preferred_gender||[],
+      new_name: userProfile?.name||[],
+      new_matched: userProfile?.matched||[]
+    };
+  
+
+    console.log("updatedFilterData =>", updatedFilterData)
+    try {
+      await DDate_backend.update_profile(updatedFilterData);
+      navigate("/Swipe");
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+    }
+  };
+
 
   return (
     <aside
@@ -32,14 +170,22 @@ const SidebarComponent = () => {
         />
       </div>
       <ul className="w-full text-center">
-        <li className="ml-4 mb-2 flex flex-row  ">
-          <img
-            className="h-10 w-10 rounded-full border-2 border-white"
-            src={userpic}
-            alt="userpic"
-          />
+        <li className="ml-4 mb-2 flex flex-row ">
+        {formData.images ? ( 
+                <img src={formData.images || 'https://via.placeholder.com/150'} alt="Profile"
+                  className="rounded-full w-10 h-10  object-cover border-2 border-white"
+                  style={{ marginTop: "-10px" }}
+                />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12 text-gray-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                ></svg>
+              )}
           <button
-            onClick={profileHandler}
+            onClick={()=> navigate("/Profile") }
             className="block p-2 text-white text-sm rounded hover:text-yellow-400 "
           >
             <span>My Profile</span>
@@ -64,7 +210,7 @@ const SidebarComponent = () => {
           </div>
 
           <button
-            onClick={notificationHandler}
+            onClick={()=>navigate("/Notification")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400"
           >
             <span>Notification</span>
@@ -88,7 +234,7 @@ const SidebarComponent = () => {
             />
           </svg>
           <button
-            onClick={messageHandler}
+            onClick={()=>navigate("/ChattingPage")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400"
           >
             <span>Messages</span>
@@ -134,30 +280,32 @@ const SidebarComponent = () => {
           </a>
         </li>
       </ul>
-
+      
+      <form onSubmit={handleSubmit}>
       <div className="flex flex-col mb-2 ml-4 text-white">
         <fieldset className="mb-1">
-          <legend className="font-bold p-2  text-base rounded">
-            Your interests in
-          </legend>
-          <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light text-sm">
-            {["Men", "Women", "All"].map((interest) => (
-              <label key={interest} className="flex items-center">
-                <input
-                  type="radio"
-                  name="selectedInterest"
-                  // value={interest}
-                  // onChange={handleFormChange}
-                  style={{ marginRight: "0.5rem" }}
-                />
-                {interest}
-              </label>
-            ))}
-          </div>
-        </fieldset>
+            <legend className="font-bold p-2 text-base rounded">
+              Your interests in
+            </legend>
+            <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light text-sm">
+              {["Men", "Women", "All"].map((interest) => (
+                <label key={interest} className="flex items-center">
+                  <input
+                    type="radio"
+                    name="interests_in"
+                    value={interest}
+                    checked={formData.interests_in === interest}
+                    onChange={handleFormChange}
+                    style={{ marginRight: "0.5rem" }}
+                  />
+                  {interest}
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
         <fieldset className="mb-1">
-          <legend className="block text-base font-bold  ml-2">
+        <legend className="font-bold p-2 text-base rounded">
             Preferred age
           </legend>
           <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light	text-sm">
@@ -165,9 +313,10 @@ const SidebarComponent = () => {
               <label key={preferAge} className="flex items-center">
                 <input
                   type="radio"
-                  name="selectedPreferredAge"
-                  // value={preferAge}
-                  // onChange={handleFormChange}
+                  name="preferAge"
+                  value={preferAge}
+                  onChange={handleFormChange}
+                  checked={formData.combinedAge === preferAge}
                   style={{ marginRight: "0.5rem" }}
                 />
                 {preferAge}
@@ -179,47 +328,48 @@ const SidebarComponent = () => {
 
       <div className="mb-6">
         <label
-          htmlFor="selectedLocation"
+          htmlFor="location"
           className="block text-base  font-bold mb-1 ml-1 text-white"
         >
           Location
         </label>
         <input
           type="text"
-          id="selectedLocation"
-          name="selectedLocation"
+          id="location"
+          name="location"
           placeholder="Your Location"
-          // value={formData.selectedLocation}
-          // onChange={handleFormChange}
+          value={formData.location}
+          onChange={handleFormChange}
           className="w-full px-2 py-2 rounded-full border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
         />
       </div>
 
       <div className="mb-6">
         <label
-          htmlFor="selectedPreferredLocation"
+          htmlFor="preferred_location"
           className="block text-base  font-bold mb-1 ml-1 text-white"
         >
           Preferred Location
         </label>
         <input
           type="text"
-          id="selectedPreferredLocation"
-          name="selectedPreferredLocation"
+          id="preferred_location"
+          name="preferred_location"
           placeholder="Your Preferred Location"
-          // value={formData.selectedPreferredLocation}
-          // onChange={handleFormChange}
+          value={formData.preferred_location}
+          onChange={handleFormChange}
           className="w-full px-2 py-2 rounded-full border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
         />
       </div>
 
       <button
         type="submit"
-        className="bg-yellow-500 text-black font-light font-sm py-2 px-16 rounded-full hover:bg-yellow-600"
+        className="bg-yellow-500 text-black font-light justify-center font-sm py-2 px-16 rounded-full hover:bg-yellow-600"
         // onClick={nextPageHandler}
       >
         Apply
       </button>
+      </form>
     </aside>
   );
 };

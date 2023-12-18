@@ -35,6 +35,7 @@ const Profile = () => {
       const fetchUserProfile = async () => {
         try {
           const userProfileData = await DDate_backend.get_profile(newPrincipal);
+          console.log("userProfileData ==>>>> ",userProfileData)
           setFormData({
             gender: userProfileData.gender || "",
             email: userProfileData.email || "",
@@ -44,6 +45,10 @@ const Profile = () => {
             images: userProfileData.images || null,
             gender_pronouns: userProfileData.gender_pronouns || "",
           });
+
+
+
+          
         } catch (error) {
           console.error("Error fetching user profile: ", error);
         }
@@ -67,7 +72,7 @@ const Profile = () => {
     }
   }
 
-
+// bs data dekhne k lie 
   useEffect(() => {
     if (userProfile) {
       console.log("User Profile: ", userProfile);
@@ -114,38 +119,38 @@ const Profile = () => {
     // Construct updated profile data with original data as fallback
     const updatedProfileData = {
       id: principal,
-      new_name: formData.name !== userProfile?.name ? formData.name : userProfile?.name,
-      new_email: formData.email !== userProfile?.email ? formData.email : userProfile?.email,
-      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? formData.mobile_number.toString() : userProfile?.mobile_number,
-      new_gender_pronouns: formData.gender_pronouns !== userProfile?.gender_pronouns ? formData.gender_pronouns : userProfile?.gender_pronouns,
-      new_introduction: formData.introduction !== userProfile?.introduction ? formData.introduction : userProfile?.introduction,
-      images: formData.images || userProfile?.images,
-      // Ensuring all other fields are either their updated values or the original
-      new_dob: userProfile?.dob,
-      new_religion: userProfile?.religion,
-      new_height: userProfile?.height,
-      new_zodiac: userProfile?.zodiac,
-      new_diet: userProfile?.diet,
-      new_occupation: userProfile?.occupation,
-      new_looking_for: userProfile?.looking_for,
-      new_smoking: userProfile?.smoking,
-      new_drinking: userProfile?.drinking,
-      new_hobbies: userProfile?.hobbies,
-      new_sports: userProfile?.sports,
-      new_art_and_culture: userProfile?.art_and_culture,
-      new_pets: userProfile?.pets,
-      new_general_habits: userProfile?.general_habits,
-      new_outdoor_activities: userProfile?.outdoor_activities,
-      new_travel: userProfile?.travel,
-      new_movies: userProfile?.movies,
-      new_interests_in: userProfile?.interests_in,
-      new_age: userProfile?.age,
-      new_location: userProfile?.location,
-      new_min_preferred_age: userProfile?.min_preferred_age,
-      new_max_preferred_age: userProfile?.max_preferred_age,
-      new_preferred_gender: userProfile?.preferred_gender,
-      new_preferred_location: userProfile?.preferred_location,
-      new_matched: userProfile?.matched
+      new_name: formData.name !== userProfile?.name ? [formData.name] : [userProfile?.name],
+      new_gender: formData.gender !== userProfile?.gender ? [formData.gender] : [userProfile?.gender],
+      new_email: formData.email !== userProfile?.email ? [formData.email] : [userProfile?.email],
+      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? [formData.mobile_number.toString() ]: [userProfile?.mobile_number],
+      new_gender_pronouns: formData.gender_pronouns !== userProfile?.gender_pronouns ? [formData.gender_pronouns] : [userProfile?.gender_pronouns],
+      new_introduction: formData.introduction !== userProfile?.introduction ? [formData.introduction] : [userProfile?.introduction],
+      images: [[formData.images]] || [[userProfile?.images]],
+      new_dob: userProfile?.dob|| [],
+      new_religion: userProfile?.religion||[],
+      new_height: userProfile?.height||[],
+      new_zodiac: userProfile?.zodiac||[],
+      new_diet: userProfile?.diet||[],
+      new_occupation: userProfile?.occupation||[],
+      new_looking_for: userProfile?.looking_for||[],
+      new_smoking: userProfile?.smoking||[],
+      new_drinking: userProfile?.drinking||[],
+      new_hobbies:userProfile?.hobbies||[],
+      new_sports: userProfile?.sports||[],
+      new_art_and_culture: userProfile?.art_and_culture||[],
+      new_pets: userProfile?.pets||[],
+      new_general_habits: userProfile?.general_habits||[],
+      new_outdoor_activities: userProfile?.outdoor_activities||[],
+      new_travel: userProfile?.travel||[],
+      new_movies: userProfile?.movies||[],
+      new_interests_in: userProfile?.interests_in||[],
+      new_age: userProfile?.age||[],
+      new_location: userProfile?.location||[],
+      new_min_preferred_age: userProfile?.min_preferred_age||[],
+      new_max_preferred_age: userProfile?.max_preferred_age||[],
+      new_preferred_gender: userProfile?.preferred_gender||[],
+      new_preferred_location: userProfile?.preferred_location||[],
+      new_matched: userProfile?.matched||[]
     };
   
     console.log("updatedProfileData =>", updatedProfileData)
