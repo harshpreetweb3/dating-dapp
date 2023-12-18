@@ -10,6 +10,8 @@ import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
 import MessagePage from "./Components/MessagePage";
+import ProfileViewer from './Components/ProfileViewer'; 
+
 
 const App = () => {
   return (
@@ -25,7 +27,7 @@ const App = () => {
          <Route path="/Profile" element={<Profile/>} />
         <Route path="/Notification" element={<Notification/>} />
         <Route path="/MessagePage" element={<MessagePage/>} />
-
+        <Route path="/profile/:senderId" element={<ProfileViewer/>} />
 
       </Routes>
     </>
