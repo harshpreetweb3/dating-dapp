@@ -42,7 +42,7 @@ const CreateAccount2 = () => {
   
 
   return (
-    <div className="flex w-full h-screen md:flex-row">
+    <div className="flex w-full h-screen md:flex-row font-num">
     {/* Image container for larger screens */}
     <div className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0" style={{ backgroundImage: `url(${createAccountImage})` }}>
      
@@ -65,14 +65,14 @@ const CreateAccount2 = () => {
     <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
       <div className="w-full max-w-md my-10">
       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">Allow us to know you</h2>
-        <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
-
+        {/* <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div> */}
+        <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
         <form className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none" onSubmit={handleSubmit}>
        
             {/* Gender Selection */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Gender Pronouns</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-0 rounded-3xl">
                 {['He/His', 'She/Her', 'They/Them'].map((genPro) => (
                    <label
                    key={genPro}
@@ -98,7 +98,7 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Religion</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {['Hindu', 'Muslim', 'Sikh', 'Christian', 'Others'].map((religion) => (
                   <label
                   key={religion}
@@ -125,7 +125,7 @@ const CreateAccount2 = () => {
     <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
       {/* Height Input */}
       <div className="flex-1 mb-4 md:mb-0">
-  <label htmlFor="selectedHeight" className="font-medium mb-1 text-white md:text-black block">Height (feet)</label>
+  <label htmlFor="selectedHeight" className=" block text-lg font-semibold  mb-2 text-white md:text-black">Height (feet)</label>
   <input 
     type="number" 
     id="selectedHeight" 
@@ -140,7 +140,7 @@ const CreateAccount2 = () => {
 
       {/* Zodiac Sign Input */}
       <div className="flex-1">
-        <label htmlFor="selectedZodiac" className="font-medium mb-1 text-white md:text-black block">Zodiac Sign</label>
+        <label htmlFor="selectedZodiac" className="block text-lg font-semibold  mb-2 text-white md:text-black">Zodiac Sign</label>
         <input 
           type="text" 
           id="selectedZodiac" 
@@ -155,8 +155,8 @@ const CreateAccount2 = () => {
 
 
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-2 text-white md:text-black">Fooding</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">Fooding</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {['Lacto-vegeterian', 'Ovo-vegeterian', 'Non-vegeterian'].map((Fooding) => (
                  <label
                  key={Fooding}
@@ -181,8 +181,8 @@ const CreateAccount2 = () => {
 
 
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What You do</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">What You do</legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {['In School', 'In College', 'Employed', 'Unemployed'].map((WhatYouDo) => (
                  <label
                  key={WhatYouDo}
@@ -208,7 +208,7 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What are you looking for</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {['Friendship', 'Short-term relationship', 'Long-term relationship', 'Dating', 'XYZ'].map((lookingFor) => (
                  <label
                  key={lookingFor}
@@ -232,7 +232,7 @@ const CreateAccount2 = () => {
          </fieldset>
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">
-              <button type="button" className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black" onClick={backpageHandler}>Back</button>
+              <button type="button" className="bg-transparent text-white  md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black" onClick={backpageHandler}>Back</button>
               <button type="text" className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600" >Next</button>
             </div>
           </form>

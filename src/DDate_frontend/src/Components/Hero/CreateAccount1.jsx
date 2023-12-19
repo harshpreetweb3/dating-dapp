@@ -90,17 +90,17 @@ const CreateAccount1 = () => {
   };
 
   return (
-    <div className="flex w-full h-screen overflow-hidden md:flex-row">
+    <div className="flex w-full h-screen overflow-hidden md:flex-row font-num">
       {/* Image container for larger screens */}
-      <div
-        className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
+      <div    
+        className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0 text-center"
         style={{ backgroundImage: `url(${createAccountImage})` }}
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
-          <div className="w-full max-w-xl mx-auto text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <div className="w-full max-w-xl mx-auto px-auto text-left ">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
               Create Your
-            </h1>
+            </h1> 
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
               account here
             </h2>
@@ -123,10 +123,10 @@ const CreateAccount1 = () => {
       {/* Form container */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
         <div className="w-full max-w-md my-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center ">
             Allow us to know you
           </h2>
-          <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
+          <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
           <form
             className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none"
@@ -137,9 +137,9 @@ const CreateAccount1 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Choose Your Gender
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-3 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 -mb-1 py-2 px-0 rounded-3xl  ">
                 {["Male", "Female", "Others"].map((gender) => (
-                  <label
+                  <label  
                     key={gender}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
                       formData.usergender === gender
@@ -151,6 +151,7 @@ const CreateAccount1 = () => {
                       type="radio"
                       name="usergender"
                       value={gender}
+                      className="text-sm"
                       onChange={handleFormChange}
                       style={{ display: "none" }}
                     />
@@ -164,7 +165,8 @@ const CreateAccount1 = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-lg font-semibold mb-2 text-white md:text-black"
+                className="block text-lg font-semibold mb-2 text-white md:text-black font-num"
+                
               >
                 Enter Your Email Id
               </label>
@@ -174,7 +176,7 @@ const CreateAccount1 = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleFormChange}
-                className="form-input bg-transparent w-full border-2 text-xl px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
+                className="form-input bg-transparent w-full border-2 text-sm px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
               />
             </div>
 
@@ -192,7 +194,8 @@ const CreateAccount1 = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleFormChange}
-                className="form-input bg-transparent w-full border-2 text-xl px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
+                
+                className="form-input bg-transparent w-full border-2 px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black text-sm"
               />
             </div>
 
@@ -210,7 +213,7 @@ const CreateAccount1 = () => {
                 name="mobile"
                 value={formData.mobile}
                 onChange={handleFormChange}
-                className="form-input bg-transparent w-full border-2 text-xl px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
+                className="form-input text-sm bg-transparent w-full border-2 px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
               />
             </div>
 
@@ -229,7 +232,7 @@ const CreateAccount1 = () => {
                 value={formData.dob}
                 onChange={handleFormChange}
                 placeholder="dd/mm/yyyy"
-                className="form-input bg-transparent w-full border-2 text-xl px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
+                className="form-input bg-transparent text-sm w-full border-2 px-2 border-gray-300 py-1.5 rounded-3xl text-white md:text-black "
               />
             </div>
 
@@ -237,7 +240,7 @@ const CreateAccount1 = () => {
             <div className="flex justify-between mt-6">
               <button
                 type="button"
-                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black"
+                className="bg-transparent text-white md:text-black  hover:border-white hover:text-white font-semibold py-2 px-4 rounded hover:bg-yellow-500 border border-white md:border-black"
                 onClick={homepageHandler}
               >
                 Back

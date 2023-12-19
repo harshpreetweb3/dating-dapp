@@ -65,7 +65,7 @@ const CreateAccount3 = () => {
   };
 
   return (
-    <div className="flex w-full h-screen md:flex-row">
+    <div className="flex w-full h-screen md:flex-row font-num">
       {/* Image container for larger screens */}
       <div
         className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
@@ -101,7 +101,7 @@ const CreateAccount3 = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
             Allow us to know you
           </h2>
-          <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
+          <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
           <form
             className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none"
@@ -112,7 +112,7 @@ const CreateAccount3 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Smoking
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2  rounded-3xl">
                 {["Regular", "Sometimes", "Never"].map((smoking) => (
                   <label
                     key={smoking}
@@ -139,7 +139,7 @@ const CreateAccount3 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Alcohol/Drink
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {["Regular", "occasionally", "Never"].map((drink) => (
                   <label
                     key={drink}
@@ -167,7 +167,7 @@ const CreateAccount3 = () => {
   <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
     Hobbies (select any 2)
   </legend>
-  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
     {[
       "Reading",
       "Dancing",
@@ -205,7 +205,7 @@ const CreateAccount3 = () => {
   <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
     Sports (select any 2)
   </legend>
-  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
     {[
       "Cricket",
       "Football",
@@ -254,7 +254,7 @@ const CreateAccount3 = () => {
             <div className="flex justify-between mt-6">
               <button
                 type="button"
-                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black"
+                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded border  hover:bg-yellow-500 hover:text-white  hover:border-white border-white md:border-black"
                 onClick={backpageHandler}
               >
                 Back

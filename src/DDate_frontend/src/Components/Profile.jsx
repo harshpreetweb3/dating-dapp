@@ -16,7 +16,7 @@ const Profile = () => {
     images: null,
     gender_pronouns: "",
   });
-  
+
   const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]);
@@ -25,9 +25,11 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const principalString = localStorage.getItem("id");
-    console.log(principalString);
     
+    const principalString = localStorage.getItem("id");
+    // const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
+    console.log(principalString);
+
     if (principalString) {
       const newPrincipal = convertStringToPrincipal(principalString);
       setPrincipal(newPrincipal);
@@ -35,7 +37,7 @@ const Profile = () => {
       const fetchUserProfile = async () => {
         try {
           const userProfileData = await DDate_backend.get_profile(newPrincipal);
-          console.log("userProfileData ==>>>> ",userProfileData)
+          console.log("userProfileData ==>>>> ", userProfileData)
           setFormData({
             gender: userProfileData.gender || "",
             email: userProfileData.email || "",
@@ -48,7 +50,7 @@ const Profile = () => {
 
 
 
-          
+
         } catch (error) {
           console.error("Error fetching user profile: ", error);
         }
@@ -60,7 +62,7 @@ const Profile = () => {
     }
   }, []);
 
-  
+
   function convertStringToPrincipal(principalString) {
     try {
       const principal = Principal.fromText(principalString);
@@ -72,7 +74,7 @@ const Profile = () => {
     }
   }
 
-// bs data dekhne k lie 
+  // bs data dekhne k lie 
   useEffect(() => {
     if (userProfile) {
       console.log("User Profile: ", userProfile);
@@ -101,58 +103,58 @@ const Profile = () => {
           images: newImageBase64
         }));
       };
-    }    
+    }
 
   };
-  
-  
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setImageError(false);
-  
+
     // Check if the image is provided
     if (!formData.images && !userProfile?.images) {
       setImageError(true);
       return;
     }
-  
+
     // Construct updated profile data with original data as fallback
     const updatedProfileData = {
       id: principal,
       new_name: formData.name !== userProfile?.name ? [formData.name] : [userProfile?.name],
       new_gender: formData.gender !== userProfile?.gender ? [formData.gender] : [userProfile?.gender],
       new_email: formData.email !== userProfile?.email ? [formData.email] : [userProfile?.email],
-      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? [formData.mobile_number.toString() ]: [userProfile?.mobile_number],
+      new_mobile_number: formData.mobile_number.toString() !== userProfile?.mobile_number ? [formData.mobile_number.toString()] : [userProfile?.mobile_number],
       new_gender_pronouns: formData.gender_pronouns !== userProfile?.gender_pronouns ? [formData.gender_pronouns] : [userProfile?.gender_pronouns],
       new_introduction: formData.introduction !== userProfile?.introduction ? [formData.introduction] : [userProfile?.introduction],
       images: [[formData.images]] || [[userProfile?.images]],
-      new_dob: userProfile?.dob|| [],
-      new_religion: userProfile?.religion||[],
-      new_height: userProfile?.height||[],
-      new_zodiac: userProfile?.zodiac||[],
-      new_diet: userProfile?.diet||[],
-      new_occupation: userProfile?.occupation||[],
-      new_looking_for: userProfile?.looking_for||[],
-      new_smoking: userProfile?.smoking||[],
-      new_drinking: userProfile?.drinking||[],
-      new_hobbies:userProfile?.hobbies||[],
-      new_sports: userProfile?.sports||[],
-      new_art_and_culture: userProfile?.art_and_culture||[],
-      new_pets: userProfile?.pets||[],
-      new_general_habits: userProfile?.general_habits||[],
-      new_outdoor_activities: userProfile?.outdoor_activities||[],
-      new_travel: userProfile?.travel||[],
-      new_movies: userProfile?.movies||[],
-      new_interests_in: userProfile?.interests_in||[],
-      new_age: userProfile?.age||[],
-      new_location: userProfile?.location||[],
-      new_min_preferred_age: userProfile?.min_preferred_age||[],
-      new_max_preferred_age: userProfile?.max_preferred_age||[],
-      new_preferred_gender: userProfile?.preferred_gender||[],
-      new_preferred_location: userProfile?.preferred_location||[],
-      new_matched: userProfile?.matched||[]
+      new_dob: userProfile?.dob || [],
+      new_religion: userProfile?.religion || [],
+      new_height: userProfile?.height || [],
+      new_zodiac: userProfile?.zodiac || [],
+      new_diet: userProfile?.diet || [],
+      new_occupation: userProfile?.occupation || [],
+      new_looking_for: userProfile?.looking_for || [],
+      new_smoking: userProfile?.smoking || [],
+      new_drinking: userProfile?.drinking || [],
+      new_hobbies: userProfile?.hobbies || [],
+      new_sports: userProfile?.sports || [],
+      new_art_and_culture: userProfile?.art_and_culture || [],
+      new_pets: userProfile?.pets || [],
+      new_general_habits: userProfile?.general_habits || [],
+      new_outdoor_activities: userProfile?.outdoor_activities || [],
+      new_travel: userProfile?.travel || [],
+      new_movies: userProfile?.movies || [],
+      new_interests_in: userProfile?.interests_in || [],
+      new_age: userProfile?.age || [],
+      new_location: userProfile?.location || [],
+      new_min_preferred_age: userProfile?.min_preferred_age || [],
+      new_max_preferred_age: userProfile?.max_preferred_age || [],
+      new_preferred_gender: userProfile?.preferred_gender || [],
+      new_preferred_location: userProfile?.preferred_location || [],
+      new_matched: userProfile?.matched || []
     };
-  
+
     console.log("updatedProfileData =>", updatedProfileData)
     try {
       await DDate_backend.update_profile(updatedProfileData);
@@ -161,8 +163,8 @@ const Profile = () => {
       console.error("Error sending data to the backend:", error);
     }
   };
-  
-  
+
+
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -176,8 +178,9 @@ const Profile = () => {
             alt="back"
             onClick={() => navigate("/Swipe")}
             className="w-4 h-4 cursor-pointer"
+            style={{marginLeft: "-50px"}}
           />
-          <div className="ml-2 text-lg font-medium">Edit Your Profile</div>
+          <div className="ml-2 text-lg" style={{fontWeight: 600 }}>Edit Your Profile</div>
         </div>
         <div className="relative flex justify-center items-center w-full mb-16">
           <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
@@ -202,7 +205,7 @@ const Profile = () => {
               type="file"
               name="images"
               onChange={handleImageChange}
-              className="hidden"
+              className="hidden imageee"
             />
             <label
               htmlFor="images"
@@ -216,7 +219,7 @@ const Profile = () => {
               {formData.images ? (
                 <img src={formData.images || 'https://via.placeholder.com/150'} alt="Profile"
                   className="rounded-full w-full h-full object-cover"
-                  style={{ marginTop: "-10px" }}
+                  style={{ marginTop: "0px" }}
                 />
               ) : (
                 <svg
@@ -231,16 +234,20 @@ const Profile = () => {
 
           <div className="mb-4 text-center flex flex-row">
             <h2 className="text-2xl font-bold text-black">{formData.name}</h2>
-            <p className="text-lg text-gray-700 font-bold">
+            
+            <p className="text-lg text-gray-700 font-bold" style={{
+              marginTop: "4px",
+              marginLeft: "7px"
+            }}>
               ({formData.gender_pronouns})
             </p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full max-w-lg">
+        <form onSubmit={handleSubmit} className="w-full max-w-lg font-num">
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center">
-              <label htmlFor="gender" className="text-lg font-medium">
+              <label htmlFor="gender" className="text-lg" style={{fontWeight: 600}}>
                 Gender
               </label>
             </div>
@@ -256,7 +263,7 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center">
-              <label htmlFor="email" className="text-lg font-medium">
+              <label htmlFor="email" className="text-lg" style={{fontWeight: 600}}>
                 Email
               </label>
             </div>
@@ -272,8 +279,8 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center">
-              <label htmlFor="name" className="text-lg font-medium">
-                name
+              <label htmlFor="name" className="text-lg" style={{fontWeight: 600}}>
+                Username
               </label>
             </div>
             <div>
@@ -288,8 +295,8 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center">
-              <label htmlFor="mobile_number" className="text-lg font-medium">
-                mobile_number
+              <label htmlFor="mobile_number" className="text-lg" style={{fontWeight: 600}}>
+                Mobile No.
               </label>
             </div>
             <div>
@@ -304,8 +311,8 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center mb-4">
-              <label htmlFor="introduction" className="text-lg font-medium">
-                My introduction
+              <label htmlFor="introduction" className="text-lg" style={{fontWeight: 600}}>
+                My Introduction
               </label>
             </div>
             <div className="col-auto">

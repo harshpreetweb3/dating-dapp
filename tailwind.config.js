@@ -10,6 +10,9 @@
           num: ['Poppins'],
 
         },
+        height: {
+          vh: '200vh',
+        },
         fontWeight: {
           custom: '600', 
         },

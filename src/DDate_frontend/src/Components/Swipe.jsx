@@ -262,6 +262,8 @@ import "./Swipe.css";
 import { Principal } from "@dfinity/principal";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import NoMatchModal from "./NoMatchModal";
+import Loader from './Loader';
+
 // const db = [
 //   {
 //     name: "Richard Hendricks",
@@ -284,6 +286,7 @@ import NoMatchModal from "./NoMatchModal";
 //     url: "./img/dinesh.jpg",
 //   },
 // ];
+
 
 
 
@@ -363,9 +366,12 @@ function Swipe() {
   //   findMatchesForMe(principal);
   // };
 
+  const [startLoader, setStartLoader] = useState(false);
+
   useEffect(() => {
     console.log("outside useEffect!!!")
     if (principal) {
+      setStartLoader(true);
       findMatchesForMe(principal);
       console.log("useEffect is getting called");
     }
@@ -386,7 +392,10 @@ function Swipe() {
       const profilesPromises = principals.map(principal => fetchUserProfile(principal));
       const profiles = await Promise.all(profilesPromises);
       //setMatchedProfiles(profiles.filter(profile => profile !== null)); // Update state with non-null profiles
+
+
       setSwipeProfiles(profiles.filter(profile => profile !== null));
+      setStartLoader(false);
     } catch (error) {
       console.error("Error fetching all user profiles:", error);
     }
@@ -607,12 +616,15 @@ function Swipe() {
         <SidebarComponent />
       </div>
 
-      {/* Main Content */}
-      <div className="col-span-9 flex flex-col justify-center items-center">
+      
+      
+      {startLoader ? <Loader/> : 
+      <div className="col-span-15 flex flex-col justify-center items-center">
         {/* Title */}
         {/* <h1>React Tinder Card</h1> */}
 
         {/* Card Container */}
+        
         <div className="bg-white shadow-lg rounded-fully h-screen w-98 flex justify-center items-center mx-auto relative">
           {db.map((character, index) => (
             <TinderCard
@@ -682,7 +694,11 @@ function Swipe() {
 
           ))}
         </div>
+      
       </div>
+      }
+      {/* Main Content */}
+
     </div>
   );
 }

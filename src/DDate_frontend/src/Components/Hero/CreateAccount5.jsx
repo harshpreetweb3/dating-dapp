@@ -162,7 +162,7 @@ const CreateAccount5 = () => {
   }
 
   return (
-    <div className="flex w-full h-screen md:flex-row">
+    <div className="flex w-full h-screen md:flex-row font-num">
       {/* Image container for larger screens */}
       <div
         className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
@@ -198,7 +198,7 @@ const CreateAccount5 = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
             Allow us to know you
           </h2>
-          <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
+          <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
           <form
             className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none"
@@ -368,7 +368,7 @@ const CreateAccount5 = () => {
             <div className="flex justify-between mt-6">
               <button
                 type="button"
-                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black"
+                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
                 onClick={backpageHandler}
               >
                 Back
