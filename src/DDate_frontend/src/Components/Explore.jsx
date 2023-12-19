@@ -7,7 +7,7 @@ import networkingImage from "../../assets/Images/ExploreImages/networking.png";
 const Explore = () => {
   return (
     <>
-      <div className="bg-white flex flex-col items-center w-full mt-20">
+      <div className="bg-white font-num flex flex-col items-center w-full mt-14">
         <h2 className="text-center text-black text-4xl font-bold font-num mb-2">
           Explore Us
         </h2>
@@ -15,7 +15,7 @@ const Explore = () => {
           Join Ddate To Explore The Opportunities
         </p>
         <div className="relative flex justify-center items-center w-full">
-          <p className="border-t mx-32 border-black w-full md:w-3/4 lg:w-2/3"></p>
+          <p className="border-t border-black mx-4 sm:mx-10 md:mx-20 lg:mx-60 w-full"></p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="19"
@@ -32,10 +32,10 @@ const Explore = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center my-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 w-full px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full px-6">
             {/* Friendships */}
             <div className="flex items-center text-start sm:space-x-6 mt-8 mb-16 relative">
-              <div className="w-44 h-44 bg-yellow-400 rounded-full relative">
+              <div className="w-40 h-40 bg-yellow-400 rounded-full relative">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={friendshipImage}
@@ -48,15 +48,16 @@ const Explore = () => {
                   Friendships
                 </p>
                 <p className="text-black text-sm font-light max-w-xs">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                  Build meaningful connections and lasting friendships with
+                  people who share your interests and values. Discover new
+                  friends who enrich your life.
                 </p>
               </div>
             </div>
 
             {/* Dating */}
             <div className="flex items-center text-start sm:space-x-6 mt-8 mb-16">
-              <div className="w-44 h-44 bg-custom-orange rounded-full relative">
+              <div className="w-40 h-40 bg-custom-orange rounded-full relative">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={datingImage}
@@ -66,15 +67,16 @@ const Explore = () => {
               <div>
                 <p className="text-2xl text-black mb-2 font-bold">Dating</p>
                 <p className="text-black text-sm font-light max-w-xs">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                  Find your perfect match and go on exciting dates. Connect with
+                  like-minded individuals who are looking for meaningful
+                  relationships.
                 </p>
               </div>
             </div>
 
             {/* Marriage */}
-            <div className="flex items-center text-start sm:space-x-6 mb-20">
-              <div className="w-44 h-44 bg-custom-red rounded-full relative">
+            <div className="flex items-center text-start sm:space-x-6 mb-16">
+              <div className="w-40 h-40 bg-custom-red rounded-full relative">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={marriageImage}
@@ -84,15 +86,15 @@ const Explore = () => {
               <div>
                 <p className="text-2xl text-black mb-2 font-bold">Marriage</p>
                 <p className="text-black text-sm font-light max-w-xs">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                  Take the next step and build a future together. Meet someone
+                  special who's ready for a lifelong commitment.
                 </p>
               </div>
             </div>
 
             {/* Networking */}
-            <div className="flex items-center text-start sm:space-x-6 mb-20">
-              <div className="w-44 h-44 bg-custom-purple rounded-full relative">
+            <div className="flex items-center text-start sm:space-x-6 mb-16">
+              <div className="w-40 h-40 bg-custom-purple rounded-full relative">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={networkingImage}
@@ -102,8 +104,9 @@ const Explore = () => {
               <div>
                 <p className="text-2xl text-black mb-2 font-bold">Networking</p>
                 <p className="text-black text-sm font-light max-w-xs">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                  Expand your professional network and connect with
+                  professionals in your industry. Build valuable connections
+                  that can help you grow in your career.
                 </p>
               </div>
             </div>

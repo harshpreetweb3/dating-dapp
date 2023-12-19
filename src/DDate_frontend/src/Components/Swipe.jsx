@@ -658,7 +658,7 @@ function Swipe() {
 
                 <div className="mt-4 ml-4 absolute bottom-16 left-0 text-white">
                   {/* <img src={character.images[0]}></img> */}
-                  <h2 className="text-4xl font-bold text-white">{character.name}</h2>
+                  {/* <h2 className="text-4xl font-bold text-white">{character.name}</h2> */}
                   
                   <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018]">{character.name}</h2>
                   <p className="text-lg text-gray-700 font-bold ">{character.location}</p>

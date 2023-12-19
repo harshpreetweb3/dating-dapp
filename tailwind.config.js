@@ -7,7 +7,7 @@
       extend: {
         fontFamily: {
           custom: ['Poppins', 'Helvetica', 'sans-serif'],
-          num: ['Poppins','Helvetica'],
+          num: ['Poppins'],
 
         },
         fontWeight: {

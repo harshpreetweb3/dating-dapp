@@ -2,15 +2,19 @@ import React from "react";
 
 const MemberStatistics = () => {
   return (
-    <div className="bg-yellow-500 flex flex-wrap justify-around items-center p-4">
+    <div className="font-num flex  flex-wrap w-full px-36 items-center p-4 "
+    style={{
+      background: "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #E28110 0%, #26011C 100%)"
+    }}
+    >
       {/* Adjust width and padding for each stat block for different breakpoints */}
-      <div className="w-full sm:w-1/2 lg:w-1/4 flex flex-col items-center p-2 md:p-4">
+      <div className="w-full sm:w-1/2 lg:w-1/4 flex flex-col items-center p-2 md:p-2">
         {/* SVG and layout adjustments */}
-        <div className="w-28 h-28 md:w-44 md:h-44 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
          <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="78"
-            height="63"
+            width="68"
+            height="56"
             viewBox="0 0 78 63"
             fill="none"
           >
@@ -19,17 +23,17 @@ const MemberStatistics = () => {
               fill="black"
             />
           </svg>        </div>
-          <p className="text-black font-bold text-base md:text-lg lg:text-xl mt-2">
+          <p className="text-white font-bold text-base md:text-lg lg:text-xl mt-2">
           Total Members
         </p>
       </div>
 
       <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center p-4">
-        <div className="w-28 h-28 md:w-44 md:h-44 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="81"
-            height="81"
+            width="68"
+            height="56"
             viewBox="0 0 81 81"
             fill="none"
           >
@@ -38,17 +42,17 @@ const MemberStatistics = () => {
               fill="black"
             />
           </svg>        </div>
-          <p className="text-black font-bold text-base md:text-lg lg:text-xl mt-2">
+          <p className="text-white font-bold text-base md:text-lg lg:text-xl mt-2">
           Premium Members
         </p>
       </div>
 
       <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center p-4">
-        <div className="w-28 h-28 md:w-44 md:h-44 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
  <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="87"
-            height="87"
+            width="68"
+            height="56"
             viewBox="0 0 87 87"
             fill="none"
           >
@@ -67,15 +71,15 @@ const MemberStatistics = () => {
               strokeLinejoin="round"
             />
           </svg>        </div>
-          <p className="text-black font-bold text-base md:text-lg lg:text-xl mt-2">Men</p>
+          <p className="text-white font-bold text-base md:text-lg lg:text-xl mt-2">Men</p>
       </div>
 
       <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center p-4">
-        <div className="w-28 h-28 md:w-44 md:h-44 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
  <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="96"
-            height="96"
+             width="68"
+            height="56"
             viewBox="0 0 96 96"
             fill="none"
           >
@@ -94,7 +98,7 @@ const MemberStatistics = () => {
               strokeLinejoin="round"
             />
           </svg>        </div>
-          <p className="text-black font-bold text-base md:text-lg lg:text-xl mt-2">
+          <p className="text-white font-bold text-base md:text-lg lg:text-xl mt-2">
           Women</p>
       </div>
     </div>
