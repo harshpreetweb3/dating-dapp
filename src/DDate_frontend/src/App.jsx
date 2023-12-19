@@ -10,7 +10,7 @@ import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
 // import MessagePage from "./Components/MessagePage";
-import ProfileViewer from './Components/ProfileViewer'; 
+import ProfileViewer from './Components/ProfileViewer';
 
 
 const App = () => {
@@ -19,15 +19,18 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/CreateAccount1" element={<CreateAccount1 />} />
+        
         <Route path="/CreateAccount2" element={<CreateAccount2 />} />
-        <Route path="/CreateAccount3" element={<CreateAccount3/>} />
-        <Route path="/CreateAccount4" element={<CreateAccount4/>} />
-        <Route path="/CreateAccount5" element={<CreateAccount5/>} /> 
-       <Route path="/Swipe" element={<Swipe/>} /> 
-         <Route path="/Profile" element={<Profile/>} />
-        <Route path="/Notification" element={<Notification/>} />
+        <Route path="/CreateAccount3" element={<CreateAccount3 />} />
+        <Route path="/CreateAccount4" element={<CreateAccount4 />} />
+        
+        <Route path="/CreateAccount5" element={<CreateAccount5 />} />
+        <Route path="/Swipe" element={<Swipe />} />
+       
+        <Route path="/Profile" element={<Profile />} />
+        <Route path="/Notification" element={<Notification />} />
         {/* <Route path="/MessagePage" element={<MessagePage/>} /> */}
-        <Route path="/profile/:senderId" element={<ProfileViewer/>} />
+        <Route path="/profile/:senderId" element={<ProfileViewer />} />
 
       </Routes>
     </>

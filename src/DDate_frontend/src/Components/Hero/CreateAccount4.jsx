@@ -68,7 +68,7 @@ const CreateAccount4 = () => {
     navigate("/CreateAccount5");
   };
   return (
-    <div className="flex w-full h-screen md:flex-row">
+    <div className="flex w-full h-screen md:flex-row font-num">
       {/* Image container for larger screens */}
       <div
         className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
@@ -104,7 +104,7 @@ const CreateAccount4 = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
             Allow us to know you
           </h2>
-          <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div>
+          <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
           <form
             className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none"
@@ -115,7 +115,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Art & Culture (select any 2)
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2  rounded-3xl">
                 {[
                   "Drawing",
                   "Visiting Museum",
@@ -151,7 +151,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Pets
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {["Dogs", "Cats", "Birds", "Others"].map((pets) => (
                   <label
                     key={pets}
@@ -178,7 +178,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
                 General Habbits
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {["Early rise", "lazy", "Night owl", "Activ"].map((habbits) => (
                   <label
                   key={habbits}
@@ -208,7 +208,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Outdoor Activities(select any 2)
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {[
                   "Hiking",
                   "Trekking",
@@ -246,7 +246,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Movies(select any 2)
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
                   "Animated",
                   "Action",
@@ -286,7 +286,7 @@ const CreateAccount4 = () => {
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
                 Travel(select any 2)
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {[
                   "Mountains",
                   "Beach",
@@ -321,7 +321,7 @@ const CreateAccount4 = () => {
             <div className="flex justify-between mt-6">
               <button
                 type="button"
-                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-gray-400 border border-white md:border-black"
+                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded  hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
                 onClick={backpageHandler}
               >
                 Back
