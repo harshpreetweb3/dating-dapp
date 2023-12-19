@@ -4,8 +4,11 @@ import { Principal } from "@dfinity/principal";
 import back from "../../assets/Images/CreateAccount/back.svg";
 import { useNavigate } from "react-router-dom";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
+import Loader from "./Loader";
 
 const Profile = () => {
+  const [loader, setLoader] = useState(false);
+
 
   const [formData, setFormData] = useState({
     gender: "",
@@ -25,8 +28,14 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    setLoader(true);
+
     
+    
+
     const principalString = localStorage.getItem("id");
+
     // const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
     console.log(principalString);
 
@@ -48,6 +57,7 @@ const Profile = () => {
             gender_pronouns: userProfileData.gender_pronouns || "",
           });
 
+          
 
 
 
@@ -57,10 +67,13 @@ const Profile = () => {
       };
 
       fetchUserProfile();
+      setLoader(false);
+
     } else {
       console.warn("Principal string is null or empty.");
     }
   }, []);
+  
 
 
   function convertStringToPrincipal(principalString) {
@@ -159,6 +172,8 @@ const Profile = () => {
     try {
       await DDate_backend.update_profile(updatedProfileData);
       navigate("/Swipe");
+     
+
     } catch (error) {
       console.error("Error sending data to the backend:", error);
     }
@@ -171,7 +186,10 @@ const Profile = () => {
       <div className="col-span-3">
         <SidebarComponent />
       </div>
-      <div className="col-span-9 flex flex-col justify-center">
+
+{loader ?
+<Loader/>:
+<div className="col-span-9 flex flex-col justify-center">
         <div className="flex items-center mt-10 ml-10 gap-2 mb-4">
           <img
             src={back}
@@ -244,7 +262,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full max-w-lg font-num">
+        <form onSubmit={handleSubmit} className="w-full max-w-lg font-num" style={{marginLeft: "203px"}}>
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center">
               <label htmlFor="gender" className="text-lg" style={{fontWeight: 600}}>
@@ -337,6 +355,11 @@ const Profile = () => {
           </div>
         </form>
       </div>
+
+
+}
+
+      
     </div>
   );
 };
