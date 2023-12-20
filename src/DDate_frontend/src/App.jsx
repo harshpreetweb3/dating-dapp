@@ -9,28 +9,27 @@ import CreateAccount5 from "./Components/Hero/CreateAccount5";
 import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
-// import MessagePage from "./Components/MessagePage";
-import ProfileViewer from './Components/ProfileViewer';
+import ChattingPage from "./Components/Chatting/ChattingPage";
+import ProfileViewer from './Components/ProfileViewer'; 
 
+// ?canisterId=be2us-64aaa-aaaaa-qaabq-cai
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+         {/* <Route path="/" element={<HomePage />} />
         <Route path="/CreateAccount1" element={<CreateAccount1 />} />
         
         <Route path="/CreateAccount2" element={<CreateAccount2 />} />
-        <Route path="/CreateAccount3" element={<CreateAccount3 />} />
-        <Route path="/CreateAccount4" element={<CreateAccount4 />} />
-        
-        <Route path="/CreateAccount5" element={<CreateAccount5 />} />
-        <Route path="/Swipe" element={<Swipe />} />
-       
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/Notification" element={<Notification />} />
-        {/* <Route path="/MessagePage" element={<MessagePage/>} /> */}
-        <Route path="/profile/:senderId" element={<ProfileViewer />} />
+        <Route path="/CreateAccount3" element={<CreateAccount3/>} />
+        <Route path="/CreateAccount4" element={<CreateAccount4/>} />
+        <Route path="/CreateAccount5" element={<CreateAccount5/>} />    */}
+        <Route path="/" element={<Swipe/>} /> 
+         <Route path="/Profile" element={<Profile/>} />
+        <Route path="/Notification" element={<Notification/>} />
+        <Route path="/ChattingPage" element={<ChattingPage/>} />
+        <Route path="/profile/:senderId" element={<ProfileViewer/>} /> 
 
       </Routes>
     </>

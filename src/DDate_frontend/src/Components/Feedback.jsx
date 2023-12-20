@@ -7,31 +7,32 @@ import p3 from "../../assets/Images/FeedbackImages/p3.svg";
 const Feedback = () => {
   const feedbackData = [
     {
-      image: p1,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+      name:'Camilla',
+      description: "I had an amazing experience using the app! The user interface is so user-friendly, and I quickly found new friends.",
     },
     {
-      image: p2,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+      name: 'Eliana',
+      description: "The app has exceeded my expectations. It's not just about dating; it's about meaningful connections. Thanks to this app, I met someone special.",
     },
     {
-      image: p3,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+      name: 'Antonio',
+      description: "I've been using this app for a while now, and it has helped me expand my professional network significantly. It's a game-changer!",
     },
   ];
 
   return (
     <>
-      <div className="bg-white flex flex-col items-center w-full mt-20 px-4 md:px-6 lg:px-8">
-        <h2 className="text-center text-black text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+      <div className="bg-white flex font-num flex-col items-center w-full mt-14 px-4 md:px-6 lg:px-8">
+        <h2 className="text-center text-black text-3xl md:text-4xl lg:text-4xl font-bold mb-2 ">
           Happy Customers
         </h2>
-        <p className="font-custom text-center text-black text-base md:text-lg lg:text-xl font-light max-w-4xl mx-auto mb-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit
-        </p>
+        <p className="font-custom text-center text-black text-lg font-light max-w-4xl mx-auto mb-5">
+        Discover what our users have to say about their experiences:
+
+</p>
 
         <div className="relative flex justify-center items-center w-full mb-16">
-          <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
+        <p className="border-t border-black mx-4 sm:mx-10 md:mx-20 lg:mx-60 w-full"></p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="19"
@@ -51,11 +52,14 @@ const Feedback = () => {
           {feedbackData.map((feedback, index) => (
             <div
               key={index}
-              className="bg-feedbackColor border border-gray-300 rounded-lg p-4"
+              className="bg-gray-100 shadow-lg border border-gray-300 rounded-lg p-4"
             >
               <div className="flex justify-between items-center">
                 <div className="flex-shrink-0">
-                  <svg
+                 {feedback.name}
+                </div>
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="40"
                     height="37"
@@ -68,13 +72,6 @@ const Feedback = () => {
                     />
                   </svg>
                 </div>
-                <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img
-                    src={feedback.image}
-                    alt="Feedback Image"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
               </div>
               <p className="text-black text-sm md:text-base font-light mt-2">
                 {feedback.description}
@@ -82,9 +79,9 @@ const Feedback = () => {
             </div>
           ))}
         </div>
-        <div className="bg-yellow-400 rounded-full py-2 px-4 md:px-8 lg:px-12 mb-10">
+        {/* <div className="bg-yellow-400 rounded-full py-2 px-4 md:px-8 lg:px-12 mb-10">
           <button className="text-sm md:text-base lg:text-lg">Read More</button>
-        </div>
+        </div> */}
       </div>
     </>
   );

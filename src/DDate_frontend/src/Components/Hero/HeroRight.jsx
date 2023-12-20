@@ -57,39 +57,39 @@ const HeroRight = () => {
  
 
   return (
-    <div className="relative w-full lg:w-1/2 h-auto flex flex-col justify-center items-center p-4 lg:p-8">
+    <div className="relative w-full lg:w-3/5 h-auto flex flex-col justify-center items-center p-4 lg:p-8">
       {isUserLoggedIn && (
         <img 
           src={createPageImage} 
           alt="Logout" 
           onClick={toggleLogoutModal}
-          className="rounded-full h-12 w-12 flex items-center justify-center text-black cursor-pointer absolute right-5 top-5"
+          className="rounded-full h-12 w-12 flex items-center justify-center text-black cursor-pointer absolute right-8 top-6"
         />
       )}
         <div className="text-center mx-auto mt-4 md:mt-10">
-        <h1 className="font-custom-weight text-3xl md:text-5xl font-black mb-2">
+        <h1 className="font-num text-3xl md:text-6xl  font-semibold mb-2">
           Find Your Perfect
         </h1>
-        <h1 className="font-custom-weight text-3xl md:text-5xl font-black mb-4">
+        <h1 className="font-custom-weight font-num text-3xl md:text-6xl  font-semibold mb-4">
           Match
         </h1>
-        <p className="font-custom font-thin mb-1">
-          Connecting Blocks, Connecting Hearts: Where{" "}
+        <p className="font-num font-normal mb-1">
+        Building Bridges, Building Bonds: Where 
         </p>
-        <p className="font-custom font-thin mb-20">
-          Blockchain Meets Relationships
-        </p>
+        <p className="font-num font-normal mb-auto md:mb-20">
+        Blockchain and Relationships Converge    
+            </p>
         <button 
           onClick={toggleWalletModal} 
           disabled={isUserLoggedIn} 
-          className={`font-custom font-thin text-base py-2 px-8 md:px-14 mt-10 rounded-full mr-4 mb-4 
-                      ${isUserLoggedIn ? 'bg-gray-400 text-gray-500 cursor-not-allowed' : 'bg-yellow-400 hover:bg-black text-black hover:text-white'}`}
+          className={`font-num text-sm  py-2 px-8 md:px-20 mt-10 rounded-full mr-4  mb-10
+                      ${isUserLoggedIn ? 'bg-gray-400 text-gray-200 cursor-not-allowed' : 'bg-yellow-400 hover:bg-black text-black hover:text-white'}`}
         >
           Connect Wallet
         </button>
-        <button onClick={createAccountHandler} className="font-custom font-thin text-base bg-green-400 hover:bg-black text-black hover:text-white py-2 px-8 md:px-14 mt-10 rounded-full mr-4 mb-4">
+        {/* <button onClick={createAccountHandler} className="font-num font-thin text-base bg-green-400 hover:bg-black text-black hover:text-white py-2 px-8 md:px-14 mt-10 rounded-full mr-4 mb-4">
           create account
-        </button> 
+        </button>  */}
          {/* <button onClick={uploadHandler}>upload</button> */}
       </div>
       <WalletModal isOpen={isWalletModalOpen} onClose={toggleWalletModal} />

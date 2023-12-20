@@ -1,18 +1,17 @@
 import React from "react";
 // import userpic from "../../assets/Images/UserProfiles/userpic.svg";
 import logo from "../../assets/Images/CreateAccount/logo.png";
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { useNavigate } from "react-router-dom";
-import { Principal } from '@dfinity/principal';
+import { Principal } from "@dfinity/principal";
 
 const SidebarComponent = () => {
-
   const [formData, setFormData] = useState({
     preferred_location: "",
     interests_in: "",
     location: "",
-    max_preferred_age:"",
+    max_preferred_age: "",
     min_preferred_age: "",
     images: null,
     combinedAge: "",
@@ -20,17 +19,16 @@ const SidebarComponent = () => {
     // gender_pronouns: "",
   });
 
-
   const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    
     const principalString = localStorage.getItem("id");
     console.log(principalString);
-    
+
     if (principalString) {
       const newPrincipal = convertStringToPrincipal(principalString);
       setPrincipal(newPrincipal);
@@ -38,14 +36,17 @@ const SidebarComponent = () => {
       const fetchUserProfile = async () => {
         try {
           const userProfileData = await DDate_backend.get_profile(newPrincipal);
-          console.log("userProfileData ==>>>> ",userProfileData)
+          console.log("userProfileData ==>>>> ", userProfileData);
           setFormData({
             preferred_location: userProfileData.preferred_location || "",
             interests_in: userProfileData.interests_in || "",
             location: userProfileData.location || "",
             max_preferred_age: userProfileData.max_preferred_age || "",
             min_preferred_age: userProfileData.min_preferred_age || "",
-            combinedAge: userProfileData.min_preferred_age + "-" + userProfileData.max_preferred_age,
+            combinedAge:
+              userProfileData.min_preferred_age +
+              "-" +
+              userProfileData.max_preferred_age,
             images: userProfileData.images || null,
             // gender_pronouns: userProfileData.gender_pronouns || "",
           });
@@ -60,8 +61,7 @@ const SidebarComponent = () => {
     }
   }, []);
 
- 
- function convertStringToPrincipal(principalString) {
+  function convertStringToPrincipal(principalString) {
     try {
       const principal = Principal.fromText(principalString);
       console.log("Converted Principal: ", principal.toText());
@@ -72,13 +72,12 @@ const SidebarComponent = () => {
     }
   }
 
- const handleFormChange = (e) => {
+  const handleFormChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "preferAge") {
-
       let minAge, maxAge;
-    if (formData.combinedAge === "above 30") {
+      if (formData.combinedAge === "above 30") {
         minAge = 30;
         maxAge = 60;
       } else {
@@ -97,58 +96,74 @@ const SidebarComponent = () => {
     }
   };
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setImageError(false);
-  
+
     // Check if the image is provided
     // if (!formData.images && !userProfile?.images) {
     //   setImageError(true);
     //   return;
     // }
-  
 
     // Construct updated profile data with original data as fallback
     const updatedFilterData = {
       id: principal,
-      new_preferred_location: formData.preferred_location !== userProfile?.preferred_location ? [formData.preferred_location] : [userProfile?.preferred_location],
-      new_interests_in: formData.interests_in !== userProfile?.interests_in ? [formData.interests_in] : [userProfile?.interests_in],
-      new_location: formData.location !== userProfile?.location ? [formData.location] : [userProfile?.location],
-      new_max_preferred_age: formData.max_preferred_age !== userProfile?.max_preferred_age ? [Number(formData.max_preferred_age) ]: [userProfile?.max_preferred_age],
-      new_min_preferred_age: formData.min_preferred_age !== userProfile?.min_preferred_age ? [Number(formData.min_preferred_age)] : [userProfile?.min_preferred_age],
+      new_preferred_location:
+        formData.preferred_location !== userProfile?.preferred_location
+          ? [formData.preferred_location]
+          : [userProfile?.preferred_location],
+      new_interests_in:
+        formData.interests_in !== userProfile?.interests_in
+          ? [formData.interests_in]
+          : [userProfile?.interests_in],
+      new_location:
+        formData.location !== userProfile?.location
+          ? [formData.location]
+          : [userProfile?.location],
+      new_max_preferred_age:
+        formData.max_preferred_age !== userProfile?.max_preferred_age
+          ? [Number(formData.max_preferred_age)]
+          : [userProfile?.max_preferred_age],
+      new_min_preferred_age:
+        formData.min_preferred_age !== userProfile?.min_preferred_age
+          ? [Number(formData.min_preferred_age)]
+          : [userProfile?.min_preferred_age],
       // new_introduction: formData.introduction !== userProfile?.introduction ? [formData.introduction] : [userProfile?.introduction],
-      new_introduction: userProfile?.introduction|| [],
-      images: userProfile?.images|| [],
-      new_dob: userProfile?.dob|| [],
-      new_religion: userProfile?.religion||[],
-      new_height: userProfile?.height||[],
-      new_zodiac: userProfile?.zodiac||[],
-      new_diet: userProfile?.diet||[],
-      new_occupation: userProfile?.occupation||[],
-      new_looking_for: userProfile?.looking_for||[],
-      new_smoking: userProfile?.smoking||[],
-      new_drinking: userProfile?.drinking||[],
-      new_hobbies:userProfile?.hobbies||[],
-      new_sports: userProfile?.sports||[],
-      new_art_and_culture: userProfile?.art_and_culture||[],
-      new_pets: userProfile?.pets||[],
-      new_general_habits: userProfile?.general_habits||[],
-      new_outdoor_activities: userProfile?.outdoor_activities||[],
-      new_travel: userProfile?.travel||[],
-      new_movies: userProfile?.movies||[],
-      new_gender: userProfile?.gender||[],
-      new_age: userProfile?.age||[],
-      new_email: userProfile?.email||[],
-      new_gender_pronouns: userProfile?.gender_pronouns||[],
-      new_mobile_number: userProfile?.mobile_number||[],
-      new_preferred_gender: userProfile?.preferred_gender||[],
-      new_name: userProfile?.name||[],
-      new_matched: userProfile?.matched||[]
+      new_introduction: userProfile?.introduction || [],
+      images: userProfile?.images || [],
+      new_dob: userProfile?.dob || [],
+      new_religion: userProfile?.religion || [],
+      new_height: userProfile?.height || [],
+      new_zodiac: userProfile?.zodiac || [],
+      new_diet: userProfile?.diet || [],
+      new_occupation: userProfile?.occupation || [],
+      new_looking_for: userProfile?.looking_for || [],
+      new_smoking: userProfile?.smoking || [],
+      new_drinking: userProfile?.drinking || [],
+      new_hobbies: userProfile?.hobbies || [],
+      new_sports: userProfile?.sports || [],
+      new_art_and_culture: userProfile?.art_and_culture || [],
+      new_pets: userProfile?.pets || [],
+      new_general_habits: userProfile?.general_habits || [],
+      new_outdoor_activities: userProfile?.outdoor_activities || [],
+      new_travel: userProfile?.travel || [],
+      new_movies: userProfile?.movies || [],
+      new_gender: userProfile?.gender || [],
+      new_age: userProfile?.age || [],
+      new_email: userProfile?.email || [],
+      new_gender_pronouns: userProfile?.gender_pronouns || [],
+      new_mobile_number: userProfile?.mobile_number || [],
+      new_preferred_gender: userProfile?.preferred_gender || [],
+      new_name: userProfile?.name || [],
+      new_matched: userProfile?.matched || [],
     };
-  
 
-    console.log("updatedFilterData =>", updatedFilterData)
+    console.log("updatedFilterData =>", updatedFilterData);
     try {
       await DDate_backend.update_profile(updatedFilterData);
       navigate("/Swipe");
@@ -157,12 +172,15 @@ const SidebarComponent = () => {
     }
   };
 
-
   return (
     <aside
-      className="w-80 h-screen fixed flex flex-col items-center py-4 bg-gradient-to-b from-[#DB7D11] to-[#6B3018] overflow-y-auto overflow-hidden" // aria-label="Sidebar"
+      className="w-80 h-screen fixed font-num flex flex-col items-center justify-center py-4 bg-gradient-to-b from-[#DB7D11] to-[#6B3018] overflow-y-auto overflow-hidden"
+      style={{
+        scrollbarWidth: "thin",
+        scrollbarColor: "transparent transparent",
+      }}
     >
-      <div className="mb-6">
+      <div className="mb-6 mt-32">
         <img
           className="h-20 w-20 rounded-full border-2 border-white"
           src={logo}
@@ -171,21 +189,23 @@ const SidebarComponent = () => {
       </div>
       <ul className="w-full text-center">
         <li className="ml-4 mb-2 flex flex-row ">
-        {formData.images ? ( 
-                <img src={formData.images || 'https://via.placeholder.com/150'} alt="Profile"
-                  className="rounded-full w-10 h-10  object-cover border-2 border-white"
-                  style={{ marginTop: "-10px" }}
-                />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-gray-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                ></svg>
-              )}
+          {formData.images ? (
+            <img
+              src={formData.images || "https://via.placeholder.com/150"}
+              alt="Profile"
+              className="rounded-full w-10 h-10  object-cover border-2 border-white"
+              style={{ marginTop: "-10px" }}
+            />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            ></svg>
+          )}
           <button
-            onClick={()=> navigate("/Profile") }
+            onClick={() => navigate("/Profile")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400 "
           >
             <span>My Profile</span>
@@ -210,7 +230,7 @@ const SidebarComponent = () => {
           </div>
 
           <button
-            onClick={()=>navigate("/Notification")}
+            onClick={() => navigate("/Notification")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400"
           >
             <span>Notification</span>
@@ -234,14 +254,20 @@ const SidebarComponent = () => {
             />
           </svg>
           <button
-            onClick={()=>navigate("/ChattingPage")}
+            onClick={() => navigate("/ChattingPage")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400"
           >
             <span>Messages</span>
           </button>
         </li>
 
-        <li className=" mb-2 flex flex-row items-center bg-yellow-500 py-1">
+        <li
+          className=" mb-2 flex flex-row items-center bg-yellow-500 py-1"
+          style={{
+            background:
+              "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -280,10 +306,10 @@ const SidebarComponent = () => {
           </a>
         </li>
       </ul>
-      
+
       <form onSubmit={handleSubmit}>
-      <div className="flex flex-col mb-2 ml-4 text-white">
-        <fieldset className="mb-1">
+        <div className="flex flex-col mb-2 ml-4 text-white">
+          <fieldset className="mb-1">
             <legend className="font-bold p-2 text-base rounded">
               Your interests in
             </legend>
@@ -304,73 +330,80 @@ const SidebarComponent = () => {
             </div>
           </fieldset>
 
-        <fieldset className="mb-1">
-        <legend className="font-bold p-2 text-base rounded">
-            Preferred age
-          </legend>
-          <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light	text-sm">
-            {["18-20", "20-25", "25-30", "above 30"].map((preferAge) => (
-              <label key={preferAge} className="flex items-center">
-                <input
-                  type="radio"
-                  name="preferAge"
-                  value={preferAge}
-                  onChange={handleFormChange}
-                  checked={formData.combinedAge === preferAge}
-                  style={{ marginRight: "0.5rem" }}
-                />
-                {preferAge}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-      </div>
+          <fieldset className="mb-1">
+            <legend className="font-bold p-2 text-base rounded">
+              Preferred age
+            </legend>
+            <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light	text-sm">
+              {["18-20", "20-25", "25-30", "above 30"].map((preferAge) => (
+                <label key={preferAge} className="flex items-center">
+                  <input
+                    type="radio"
+                    name="preferAge"
+                    value={preferAge}
+                    onChange={handleFormChange}
+                    checked={formData.combinedAge === preferAge}
+                    style={{ marginRight: "0.5rem" }}
+                  />
+                  {preferAge}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
 
-      <div className="mb-6">
-        <label
-          htmlFor="location"
-          className="block text-base  font-bold mb-1 ml-1 text-white"
-        >
-          Location
-        </label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          placeholder="Your Location"
-          value={formData.location}
-          onChange={handleFormChange}
-          className="w-full px-2 py-2 rounded-full border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
-        />
-      </div>
+        <div className="mb-3 ml-4">
+          <label
+            htmlFor="location"
+            className="block text-base  font-bold mb-1 ml-1 text-white"
+          >
+            Location
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="Your Location"
+            value={formData.location}
+            onChange={handleFormChange}
+            className="w-11/12 px-2 py-2 rounded-full text-sm border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
+          />
+        </div>
 
-      <div className="mb-6">
-        <label
-          htmlFor="preferred_location"
-          className="block text-base  font-bold mb-1 ml-1 text-white"
-        >
-          Preferred Location
-        </label>
-        <input
-          type="text"
-          id="preferred_location"
-          name="preferred_location"
-          placeholder="Your Preferred Location"
-          value={formData.preferred_location}
-          onChange={handleFormChange}
-          className="w-full px-2 py-2 rounded-full border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
-        />
-      </div>
+        <div className="mb-6 ml-4">
+          <label
+            htmlFor="preferred_location"
+            className="block text-base  font-bold mb-1 ml-1 text-white"
+          >
+            Preferred Location
+          </label>
+          <input
+            type="text"
+            id="preferred_location"
+            name="preferred_location"
+            placeholder="Your Preferred Location"
+            value={formData.preferred_location}
+            onChange={handleFormChange}
+            className="w-11/12 px-2 py-2 rounded-full text-sm border border-white bg-transparent text-white font-num  focus:ring-yellow-500 focus:border-yellow-500"
+          />
+        </div>
 
-      <button
-        type="submit"
-        className="bg-yellow-500 text-black font-light justify-center font-sm py-2 px-16 rounded-full hover:bg-yellow-600"
-        // onClick={nextPageHandler}
-        //onClick={() => navigate("/Swipe")}
-        onClick={() => navigate("/Swipe", { state: { forceRerender: Date.now() } })}
-      >
-        Apply
-      </button>
+        <div className="flex flex-col items-center">
+  {/* ... other form elements ... */}
+  <button
+    type="submit"
+    className="text-black hover:text-white font-normal py-2 px-20 text-sm rounded-full"
+    style={{
+      background:
+        "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
+    }}
+    onClick={() =>
+      navigate("/Swipe", { state: { forceRerender: Date.now() } })
+    }
+  >
+    Apply
+  </button>
+</div>
       </form>
     </aside>
   );
