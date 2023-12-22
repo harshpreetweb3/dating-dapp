@@ -17,10 +17,8 @@ const CreateAccount5 = () => {
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imageError, setImageError] = useState(false);
+  const [isButtonDisable, setIsButtonDisable]= useState(false)
 
-  const backpageHandler = () => {
-    navigate("/CreateAccount4");
-  };
 
   useEffect(() => {
     const savedData = localStorage.getItem("form5");
@@ -70,6 +68,8 @@ const CreateAccount5 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsButtonDisable(!isButtonDisable);
 
     if (imageFiles.length === 0) {
       setImageError(true);
@@ -170,7 +170,7 @@ const CreateAccount5 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -210,7 +210,7 @@ const CreateAccount5 = () => {
                 Your intrests in
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
-                {["Men", "Women", "All"].map((intrests) => (
+                {["Male", "Female", "All"].map((intrests) => (
                   <label
                     key={intrests}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
@@ -369,13 +369,14 @@ const CreateAccount5 = () => {
               <button
                 type="button"
                 className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
-                onClick={backpageHandler}
+                onClick={()=>navigate("/CreateAccount4")}
               >
                 Back
               </button>
               <button
                 type="submit"
                 className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600"
+                disabled={isButtonDisable}
               >
                 Save and Start
               </button>

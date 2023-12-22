@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
 
 const CreateAccount2 = () => {
@@ -11,13 +11,12 @@ const CreateAccount2 = () => {
     selectedFooding: "",
     selectedWhatYouDo: "",
     selectedlookingFor: "",
-    selectedHeight:0,
-    selectedZodiac:''
+    selectedHeight: 0,
+    selectedZodiac: "",
   });
 
-
   const backpageHandler = () => {
-    navigate('/CreateAccount1');
+    navigate("/CreateAccount1");
   };
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const CreateAccount2 = () => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,201 +38,252 @@ const CreateAccount2 = () => {
     navigate("/CreateAccount3");
   };
 
-  
-
   return (
     <div className="flex w-full h-screen md:flex-row font-num">
-    {/* Image container for larger screens */}
-    <div className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0" style={{ backgroundImage: `url(${createAccountImage})` }}>
-     
-    <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
-  <div className="w-full max-w-xl mx-auto text-left">
-    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Create Your</h1>
-    <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">account here</h2>
-    <p className="text-white text-bold md:text-2xl">Welcome ..</p>
-    <p className="text-white font-light md:text-xl">Complete Your Profile Here.</p>
-    <p className="text-white font-extralight md:text-lg">Tell us about yourself and let us help you finding the perfect match</p>
-    <p className='italic text-yellow-700 md:text-lg'>Good Luck!</p>
-  </div>
-</div>
-     
-      {/* Image Overlay for smaller screens */}
-      <div className="w-full h-full bg-black opacity-50 md:opacity-0"></div>
-    </div>
+      {/* Image container for larger screens */}
+      <div
+        className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
+        style={{ backgroundImage: `url(${createAccountImage})` }}
+      >
+        <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
+          <div className="w-full max-w-xl mx-auto text-left">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto">
+              Create Your
+            </h1>{" "}
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
+              account here
+            </h2>
+            <p className="text-white text-bold md:text-2xl">Welcome ..</p>
+            <p className="text-white font-light md:text-xl">
+              Complete Your Profile Here.
+            </p>
+            <p className="text-white font-extralight md:text-lg">
+              Tell us about yourself and let us help you finding the perfect
+              match
+            </p>
+            <p className="italic text-yellow-700 md:text-lg">Good Luck!</p>
+          </div>
+        </div>
 
-    {/* Form container */}
-    <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
-      <div className="w-full max-w-md my-10">
-      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">Allow us to know you</h2>
-        {/* <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div> */}
-        <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
-        <form className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none" onSubmit={handleSubmit}>
-       
+        {/* Image Overlay for smaller screens */}
+        <div className="w-full h-full bg-black opacity-50 md:opacity-0"></div>
+      </div>
+
+      {/* Form container */}
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
+        <div className="w-full max-w-md my-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
+            Allow us to know you
+          </h2>
+          {/* <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div> */}
+          <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
+          <form
+            className="w-full max-w-lg rounded-lg p-6 shadow-md md:bg-transparent md:shadow-none"
+            onSubmit={handleSubmit}
+          >
             {/* Gender Selection */}
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Gender Pronouns</legend>
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
+                Gender Pronouns
+              </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-0 rounded-3xl">
-                {['He/His', 'She/Her', 'They/Them'].map((genPro) => (
-                   <label
-                   key={genPro}
-                   className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                     formData.genderPronouns === genPro
-                       ? "bg-yellow-500 text-black"
-                       : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                   }`}
-                 >
-                   <input
-                     type="radio"
-                     name="genderPronouns"
-                     value={genPro}
-                     onChange={handleFormChange}
-                     style={{ display: "none" }} 
-                   />
-                   {genPro}
-                 </label>
-               ))}
-             </div>
-           </fieldset>
-
-
-            <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">Religion</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
-                {['Hindu', 'Muslim', 'Sikh', 'Christian', 'Others'].map((religion) => (
+                {["He/His", "She/Her", "They/Them"].map((genPro) => (
                   <label
-                  key={religion}
-                  className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                    formData.selectedReligion === religion
-                      ? "bg-yellow-500 text-black"
-                      : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                  }`}
+                    key={genPro}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.genderPronouns === genPro
+                        ? "bg-yellow-500 text-black"
+                        : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="genderPronouns"
+                      value={genPro}
+                      onChange={handleFormChange}
+                      style={{ display: "none" }}
+                    />
+                    {genPro}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
+                Religion
+              </legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
+                {["Hindu", "Muslim", "Sikh", "Christian", "Others"].map(
+                  (religion) => (
+                    <label
+                      key={religion}
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                        formData.selectedReligion === religion
+                          ? "bg-yellow-500 text-black"
+                          : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="selectedReligion"
+                        value={religion}
+                        onChange={handleFormChange}
+                        style={{ display: "none" }}
+                      />
+                      {religion}
+                    </label>
+                  )
+                )}
+              </div>
+            </fieldset>
+
+            {/* Height and Zodiac Sign Selection */}
+            <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
+              {/* Height Input */}
+              <div className="flex-1 mb-4 md:mb-0">
+                <label
+                  htmlFor="selectedHeight"
+                  className=" block text-lg font-semibold  mb-2 text-white md:text-black"
                 >
-                  <input
-                    type="radio"
-                    name="selectedReligion"
-                    value={religion}
-                    onChange={handleFormChange}
-                    style={{ display: "none" }} 
-                  />
-                  {religion}
+                  Height (feet)
                 </label>
-              ))}
+                <input
+                  type="number"
+                  id="selectedHeight"
+                  name="selectedHeight"
+                  placeholder="Your height in feet"
+                  value={formData.selectedHeight}
+                  onChange={handleFormChange}
+                  className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
+                />
+              </div>
+
+              {/* Zodiac Sign Input */}
+              <div className="flex-1">
+                <label
+                  htmlFor="selectedZodiac"
+                  className="block text-lg font-semibold  mb-2 text-white md:text-black"
+                >
+                  Zodiac Sign
+                </label>
+                <input
+                  type="text"
+                  id="selectedZodiac"
+                  name="selectedZodiac"
+                  placeholder="Your zodiac sign"
+                  value={formData.selectedZodiac}
+                  onChange={handleFormChange}
+                  className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
+                />
+              </div>
             </div>
-          </fieldset>
-
-              {/* Height and Zodiac Sign Selection */}
-    <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
-      {/* Height Input */}
-      <div className="flex-1 mb-4 md:mb-0">
-  <label htmlFor="selectedHeight" className=" block text-lg font-semibold  mb-2 text-white md:text-black">Height (feet)</label>
-  <input 
-    type="number" 
-    id="selectedHeight" 
-    name="selectedHeight"
-    placeholder="Your height in feet"
-    value={formData.selectedHeight}
-    onChange={handleFormChange}
-    className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
-  />
-</div>
-
-
-      {/* Zodiac Sign Input */}
-      <div className="flex-1">
-        <label htmlFor="selectedZodiac" className="block text-lg font-semibold  mb-2 text-white md:text-black">Zodiac Sign</label>
-        <input 
-          type="text" 
-          id="selectedZodiac" 
-          name="selectedZodiac"
-          placeholder="Your zodiac sign"
-          value={formData.selectedZodiac}
-          onChange={handleFormChange}
-          className="w-full px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500"
-        />
-      </div>
-    </div>
-
 
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">Fooding</legend>
+              <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">
+                Fooding
+              </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
-                {['Lacto-vegeterian', 'Ovo-vegeterian', 'Non-vegeterian'].map((Fooding) => (
-                 <label
-                 key={Fooding}
-                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                   formData.selectedFooding === Fooding
-                     ? "bg-yellow-500 text-black"
-                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                 }`}
-               >
-                 <input
-                   type="radio"
-                   name="selectedFooding"
-                   value={Fooding}
-                   onChange={handleFormChange}
-                   style={{ display: "none" }} 
-                 />
-                 {Fooding}
-               </label>
-             ))}
-           </div>
-         </fieldset>
-
-
-            <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">What You do</legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
-                {['In School', 'In College', 'Employed', 'Unemployed'].map((WhatYouDo) => (
-                 <label
-                 key={WhatYouDo}
-                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                   formData.selectedWhatYouDo === WhatYouDo
-                     ? "bg-yellow-500 text-black"
-                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                 }`}
-               >
-                 <input
-                   type="radio"
-                   name="selectedWhatYouDo"
-                   value={WhatYouDo}
-                   onChange={handleFormChange}
-                   style={{ display: "none" }} 
-                 />
-                 {WhatYouDo}
-               </label>
-             ))}
-           </div>
-         </fieldset>
-
+                {["Lacto-vegeterian", "Ovo-vegeterian", "Non-vegeterian"].map(
+                  (Fooding) => (
+                    <label
+                      key={Fooding}
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                        formData.selectedFooding === Fooding
+                          ? "bg-yellow-500 text-black"
+                          : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="selectedFooding"
+                        value={Fooding}
+                        onChange={handleFormChange}
+                        style={{ display: "none" }}
+                      />
+                      {Fooding}
+                    </label>
+                  )
+                )}
+              </div>
+            </fieldset>
 
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">What are you looking for</legend>
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">
+                What You do
+              </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
-                {['Friendship', 'Short-term relationship', 'Long-term relationship', 'Dating', 'XYZ'].map((lookingFor) => (
-                 <label
-                 key={lookingFor}
-                 className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                   formData.selectedlookingFor === lookingFor
-                     ? "bg-yellow-500 text-black"
-                     : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                 }`}
-               >
-                 <input
-                   type="radio"
-                   name="selectedlookingFor"
-                   value={lookingFor}
-                   onChange={handleFormChange}
-                   style={{ display: "none" }} 
-                 />
-                 {lookingFor}
-               </label>
-             ))}
-           </div>
-         </fieldset>
+                {["In School", "In College", "Employed", "Unemployed"].map(
+                  (WhatYouDo) => (
+                    <label
+                      key={WhatYouDo}
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                        formData.selectedWhatYouDo === WhatYouDo
+                          ? "bg-yellow-500 text-black"
+                          : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="selectedWhatYouDo"
+                        value={WhatYouDo}
+                        onChange={handleFormChange}
+                        style={{ display: "none" }}
+                      />
+                      {WhatYouDo}
+                    </label>
+                  )
+                )}
+              </div>
+            </fieldset>
+
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
+                What are you looking for
+              </legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
+                {[
+                  "Friendship",
+                  "Short-term relationship",
+                  "Long-term relationship",
+                  "Dating",
+                  "XYZ",
+                ].map((lookingFor) => (
+                  <label
+                    key={lookingFor}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.selectedlookingFor === lookingFor
+                        ? "bg-yellow-500 text-black"
+                        : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="selectedlookingFor"
+                      value={lookingFor}
+                      onChange={handleFormChange}
+                      style={{ display: "none" }}
+                    />
+                    {lookingFor}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">
-              <button type="button" className="bg-transparent text-white  md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black" onClick={backpageHandler}>Back</button>
-              <button type="text" className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600" >Next</button>
+              <button
+                type="button"
+                className="bg-transparent text-white  md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
+                onClick={backpageHandler}
+              >
+                Back
+              </button>
+              <button
+                type="text"
+                className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600"
+              >
+                Next
+              </button>
             </div>
           </form>
         </div>

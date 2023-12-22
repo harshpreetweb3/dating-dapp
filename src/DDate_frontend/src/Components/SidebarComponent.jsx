@@ -19,11 +19,32 @@ const SidebarComponent = () => {
     // gender_pronouns: "",
   });
 
+
+  const navigate = useNavigate();
+
   const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);     // Add a state variable to track the screen size
 
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Add an event listener to detect screen size changes
+    const handleResize = () => {
+      // setIsMobile(window.innerWidth <= 640); // Adjust the breakpoint as needed
+    };
+
+    // Initial check on component mount
+    handleResize();
+
+    // Attach the event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const principalString = localStorage.getItem("id");
@@ -174,12 +195,13 @@ const SidebarComponent = () => {
 
   return (
     <aside
-      className="w-80 h-screen fixed font-num flex flex-col items-center justify-center py-4 bg-gradient-to-b from-[#DB7D11] to-[#6B3018] overflow-y-auto overflow-hidden"
-      style={{
-        scrollbarWidth: "thin",
-        scrollbarColor: "transparent transparent",
-      }}
-    >
+      className="w-80 z-50 h-screen fixed font-num flex flex-col items-center justify-center py-4 bg-gradient-to-b from-[#DB7D11] to-[#6B3018] overflow-y-auto overflow-hidden"
+    style={{
+      scrollbarWidth: "thin",
+      scrollbarColor: "transparent transparent",
+    }}
+  >
+    
       <div className="mb-6 mt-32">
         <img
           className="h-20 w-20 rounded-full border-2 border-white"
@@ -212,6 +234,7 @@ const SidebarComponent = () => {
           </button>
         </li>
 
+
         <li className="ml-6 mb-2 flex flex-row items-center">
           <div className="relative mr-2">
             <svg
@@ -228,7 +251,6 @@ const SidebarComponent = () => {
             </svg>
             <span className="absolute top-0  right-0 w-2 h-2 bg-yellow-500 rounded-full"></span>
           </div>
-
           <button
             onClick={() => navigate("/Notification")}
             className="block p-2 text-white text-sm rounded hover:text-yellow-400"
@@ -236,6 +258,8 @@ const SidebarComponent = () => {
             <span>Notification</span>
           </button>
         </li>
+
+
 
         <li className="ml-6 mb-2 flex flex-row items-center">
           <svg
@@ -314,7 +338,7 @@ const SidebarComponent = () => {
               Your interests in
             </legend>
             <div className="flex flex-wrap gap-2 md:gap-2 mb-1 py-2 px-2 rounded-3xl font-light text-sm">
-              {["Men", "Women", "All"].map((interest) => (
+              {["Male", "Female", "All"].map((interest) => (
                 <label key={interest} className="flex items-center">
                   <input
                     type="radio"
