@@ -335,9 +335,10 @@ function Swipe() {
         </div>
       )}
 
-      {/* {startLoader ? (
+      {
+      startLoader ? (
         <Loader />
-      ) : ( */}
+      ) : (
       <div className="h-screen flex flex-col box-border">
         <div className="col-span-12 md:col-span-8 flex flex-col justify-center align-items rounded-md  h-4/5">
           {/* <div className=" shadow-xs rounded-fully h-screen w-98 flex justify-center items-center mx-auto relative"> */}
@@ -452,7 +453,7 @@ function Swipe() {
           <div className="h-1/5">{isMobile && <SwipeBottomBar />}</div>
         </div>
       </div>
-      {/* )} */}
+     )}
     </div>
   );
 }

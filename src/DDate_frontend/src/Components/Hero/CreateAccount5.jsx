@@ -61,7 +61,7 @@ const CreateAccount5 = () => {
         const updatedImages = [...imageFiles];
         updatedImages[index] = event.target.result;
         setImageFiles(updatedImages);
-        setIsButtonDisable(!isButtonDisable)
+        setIsButtonDisable(false)
       };
       reader.readAsDataURL(file);
     }
