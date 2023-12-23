@@ -10,10 +10,11 @@ import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
 import ChattingPage from "./Components/Chatting/ChattingPage";
-import ProfileViewer from './Components/ProfileViewer'; 
+import ProfileViewer from './Components/ProfileViewer';
 import { DDate_backend } from "../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 import { useNavigate } from "react-router-dom";
+import ChattingSinglePage from "./Components/Chatting/ChattingSinglePage";
 
 const App = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const App = () => {
     <>
       {userCheckComplete && (
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<HomePage />} />
           <Route path="/CreateAccount1" element={<CreateAccount1 />} />
           <Route path="/CreateAccount2" element={<CreateAccount2 />} />
           <Route path="/CreateAccount3" element={<CreateAccount3 />} />
@@ -69,8 +70,10 @@ const App = () => {
           <Route path="/CreateAccount5" element={<CreateAccount5 />} />
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/Notification" element={<Notification />} />
-          <Route path="/ChattingPage" element={<ChattingPage />} />
+          <Route path="/Notification" element={<Notification />} /> */}
+          <Route path="/" element={<ChattingPage />} />
+          <Route path="/ChattingSinglePage" element={<ChattingSinglePage />} />
+
           <Route path="/profile/:senderId" element={<ProfileViewer />} />
         </Routes>
       )}
