@@ -448,8 +448,10 @@ const SidebarComponent = () => {
         }`}
       aria-label="Sidebar"
     >
-      <button onClick={toggleSidebar}>Close Sidebar</button>
       <div className="h-full px-3 py-4 overflow-y-auto bg-gradient-to-b from-[#DB7D11] to-[#6B3018]">
+        <div className="flex justify-end px-3 py-4">
+          <button onClick={toggleSidebar}><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" /></svg></button>
+        </div>
         <div className="mb-6 mt-10 flex justify-center">
           <img
             className="h-20 w-20 rounded-full border-2 border-white"
