@@ -413,10 +413,6 @@ function Swipe() {
   return (
     <>
       <SidebarComponent />
-
-
-
-
       <div className="p-4 sm:ml-64">
         <div className="container flex justify-center px-4">
           <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-lg shadow-lg overflow-hidden">
