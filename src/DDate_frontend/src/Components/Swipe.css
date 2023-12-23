@@ -16,7 +16,7 @@ body {
 .frame {
   position: relative;
   width: 56vh;
-  height: 84vh;
+  height: 100vh;
   max-width: 400px;
   max-height: 600px;
   z-index: 1;
@@ -93,13 +93,13 @@ body {
 }
 
 .card .like::after {
-  content: "YUMM";
+  content: "LIKE";
   color: #4dca93;
   border: 0.1em solid #4dca93;
 }
 
 .card .nope::after {
-  content: "YUCK";
+  content: "NOPE";
   color: #fb4f68;
   border: 0.1em solid #fb4f68;
 }
@@ -148,4 +148,22 @@ body {
   .frame {
     font-size: 8px;
   }
+}
+
+
+
+
+::-webkit-scrollbar {
+  width: 10px; /* Adjust the width of the scrollbar */
+}
+
+/* Customize the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: transparent; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Roundness of the scrollbar thumb */
+}
+
+/* Change the scrollbar thumb color when hovered over */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent; /* Darker color on hover */
 }

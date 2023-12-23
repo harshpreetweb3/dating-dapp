@@ -530,7 +530,7 @@ const Profile = () => {
             <img
               src={back}
               alt="back"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/Swipe")}
               className="w-4 h-4 cursor-pointer"
               style={{ marginLeft: "-50px" }}
             />
