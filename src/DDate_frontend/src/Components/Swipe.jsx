@@ -15,9 +15,14 @@ import SwipeBottomBar from "./SwipeBottomBar";
 import Loader from "./Loader";
 // import logo from "../../assets/Images/SwapImage/swapLogo.svg";
 import logo from "../../assets/Images/SwapImage/slideLogo1.svg";
-import { faArrowRotateLeft, faClose, faStar, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import {
+  faArrowRotateLeft,
+  faClose,
+  faStar,
+  faHeart,
+  faBolt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Swipe() {
   // const principalString =
@@ -51,7 +56,7 @@ function Swipe() {
     console.log("Like button is clicked");
     // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
   };
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -89,8 +94,6 @@ function Swipe() {
       console.error("Error calling find_matches_for_me:", error);
     }
   };
-
- 
 
   useEffect(() => {
     console.log("outside useEffect!!!");
@@ -188,7 +191,7 @@ function Swipe() {
 
     setIndexxx(index);
 
-    console.log("Swipedddd is called !!!!!!!!!!!!!!!!!!!!")
+    console.log("Swipedddd is called !!!!!!!!!!!!!!!!!!!!");
 
     setLastDirection(direction);
 
@@ -226,13 +229,9 @@ function Swipe() {
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
-    
   };
 
-
   const swipe = async (dir) => {
- 
-
     if (canSwipe && currentIndex >= 0 && currentIndex < db.length) {
       const cardRef = childRefs[currentIndex];
       if (cardRef && cardRef.current) {
@@ -259,8 +258,7 @@ function Swipe() {
     background:
       "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
   };
-  
-  const [cards, setCards] = useState(initialData);
+
   const [current, setCurrent] = useState(null);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -307,7 +305,7 @@ function Swipe() {
         window.innerWidth
       );
       setTimeout(
-        () => setCards((prevCards) => prevCards.slice(1)),
+        // () => setCards((prevCards) => prevCards.slice(1)),
         window.innerWidth
       );
     } else {
@@ -315,11 +313,11 @@ function Swipe() {
     }
   }, [moveX, moveY, setTransform]);
 
-  useEffect(() => {
-    if (cards.length > 0) {
-      setCurrent(document.querySelector(".card:last-child"));
-    }
-  }, [cards]);
+  // useEffect(() => {
+  //   if (cards.length > 0) {
+  //     setCurrent(document.querySelector(".card:last-child"));
+  //   }
+  // }, [cards]);
 
   useEffect(() => {
     if (current) {
@@ -344,7 +342,7 @@ function Swipe() {
       const flyX = -window.innerWidth * 1.3;
       setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
       setTimeout(
-        () => setCards((prevCards) => prevCards.slice(1)),
+        // () => setCards((prevCards) => prevCards.slice(1)),
         window.innerWidth
       );
     }
@@ -356,7 +354,7 @@ function Swipe() {
       const flyX = window.innerWidth * 1.3;
       setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
       setTimeout(
-        () => setCards((prevCards) => prevCards.slice(1)),
+        // () => setCards((prevCards) => prevCards.slice(1)),
         window.innerWidth
       );
     }
@@ -368,80 +366,89 @@ function Swipe() {
       <div className="sm:ml-64">
         <div className="container flex justify-center px-4">
           <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-lg shadow-2xl shadow-slate-100	overflow-hidden">
-          
-<div>
-            {db.map((character, index) => (
-              <TinderCard
-                ref={childRefs[index]}
-                className="swipe"
-                key={character.name}
-                onSwipe={(dir) => swiped(dir, character.name, index)}
-                onCardLeftScreen={() => outOfFrame(character.name, index)}
-              >
-                <div className="h-screen">
-                <div className=" pl-2 pb-2 pt-4" >               
-                <img src={logo} alt="swapLogo" />
-              </div>
+            <div>
+              {db.map((character, index) => (
+                <TinderCard
+                  ref={childRefs[index]}
+                  className="swipe"
+                  key={character.name}
+                  onSwipe={(dir) => swiped(dir, character.name, index)}
+                  onCardLeftScreen={() => outOfFrame(character.name, index)}
+                >
+                  <div className="h-screen">
+                    <div className=" pl-2 pb-2 pt-4">
+                      <img src={logo} alt="swapLogo" />
+                    </div>
 
-                  <div className="object-fit relative top-20">
-                    <img
-                      alt="img"
-                      src={character.images[0]}
-                      className="h-full object-cover rounded-md relative "
-                      style={{ height: "83vh" , top:"-83px" }}
-                    />
-                  </div>
-                  <div
-                    className="bg-black h-32 w-full z-20 bottom-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgb(0, 0, 0) 59%, rgba(255, 255, 255, 0) 100%)",
-                      position: "fixed",
-                    }}
-                  ></div>
-
-                 
-                  <div
-                    className="pl-4 bottom-16 absolute z-21"
-                    // style={{ marginBottom: "-7px", lineHeight: "4px" }}
-                  >
-                    <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
-                      {character.name}
-                    </h2>
-                    <p className="text-lg text-gray-700 font-bold z-10 relative">
-                      {character.location}
-                    </p>
-                    {console.log(character.id)}
-                    {console.log(character.location)}
-                    {console.log(character.images[0])}
-                    <p className="mt-2 z-10 relative font-bold text-white mb-6">
-                      {character.introduction}
-                    </p>
-                
-                    {match && (
-                      <ProfileModal
-                        profile={db[indexxx]}
-                        indexxx={indexxx}
-                        onClose={handleCloseModal}
+                    <div className="object-fit relative top-20">
+                      <img
+                        alt="img"
+                        src={character.images[0]}
+                        className="h-full object-cover rounded-md relative "
+                        style={{ height: "83vh", top: "-83px" }}
                       />
-                    )}
+                    </div>
+                    <div
+                      className="bg-black h-32 w-full z-20 bottom-0"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgb(0, 0, 0) 59%, rgba(255, 255, 255, 0) 100%)",
+                        position: "fixed",
+                      }}
+                    ></div>
+
+                    <div
+                      className="pl-4 bottom-16 absolute z-21"
+                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                    >
+                      <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
+                        {character.name}
+                      </h2>
+                      <p className="text-lg text-gray-700 font-bold z-10 relative">
+                        {character.location}
+                      </p>
+                      {console.log(character.id)}
+                      {console.log(character.location)}
+                      {console.log(character.images[0])}
+                      <p className="mt-2 z-10 relative font-bold text-white mb-6">
+                        {character.introduction}
+                      </p>
+
+                      {match && (
+                        <ProfileModal
+                          profile={db[indexxx]}
+                          indexxx={indexxx}
+                          onClose={handleCloseModal}
+                        />
+                      )}
+                    </div>
+                    <div
+                      className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
+                      // style={{ paddingTop: "65px" }}
+                    >
+                      <button
+                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+                        onClick={() => swipe("left")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faClose}
+                          style={{ color: "#fd5068" }}
+                        />
+                      </button>
+                      <button
+                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+                        onClick={() => swipe("right")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          style={{ color: "#1be4a1" }}
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <div
-                    className="px-0 bg-black flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
-                    // style={{ paddingTop: "65px" }}
-                  >
-                     <button className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800" onClick={() => swipe("left")}>
-                     <FontAwesomeIcon icon={faClose} style={{color:"#fd5068"}}/>
-      </button>
-      <button className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800" onClick={() => swipe("right")}>
-      <FontAwesomeIcon icon={faHeart} style={{color:"#1be4a1"}}/>
-      </button>
-                    
-                  </div>
-                </div>
-              </TinderCard>
-            ))}</div>
-            {/* </div> */}
+                </TinderCard>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -450,127 +457,3 @@ function Swipe() {
 }
 
 export default Swipe;
-
-{
-  /* <div className="h-screen flex flex-col box-border">
-          <div className="col-span-12 md:col-span-8 flex flex-col justify-center align-items rounded-md  h-4/5">
-            {/* <div className=" shadow-xs rounded-fully h-screen w-98 flex justify-center items-center mx-auto relative"> */
-}
-{
-  /* {db.map((character, index) => (
-                    <TinderCard
-                      ref={childRefs[index]}
-                      className="swipe"
-                      key={character.name}
-                      onSwipe={(dir) => swiped(dir, character.name, index)}
-                      onCardLeftScreen={() => outOfFrame(character.name, index)}
-                    >
-                      <div className="h-4/5">
-                        <div className="p-6 relative" style={{ marginBottom: "17px", top: "111px" }}>
-                          <img src={logo} alt="swapLogo" />
-                        </div>
-                        <div className="object-fit relative top-20">
-                          <img
-                            alt="img"
-                            src={character.images[0]}
-                            className="h-full object-cover pl-1 pr-1 rounded-md"
-                            style={{ height: "66vh" }}
-                          />
-                        </div>
-                        <div
-                          className="bg-black h-32 w-full"
-                          style={{
-                            background:
-                              "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%)",
-                            position: 'relative',
-                          }}
-                        ></div>
-
-                        {/* <div className="mt-4 ml-4 absolute bottom-16 left-0 text-white"> */
-}
-{
-  /* <img src={character.images[0]}></img> 
-
-                        <div
-                          className="pl-4 bottom-20 absolute"
-                          style={{ marginBottom: "-7px", lineHeight: "4px" }}
-                        >
-                          <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
-                            {character.name}
-                          </h2>
-                          <p className="text-lg text-gray-700 font-bold z-10 relative">
-                            {character.location}
-                          </p>
-                          {/* <h4>{character.id}</h4> 
-                          {console.log(character.id)}
-                          {console.log(character.location)}
-                          {console.log(character.images[0])}
-                          <p className="mt-2 z-10 relative font-bold text-white mb-6">
-                            {character.introduction}
-                          </p>
-                          {/* {setPToLike(character.id)}
-                          {/* </div> 
-                          {match && (
-                            <ProfileModal
-                              profile={db[indexxx]}
-                              indexxx={indexxx}
-                              onClose={handleCloseModal}
-                            />
-                          )}
-                        </div>
-                        <div
-                          className="px-0 bg-black flex bottom-1 relative gap-4 pl-4 py-6 m-0"
-                          style={{ paddingTop: "65px" }}
-                        >
-                          <button onClick={() => swipe("left")}>
-                            {" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="48"
-                              height="48"
-                              viewBox="0 0 63 63"
-                              fill="none"
-                            >
-                              <circle
-                                cx="31.275"
-                                cy="31.275"
-                                r="31.275"
-                                fill="#E13131"
-                              />
-                              <path
-                                d="m15.44 12 4.768 4.708c1.056.977 1.056 2.441 0 3.499-.813 1.057-2.438 1.057-3.413 0L12 15.52l-4.713 4.605c-.975 1.058-2.438 1.058-3.495 0-1.056-.813-1.056-2.44 0-3.417L8.47 12 3.874 7.271c-1.138-.976-1.138-2.44 0-3.417a1.973 1.973 0 0 1 3.25 0L12 8.421l4.713-4.567c.975-1.139 2.438-1.139 3.413 0 1.057.814 1.057 2.44 0 3.417L15.44 12Z"
-                                fill="var(--fill--background-nope, none)"
-                              />
-                            </svg>
-                          </button>
-                          <button onClick={() => swipe("right")}>
-                            {" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="48"
-                              height="48"
-                              viewBox="0 0 63 63"
-                              fill="none"
-                            >
-                              <circle
-                                cx="31.7242"
-                                cy="31.275"
-                                r="31.275"
-                                fill="#3FB844"
-                              />
-                              <path
-                                d="M26.7715 44.7888L14.3496 32.3433L17.4551 29.2319L26.7715 38.566L46.7664 18.5332L49.8718 21.6446L26.7715 44.7888Z"
-                                fill="#ECECEC"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </TinderCard>
-
-                  ))} 
-
-            <div className="h-1/5">{isMobile && <SwipeBottomBar />}</div>
-          </div>
-        </div> */
-}

@@ -525,7 +525,7 @@ const Profile = () => {
       {loader ? (
         <Loader />
       ) : (
-        <div className="col-span-9 flex flex-col justify-center">
+        <div className="container h-screen w-screen col-span-9 flex flex-col justify-center">
           <div className="flex items-center mt-10 ml-10 gap-2 mb-4">
             <img
               src={back}

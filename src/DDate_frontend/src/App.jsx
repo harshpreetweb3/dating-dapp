@@ -6,7 +6,7 @@ import CreateAccount2 from "./Components/Hero/CreateAccount2";
 import CreateAccount3 from "./Components/Hero/CreateAccount3";
 import CreateAccount4 from "./Components/Hero/CreateAccount4";
 import CreateAccount5 from "./Components/Hero/CreateAccount5";
-import Swipe from "./Components/Swipe";
+import Swipe from "./Components/Swipe"
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
 import ChattingPage from "./Components/Chatting/ChattingPage";
@@ -62,7 +62,7 @@ const App = () => {
     <>
       {userCheckComplete && (
         <Routes>
-          {/* <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/CreateAccount1" element={<CreateAccount1 />} />
           <Route path="/CreateAccount2" element={<CreateAccount2 />} />
           <Route path="/CreateAccount3" element={<CreateAccount3 />} />
@@ -70,8 +70,8 @@ const App = () => {
           <Route path="/CreateAccount5" element={<CreateAccount5 />} />
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/Notification" element={<Notification />} /> */}
-          <Route path="/" element={<ChattingPage />} />
+          <Route path="/Notification" element={<Notification />} />
+          <Route path="/ChattingPage" element={<ChattingPage />} />
           <Route path="/ChattingSinglePage" element={<ChattingSinglePage />} />
 
           <Route path="/profile/:senderId" element={<ProfileViewer />} />
