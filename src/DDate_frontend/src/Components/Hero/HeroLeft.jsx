@@ -7,11 +7,10 @@ const HeroLeft = () => {
     <div className="w-full lg:w-2/5 h-full relative">
       <img src={heroLeft} alt="heroLeft" className="w-full  object-fit lg:object-contain" />
       
-      {/* Add your logo image as an overlay */}
-      <img 
+    <img 
         src={logo}
         alt="Logo" 
-        className="h-16 w-16 mb-4 absolute top-11 left-11" 
+        className="h-16 w-16 lg:h-18 lg:w-18 mb-4 absolute top-5 left-5 lg:top-8 lg:left-8" 
       />
     </div>
   );

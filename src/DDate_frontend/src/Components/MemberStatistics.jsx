@@ -2,13 +2,13 @@ import React from "react";
 
 const MemberStatistics = () => {
   return (
-    <div className="font-num flex  flex-wrap w-full px-36 items-center p-4 "
+    <div className="font-num flex  flex-wrap w-full lg:px-36 md: items-center p-4 "
     style={{
       background: "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #E28110 0%, #26011C 100%)"
     }}
     >
       {/* Adjust width and padding for each stat block for different breakpoints */}
-      <div className="w-full sm:w-1/2 lg:w-1/4 flex flex-col items-center p-2 md:p-2">
+      <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center p-2 md:p-2">
         {/* SVG and layout adjustments */}
         <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full overflow-hidden mb-4 flex items-center justify-center">
          <svg

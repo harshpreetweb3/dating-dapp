@@ -61,6 +61,7 @@ const CreateAccount5 = () => {
         const updatedImages = [...imageFiles];
         updatedImages[index] = event.target.result;
         setImageFiles(updatedImages);
+        setIsButtonDisable(!isButtonDisable)
       };
       reader.readAsDataURL(file);
     }
@@ -368,15 +369,19 @@ const CreateAccount5 = () => {
             <div className="flex justify-between mt-6">
               <button
                 type="button"
-                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
+                className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded  hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
                 onClick={()=>navigate("/CreateAccount4")}
               >
                 Back
               </button>
               <button
                 type="submit"
-                className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-600"
                 disabled={isButtonDisable}
+                className={`font-semibold py-2 px-4 rounded ${
+                  isButtonDisable 
+                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                    : 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                }`}
               >
                 Save and Start
               </button>

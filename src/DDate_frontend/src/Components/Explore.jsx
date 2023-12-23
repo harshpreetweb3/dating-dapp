@@ -32,10 +32,10 @@ const Explore = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center my-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full px-6">
             {/* Friendships */}
-            <div className="flex items-center text-start sm:space-x-6 mt-8 mb-16 relative">
-              <div className="w-40 h-40 bg-yellow-400 rounded-full relative">
+            <div className="flex flex-col sm:flex-row items-center text-start mt-8 md:mb-16 mb-6 relative">
+              <div className="w-40 h-40 bg-yellow-400 rounded-full relative mb-6 sm:mb-0">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={friendshipImage}
@@ -43,7 +43,7 @@ const Explore = () => {
                 />
               </div>
 
-              <div className="ml-6 sm:ml-0">
+              <div className="ml-0 sm:ml-6 mt-6">
                 <p className="text-2xl text-black mb-2 font-bold">
                   Friendships
                 </p>
@@ -56,15 +56,15 @@ const Explore = () => {
             </div>
 
             {/* Dating */}
-            <div className="flex items-center text-start sm:space-x-6 mt-8 mb-16">
-              <div className="w-40 h-40 bg-custom-orange rounded-full relative">
+            <div className="flex flex-col sm:flex-row items-center text-start mt-8 md:mb-16 mb-6">
+              <div className="w-40 h-40 bg-custom-orange rounded-full relative mb-6 sm:mb-0">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={datingImage}
                   alt="dating"
                 />
               </div>
-              <div>
+              <div className="ml-0 sm:ml-6 mt-6">
                 <p className="text-2xl text-black mb-2 font-bold">Dating</p>
                 <p className="text-black text-sm font-light max-w-xs">
                   Find your perfect match and go on exciting dates. Connect with
@@ -75,16 +75,16 @@ const Explore = () => {
             </div>
 
             {/* Marriage */}
-            <div className="flex items-center text-start sm:space-x-6 mb-16">
-              <div className="w-40 h-40 bg-custom-red rounded-full relative">
+            <div className="flex flex-col sm:flex-row items-center text-start md:mb-16 mb-6">
+              <div className="w-40 h-40 bg-custom-red rounded-full relative mb-6 sm:mb-0">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={marriageImage}
                   alt="marriage"
                 />
               </div>
-              <div>
-                <p className="text-2xl text-black mb-2 font-bold">Marriage</p>
+              <div className="ml-0 sm:ml-6 mt-6">
+                <p className="text-2xl text-black mb-2 font-bold ">Marriage</p>
                 <p className="text-black text-sm font-light max-w-xs">
                   Take the next step and build a future together. Meet someone
                   special who's ready for a lifelong commitment.
@@ -93,15 +93,15 @@ const Explore = () => {
             </div>
 
             {/* Networking */}
-            <div className="flex items-center text-start sm:space-x-6 mb-16">
-              <div className="w-40 h-40 bg-custom-purple rounded-full relative">
+            <div className="flex flex-col sm:flex-row items-center text-start md:mb-16 mb-6">
+              <div className="w-40 h-40 bg-custom-purple rounded-full relative mb-6 sm:mb-0">
                 <img
                   className="absolute z-10 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-2/6 w-full h-full object-contain"
                   src={networkingImage}
                   alt="networking"
                 />
               </div>
-              <div>
+              <div className="ml-0 sm:ml-6 mt-6">
                 <p className="text-2xl text-black mb-2 font-bold">Networking</p>
                 <p className="text-black text-sm font-light max-w-xs">
                   Expand your professional network and connect with
