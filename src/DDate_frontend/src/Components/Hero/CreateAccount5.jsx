@@ -5,7 +5,7 @@ import { DDate_backend } from "../../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 
 const CreateAccount5 = () => {
-  
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ const CreateAccount5 = () => {
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imageError, setImageError] = useState(false);
-  const [isButtonDisable, setIsButtonDisable]= useState(false)
+  const [isButtonDisable, setIsButtonDisable] = useState(false)
 
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const CreateAccount5 = () => {
         const updatedImages = [...imageFiles];
         updatedImages[index] = event.target.result;
         setImageFiles(updatedImages);
-        setIsButtonDisable(!isButtonDisable)
+        setIsButtonDisable(isButtonDisable)
       };
       reader.readAsDataURL(file);
     }
@@ -134,7 +134,7 @@ const CreateAccount5 = () => {
         preferred_gender: result.selectedintrests,
         preferred_location: result.selectedPrefferedLocation,
         introduction: result.selectedIntro,
-        images: imageFiles, 
+        images: imageFiles,
       };
 
       console.log("objectSendToBackendFormat", objectSendToBackendFormat);
@@ -171,7 +171,7 @@ const CreateAccount5 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -214,11 +214,10 @@ const CreateAccount5 = () => {
                 {["Male", "Female", "All"].map((intrests) => (
                   <label
                     key={intrests}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      formData.selectedintrests === intrests
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedintrests === intrests
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -241,11 +240,10 @@ const CreateAccount5 = () => {
                 {["18-20", "20-25", "25-30", "above 30"].map((preferAge) => (
                   <label
                     key={preferAge}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      formData.selectedpreferAge === preferAge
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedpreferAge === preferAge
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -370,18 +368,17 @@ const CreateAccount5 = () => {
               <button
                 type="button"
                 className="bg-transparent text-white md:text-black font-semibold py-2 px-4 rounded  hover:bg-yellow-500 hover:text-white  hover:border-white border border-white md:border-black"
-                onClick={()=>navigate("/CreateAccount4")}
+                onClick={() => navigate("/CreateAccount4")}
               >
                 Back
               </button>
               <button
                 type="submit"
                 disabled={isButtonDisable}
-                className={`font-semibold py-2 px-4 rounded ${
-                  isButtonDisable 
+                className={`font-semibold py-2 px-4 rounded ${isButtonDisable
                     ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                     : 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                }`}
+                  }`}
               >
                 Save and Start
               </button>
