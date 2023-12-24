@@ -76,7 +76,7 @@ const CreateAccount4 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">

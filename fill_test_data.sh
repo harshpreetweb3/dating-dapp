@@ -1,58 +1,59 @@
 set -e
 
-image1_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/ankit_3.jpg)";
+image1_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/deepti.jpeg)";
 
-image2_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/ankit_3.jpg)";
+# image2_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/ankit_3.jpg)";
 
-image3_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/ankit_3.jpg)";
+# image3_base64="data:image/jpeg;base64,$(base64 -w 0 ./dummy_images/ankit_3.jpg)";
 
 # echo $image1_base64;
 
 # Delete a profile
-dfx canister call DDate_backend delete_profile '(principal "gm6hj-s2aij-gejcy-2scjm-g7ves-kcgny-3m7t3-tv5yk-sdf7q-dgcm4-eqe")'
+# dfx canister call DDate_backend delete_profile '(principal "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae")'
 
 
 dfx canister call DDate_backend add_user_profile '
   (record {
-    id=principal "gm6hj-s2aij-gejcy-2scjm-g7ves-kcgny-3m7t3-tv5yk-sdf7q-dgcm4-eqe";
+    id=principal "tjk5n-5tmjh-ll34e-533de-tzuq3-zjwnb-qoo62-uui6g-b2wyd-taisk-yae";
     age=24;
     dob="12/01/1996";
     occupation="Employed";
     height="5.6";
-    mobile_number="9999999999";
+    mobile_number="123456789";
     diet="Non-Vegetarian";
     travel=(vec {"Mountains"; "Beach"});
-    name="Ankit Alahabadia";
+    name="deepti";
     pets="Dogs";
     outdoor_activities=(vec {"Hiking"; "Rafting"});
-    min_preferred_age=21;
-    email="ankit@gmail.com";
+    min_preferred_age=20;
+    email="deepti@gmail.com";
     smoking="Regular";
     drinking="Regular";
-    introduction="Heyya, this is Ankit from IIT Delhi. I am very excited to be here. Looking for some meaningful companions to enjoy the company with.";
+    introduction="Hello there, I'm Deepti, based in IIT delhi. I'm thrilled to be a part of this community and am eager to connect with someone special.";
     art_and_culture=(vec {"Drawing"; "Art Gallery"});
-    preferred_location="Delhi";
-    gender="Male";
-    interests_in="Female";
-    preferred_gender="Female";
-    gender_pronouns="He/His";
+    preferred_location="delhi";
+    gender="Female";
+    interests_in="Male";
+    preferred_gender="Male";
+    gender_pronouns="She/Her";
     looking_for="Friendship";
     general_habits=(vec {"Lazy"});
     sports=(vec {"Cricket"; "Football"});
     religion="Hindu";
     movies=(vec {"Action"; "Comedy"});
-    location="Delhi";
+    location="delhi";
     zodiac="Aquarius";
     hobbies=(vec {"Dancing"; "Singing"});
-    max_preferred_age=30;
-    images=(vec {"'"$image1_base64"'"; "'"$image2_base64"'"; "'"$image3_base64"'"});
+    max_preferred_age=25;
+    images=(vec {"'"$image1_base64"'"});
   })
-'
+' --network ic
 
-echo "$(dfx canister call DDate_backend get_profile '(principal "gm6hj-s2aij-gejcy-2scjm-g7ves-kcgny-3m7t3-tv5yk-sdf7q-dgcm4-eqe")')"
+echo "$(dfx canister call DDate_backend get_profile '(principal "tjk5n-5tmjh-ll34e-533de-tzuq3-zjwnb-qoo62-uui6g-b2wyd-taisk-yae")')"
+
 
 # Delete a profile
-# dfx canister call DDate_backend delete_profile '(principal "gm6hj-s2aij-gejcy-2scjm-g7ves-kcgny-3m7t3-tv5yk-sdf7q-dgcm4-eqe")'
+# dfx canister call DDate_backend delete_profile '(principal "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae")'
 
 # #!/bin/bash
 
