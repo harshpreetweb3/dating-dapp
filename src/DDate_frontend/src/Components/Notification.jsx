@@ -74,7 +74,8 @@ import { DDate_backend } from "../../../declarations/DDate_backend/index";
 // ... other imports
 import { Principal } from "@dfinity/principal";
 import './Notification.css';
-
+import back from "../../assets/Images/CreateAccount/back.svg";
+import ChattingSinglePage from "./Chatting/ChattingSinglePage";
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
@@ -140,28 +141,72 @@ const Notification = () => {
     </div>
   ));
 
-// const handleLike = () => {
-//   console.log("Like button is clicked");
-//   const isMatch = DDate_backend.check_user_match(currentUserId, potentialMatchId);
+  // const handleLike = () => {
+  //   console.log("Like button is clicked");
+  //   const isMatch = DDate_backend.check_user_match(currentUserId, potentialMatchId);
 
-//   if (isMatch) {
-//     console.log('Its a match');
-//   } else {
-//     console.log('You have liked the profile but match could not be made');
-//   }
-//   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
-// };
+  //   if (isMatch) {
+  //     console.log('Its a match');
+  //   } else {
+  //     console.log('You have liked the profile but match could not be made');
+  //   }
+  //   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  // };
 
-  return (
+  return (<>
+    <SidebarComponent />
     <div className="h-screen grid grid-cols-12">
-      <div className="col-span-3">
-        <SidebarComponent />
+      <div className="col-span-2"></div>
+      <div className="col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-4">
+        <div className="flex items-center mt-10 ml-6 gap-2 mb-4">
+          <img
+            src={back}
+            alt="back"
+            onClick={() => navigate("/Swipe")}
+            className="w-4 h-4 cursor-pointer"
+          />
+          <div className="ml-2 text-lg font-medium">Your Matches</div>
+        </div>
+        {/* <ChatSidebar/> */}
+        <div className="relative flex justify-center items-center w-full mb-2">
+          <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 20 19"
+            fill="none"
+            className="absolute text-black"
+          >
+            <path
+              d="M10 18.35L8.55 17.03C3.4 12.36 0 9.27 0 5.5C0 2.41 2.42 0 5.5 0C7.24 0 8.91 0.81 10 2.08C11.09 0.81 12.76 0 14.5 0C17.58 0 20 2.41 20 5.5C20 9.27 16.6 12.36 11.45 17.03L10 18.35Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <div className="p-4 flex flex-wrap gap-2">
+          <div className="absolute">
+            <img class="w-[230px] h-[280px] rounded-[20px]" src="https://via.placeholder.com/250x300" />
+            <div class="w-[41px] h-[41px] ">
+              <div class="w-[41px] h-[41px]  absolute bg-yellow-400 rounded-full flex justify-center items-center" style={{ top: '14.2rem', left: '11.2rem' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" /></svg>
+              </div>
+              <div className="text-lg font-medium text-center absolute top-56 left-4" >
+                <span className="block -mb-2">Mohit</span>
+                <span className="flex justify-start">21</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div className="col-span-9 flex flex-col notification-container">
-        {notificationElements}
+      <div className="hidden lg:block col-span-6 xl:col-span-6 bg-gray-200">
+        {/* <img src={logo} alt="Logo" className="w-12 h-12" /> */}
+        <ChattingSinglePage />
       </div>
-    </div>
-  );
+    </div >
+  </>
+  )
 };
 
 export default Notification;

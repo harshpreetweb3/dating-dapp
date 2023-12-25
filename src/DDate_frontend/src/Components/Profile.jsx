@@ -348,7 +348,7 @@ import "./Swipe.css";
 
 const Profile = () => {
   const [loader, setLoader] = useState(false);
-  const [progress, setProgress] = useState(30);
+  const [progress, setProgress] = useState(60);
   const [formData, setFormData] = useState({
     gender: "",
     email: "",
@@ -444,7 +444,16 @@ const Profile = () => {
       };
     }
   };
+  const handleImageClick = () => {
+    document.getElementById('images').click();
+  };
 
+  // Function to handle file input change
+  const handleImageChangeProfile = (event) => {
+    // Handle file change event
+    // For example, you can set the file to state or upload it
+    console.log(event.target.files[0]);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setImageError(false);
@@ -580,7 +589,7 @@ const Profile = () => {
                   >
                     {formData.images ? (
                       <div className="relative w-full h-full" style={{ top: '0.45rem ', left: '-0.15rem' }}>
-                        <svg className="absolute inset-0 w-32 h-32 -top-2" viewBox="0 0 100 100">
+                        <svg className="absolute inset-0 w-32 h-32 -top-2 z-10" viewBox="0 0 100 100">
                           <circle
                             className="text-gray-300"
                             strokeWidth="5"
@@ -609,16 +618,16 @@ const Profile = () => {
                           src={formData.images || "https://via.placeholder.com/150"}
                           alt="Profile"
                           className="rounded-full w-full h-full object-cover absolute"
-                          style={{ marginTop: "0px" }}
+                          style={{ marginTop: "-8px", marginLeft: "2px" }}
                         />
 
                         <img
                           src={Ellipse}
                           alt="back"
-                          className="w-9 h-9 bg-yellow-400 rounded-full absolute top-24"
+                          className="w-9 h-9 bg-yellow-400 rounded-full absolute top-24 z-20"
                           style={{ left: '3.10rem' }}
                         />
-
+                        <div className=" text-white font-bold text-xs absolute z-30" style={{ top: '6.6rem', left: '3.4rem' }} >{progress} %</div>
                       </div>
 
                     ) : (
@@ -790,11 +799,19 @@ const Profile = () => {
                       className="w-12 h-12 cursor-pointer"
                     />
                   </div>
-                  <div class="w-44 h-[211px] bg-zinc-100 rounded-[15px] flex justify-center items-center">
+                  <div className="w-44 h-[211px] bg-zinc-100 rounded-[15px] flex justify-center items-center">
+                    <input
+                      id="images"
+                      type="file"
+                      name="images"
+                      onChange={handleImageChangeProfile}
+                      className="hidden"
+                    />
                     <img
                       src={uploadProfile}
                       alt="uploadProfile"
                       className="w-12 h-12 cursor-pointer"
+                      onClick={handleImageClick}
                     />
                   </div>
                   <div class="w-44 h-[211px] bg-zinc-100 rounded-[15px] flex justify-center items-center">
