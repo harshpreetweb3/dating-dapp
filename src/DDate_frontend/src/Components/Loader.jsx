@@ -1,10 +1,10 @@
-import React from 'react';
-import './Swipe.css'; // Import your CSS file
-
+import React from "react";
+import "./Loader.css"; 
+import logo from "../../assets/Images/CreateAccount/logo.png"
 function Loader() {
   return (
-    <div className="loader-container">
-      <div className="loader"></div>
+    <div className="load">
+      <img className="img" src={logo} alt="logo"/>
     </div>
   );
 }

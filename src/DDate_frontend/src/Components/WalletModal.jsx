@@ -87,7 +87,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   if (!window.ic.plug.agent) {
                       await window.ic.plug.createAgent();
                   }
-  
+                     console.log(window.ic.plug.agent)
                   let principal = await window.ic.plug.agent.getPrincipal();  
                   let principalText = principal.toText();
                   console.log("id", principalText);

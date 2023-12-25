@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { useNavigate } from "react-router-dom";
 import { Principal } from "@dfinity/principal";
+import Loader from "./Loader";
 
 const SidebarComponent = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const SidebarComponent = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [startLoader, setStartLoader] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -127,6 +129,7 @@ const SidebarComponent = () => {
   };
 
   const handleSubmit = async (e) => {
+    setStartLoader(true)
     e.preventDefault();
     // setImageError(false);
 
@@ -193,8 +196,12 @@ const SidebarComponent = () => {
     try {
       await DDate_backend.update_profile(updatedFilterData);
       navigate("/Swipe");
+      setStartLoader(false)
+
     } catch (error) {
       console.error("Error sending data to the backend:", error);
+      setStartLoader(false)
+
     }
   };
 
@@ -436,6 +443,9 @@ const SidebarComponent = () => {
         </div>
       </form>
           </aside> */}
+
+
+
       <button
         aria-controls="sidebar-multi-level-sidebar"
         type="button"
@@ -457,7 +467,18 @@ const SidebarComponent = () => {
           ></path>
         </svg>
       </button>
-      <aside
+
+      {startLoader ? (
+        <div className="sm:ml-64">
+        <div className="container flex justify-center">
+          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+                  <div className="h-screen">
+                 <Loader/>
+            </div>
+          </div>
+        </div>
+      </div>         ) :
+     (  <aside
         className={`fixed top-0 w-64 h-screen z-50 transition-transform ${
           isSidebarOpen || !isMobileOrTablet ? "" : "-translate-x-full"
         }`}
@@ -706,6 +727,7 @@ const SidebarComponent = () => {
           </form>
         </div>
       </aside>
+     )}
     </>
   );
 };

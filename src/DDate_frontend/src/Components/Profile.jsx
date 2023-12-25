@@ -531,8 +531,7 @@ const Profile = () => {
         <Loader />
       ) : (
         <div className="h-screen grid grid-cols-12">
-          <div className="col-span-2">
-          </div>
+          <div className="col-span-2"></div>
           <div className="col-span-12 md:col-span-12 lg:col-span-6 xl:col-span-6">
             <div className="flex items-center mt-10 ml-6 gap-2 mb-4">
               <img
@@ -579,8 +578,14 @@ const Profile = () => {
                     }}
                   >
                     {formData.images ? (
-                      <div className="relative w-full h-full" style={{ top: '0.45rem ', left: '-0.15rem' }}>
-                        <svg className="absolute inset-0 w-32 h-32 -top-2" viewBox="0 0 100 100">
+                      <div
+                        className="relative w-full h-full"
+                        style={{ top: "0.45rem ", left: "-0.15rem" }}
+                      >
+                        <svg
+                          className="absolute inset-0 w-32 h-32 -top-2"
+                          viewBox="0 0 100 100"
+                        >
                           <circle
                             className="text-gray-300"
                             strokeWidth="5"
@@ -602,11 +607,12 @@ const Profile = () => {
                             cx="50"
                             cy="50"
                           />
-
                         </svg>
 
                         <img
-                          src={formData.images || "https://via.placeholder.com/150"}
+                          src={
+                            formData.images || "https://via.placeholder.com/150"
+                          }
                           alt="Profile"
                           className="rounded-full w-full h-full object-cover absolute"
                           style={{ marginTop: "0px" }}
@@ -616,11 +622,9 @@ const Profile = () => {
                           src={Ellipse}
                           alt="back"
                           className="w-9 h-9 bg-yellow-400 rounded-full absolute top-24"
-                          style={{ left: '3.10rem' }}
+                          style={{ left: "3.10rem" }}
                         />
-
                       </div>
-
                     ) : (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -779,10 +783,12 @@ const Profile = () => {
 
             <div className="border-b border-gray-300">
               <div className="flex items-center justify-center p-4 bg-white">
-                <div className=" text-black text-opacity-50 font-normal text-sm">Add maximum 5 photos for better reach</div>
+                <div className=" text-black text-opacity-50 font-normal text-sm">
+                  Add maximum 5 photos for better reach
+                </div>
               </div>
               <div className="bg-white">
-                <div className="flex items-center flex-wrap p-3 md:p-4 cursor-pointer gap-4" >
+                <div className="flex items-center flex-wrap p-3 md:p-4 cursor-pointer gap-4">
                   <div class="w-44 h-[211px] bg-zinc-100 rounded-[15px] flex justify-center items-center">
                     <img
                       src={uploadProfile}
@@ -819,12 +825,13 @@ const Profile = () => {
                     />
                   </div>
                   <div class="w-[375px] h-[50px] bg-yellow-400 rounded-[40.50px] flex justify-center items-center">
-                    <span>Save</span></div>
+                    <span>Save</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div >
+        </div>
       )}
     </>
   );

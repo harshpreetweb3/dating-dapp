@@ -5,7 +5,6 @@ import { DDate_backend } from "../../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 
 const CreateAccount5 = () => {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -17,8 +16,7 @@ const CreateAccount5 = () => {
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imageError, setImageError] = useState(false);
-  const [isButtonDisable, setIsButtonDisable] = useState(false)
-
+  const [isButtonDisable, setIsButtonDisable] = useState(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("form5");
@@ -26,6 +24,7 @@ const CreateAccount5 = () => {
       setFormData(JSON.parse(savedData));
     }
   }, []);
+
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +52,8 @@ const CreateAccount5 = () => {
     }
   };
 
+
+
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (file) {
@@ -61,11 +62,13 @@ const CreateAccount5 = () => {
         const updatedImages = [...imageFiles];
         updatedImages[index] = event.target.result;
         setImageFiles(updatedImages);
-        setIsButtonDisable(false)
+        setIsButtonDisable(false);
       };
       reader.readAsDataURL(file);
     }
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +79,6 @@ const CreateAccount5 = () => {
       setImageError(true);
       return;
     }
-
     localStorage.setItem("form5", JSON.stringify(formData));
     console.log(formData);
 
@@ -101,6 +103,7 @@ const CreateAccount5 = () => {
           Object.assign(result, formData);
         }
       }
+
 
       const objectSendToBackendFormat = {
         id: principal,
@@ -151,6 +154,8 @@ const CreateAccount5 = () => {
     }
   };
 
+
+
   function convertStringToPrincipal(principalString) {
     try {
       const principal = Principal.fromText(principalString);
@@ -162,6 +167,8 @@ const CreateAccount5 = () => {
     }
   }
 
+
+
   return (
     <div className="flex w-full h-screen md:flex-row font-num">
       {/* Image container for larger screens */}
@@ -171,7 +178,7 @@ const CreateAccount5 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto">
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -214,10 +221,11 @@ const CreateAccount5 = () => {
                 {["Male", "Female", "All"].map((intrests) => (
                   <label
                     key={intrests}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedintrests === intrests
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.selectedintrests === intrests
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                      }`}
+                    }`}
                   >
                     <input
                       type="radio"
@@ -240,10 +248,11 @@ const CreateAccount5 = () => {
                 {["18-20", "20-25", "25-30", "above 30"].map((preferAge) => (
                   <label
                     key={preferAge}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedpreferAge === preferAge
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.selectedpreferAge === preferAge
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                      }`}
+                    }`}
                   >
                     <input
                       type="radio"
@@ -375,10 +384,11 @@ const CreateAccount5 = () => {
               <button
                 type="submit"
                 disabled={isButtonDisable}
-                className={`font-semibold py-2 px-4 rounded ${isButtonDisable
-                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                    : 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                  }`}
+                className={`font-semibold py-2 px-4 rounded ${
+                  isButtonDisable
+                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    : "bg-yellow-500 hover:bg-yellow-600 text-white"
+                }`}
               >
                 Save and Start
               </button>
@@ -389,5 +399,7 @@ const CreateAccount5 = () => {
     </div>
   );
 };
+
+
 
 export default CreateAccount5;
