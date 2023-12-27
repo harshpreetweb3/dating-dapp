@@ -16,9 +16,40 @@ import { Principal } from "@dfinity/principal";
 import { useNavigate } from "react-router-dom";
 import ChattingSinglePage from "./Components/Chatting/ChattingSinglePage";
 
+//import { toHex } from "@dfinity/agent";
+
+
 const App = () => {
   const navigate = useNavigate();
   const [userCheckComplete, setUserCheckComplete] = useState(false);
+  const [finalMatch, setFinalMatch] = useState([]);
+  const [myPrincipal, setMyPrincipal] = useState('');
+
+  //const [publicKey, setPublicKey] = useState('');
+  const [signature, setSignature] = useState('');
+  const [principal, setPrincipal] = useState('');
+
+
+  // const principalString = localStorage.getItem('id');
+  // const publicKey = localStorage.getItem('publicKey');
+
+
+  const userToken = localStorage.getItem('userToken');
+
+  console.log("getting it from local storage", userToken);
+
+
+  // useEffect(()=>{
+
+
+  // }, [principalString, publicKey])
+
+
+  //
+
+
+
+
 
   const existingUserHandler = async () => {
     const principalString = localStorage.getItem('id');
@@ -58,6 +89,37 @@ const App = () => {
     }
   }
 
+  //   async function getSignatureWithData(authClient){
+  //     let principal = authClient.getIdentity().getPrincipal().toString();
+  //     let encoder = new TextEncoder();
+  //     let message = encoder.encode(principal);
+  //     let signature = await authClient.getIdentity().sign(message);
+  //     let exportedKey = await crypto.subtle.exportKey('raw', authClient.getIdentity()._inner._keyPair.publicKey);
+  //     return {
+  //         publicKey: toHex(exportedKey),
+  //         signature: toHex(signature),
+  //         principal: principal,
+  //     }
+  // } 
+
+  // const fetchSignatureData = async (authClient) => {
+  //   try {
+
+  //     const data = await getSignatureWithData(authClient);
+  //     setPublicKey(data.publicKey);
+  //     setSignature(data.signature);
+  //     setPrincipal(data.principal);
+  //   } catch (error) {
+  //     console.error('Error fetching signature data:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchSignatureData(authClient);
+  // }, []);
+
+
+
   return (
     <>
       {userCheckComplete && (
@@ -71,10 +133,10 @@ const App = () => {
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Notification" element={<Notification />} />
-          <Route path="/ChattingPage" element={<ChattingPage />} />
-          <Route path="/ChattingSinglePage" element={<ChattingSinglePage />} />
+          <Route path="/ChattingPage" element={<ChattingPage finalMatch={finalMatch}/>} />
+          <Route path="/ChattingSinglePage/:chatId" element={<ChattingSinglePage />} />
 
-          <Route path="/profile/:senderId" element={<ProfileViewer />} />
+          <Route path="/profile/:senderId" element={<ProfileViewer finalMatch={finalMatch} setFinalMatch={setFinalMatch} />} />
         </Routes>
       )}
     </>

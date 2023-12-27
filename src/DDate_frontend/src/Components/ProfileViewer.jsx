@@ -118,42 +118,52 @@ import TinderCard from "react-tinder-card";
 import SidebarComponent from './SidebarComponent';
 import ProfileModal2 from './ProfileModal2';
 
-const ProfileViewer = () => {
+const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
   const { senderId } = useParams(); // assuming the sender's ID is passed as a URL parameter
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [somebodyLiked, setSomebodyLiked]= useState(false);
+  const [somebodyLiked, setSomebodyLiked] = useState(false);
+
+  console.log("senderId is this______", senderId);
+
+  // const [finalMatch, setFinalMatch]= useState([]);
 
   const swipe = async (dir) => {
     console.log("Attempting to swipe:", dir);
-   
+
 
     //if (canSwipe && currentIndex >= 0 && currentIndex < db.length) {
-      // const cardRef = childRefs[currentIndex];
-      // if (cardRef && cardRef.current) {
-      //   console.log("Swiping card with index:", currentIndex);
-      //   await cardRef.current.swipe(dir); // Swipe the card!
-      // } else {
-      //   console.error("Invalid card reference at index:", currentIndex);
-      // }
+    // const cardRef = childRefs[currentIndex];
+    // if (cardRef && cardRef.current) {
+    //   console.log("Swiping card with index:", currentIndex);
+    //   await cardRef.current.swipe(dir); // Swipe the card!
+    // } else {
+    //   console.error("Invalid card reference at index:", currentIndex);
+    // }
     // } else {
     //   console.error("Cannot swipe. Index or db length issue.");
     // }
-    
+
+
+
+
 
     if (dir == 'right') {
-console.log("like button hoya clicked##");
-setSomebodyLiked(true);
+      console.log("like button hoya clicked##");
+      setSomebodyLiked(true);
+      console.log("aha profile jehre array chh pai rhi hai", profile.id.toText());
 
-
-    }else{
-
+      setFinalMatch((currentMatches) => [...currentMatches, profile.id]);
+    } else {
       console.log("Dislike button ho clicked##")
     }
   };
 
+  console.log("these are final matched principals...", finalMatch);
+
+  console.log("profile jehre fetch hoe aa from senderID", profile);
 
   // Define styles directly within the component
   const profileStyle = {
@@ -169,11 +179,18 @@ setSomebodyLiked(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
+
+      console.log("fetchProfile is being called!!@@@")
       try {
         setLoading(true);
         // Convert the senderId to Principal inside useEffect
         const principal = Principal.fromText(senderId);
+
+        console.log("jehre get principal de vich jau ge", principal);
         const profileData = await DDate_backend.get_profile(principal);
+
+        console.log("jehre backend ton aae aa profile", profileData);
+
         setProfile(profileData);
       } catch (err) {
         setError(err.message);
@@ -238,56 +255,101 @@ setSomebodyLiked(true);
         <SidebarComponent />
       </div>
 
-      {/* Main Content */}
-      <div className="col-span-9 flex flex-col items-center">
-        {/* Title */}
-        {/* <h1>React Tinder Card</h1> */}
+      {profile ?  
+      
+    //   <div className="col-span-9 flex flex-col items-center">
+    //   {/* Title */}
+    //   {/* <h1>React Tinder Card</h1> */}
 
-        {/* Card Container */}
-        <div className="cardContainer">
-          {/* {db.map((profile, index) => ( */}
-          <TinderCard
-            //ref={childRefs[index]}
-            className="swipe"
-            key={profile.name}
-          // onSwipe={(dir) =>   swiped(dir, profile.name, index)}
-          // onCardLeftScreen={() => outOfFrame(profile.name, index)}
-          >
+    //   {/* Card Container */}
+    //   <div className="cardContainer">
+    //     {/* {db.map((profile, index) => ( */}
+    //     {/* <TinderCard
+    //       //ref={childRefs[index]}
+    //       className="swipe"
+    //       key={profile.location}
+    //     // onSwipe={(dir) =>   swiped(dir, profile.name, index)}
+    //     // onCardLeftScreen={() => outOfFrame(profile.name, index)}
+    //     > */}
+
+    //       <div
+    //         style={{ backgroundImage: "url(" + profile.images[0] + ")" }}
+    //         className="card"
+    //       >
+         
+            
+    //         {/* <img src={profile.images[0]}></img> */}
+    //         <h3>{profile.name}</h3>
+    //         <h4>{profile.location}</h4>
+    //         {/* <h4>{profile.id}</h4> */}
+    //         {console.log(profile.id)}
+    //         {console.log(profile.location)}
+    //         {console.log(profile.images[0])}
+    //         <h5>{profile.introduction}</h5>
+    //         {/* {setPToLike(profile.id)} */}
+
+
+     
+
+    //         <div className="buttons">
+    //           <button onClick={() => swipe("left")}>X</button>
+    //           <button onClick={() => swipe("right")}>✔</button>
+    //         </div>
+    //       </div>
+    //       {
+    //         somebodyLiked &&
+    //         <>
+    //           {console.log("somebodyLiked", somebodyLiked)}
+    //           <ProfileModal2 profile={profile} onClose={handleCloseModal} />
+    //         </>
+    //       }
+
+    //     {/* </TinderCard> */}
+
+    //     {/* ))} */}
+    //   </div>
+    // </div>
+
+   
+      <div className="col-span-9 flex flex-col items-center">
+        {profile && (
+          <div className="cardContainer">
             <div
-              style={{ backgroundImage: "url(" + profile.images[0] + ")" }}
               className="card"
+              style={{
+                backgroundImage: `url(${profile.images[0]})`,
+                backgroundSize: 'cover',
+                width: '300px', // Set the width of the card
+                height: '400px', // Set the height of the card
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '20px',
+                borderRadius: '10px',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
+              }}
             >
-              {/* <img src={profile.images[0]}></img> */}
               <h3>{profile.name}</h3>
               <h4>{profile.location}</h4>
-              {/* <h4>{profile.id}</h4> */}
-              {console.log(profile.id)}
-              {console.log(profile.location)}
-              {console.log(profile.images[0])}
               <h5>{profile.introduction}</h5>
-              {/* {setPToLike(profile.id)} */}
-
-
-
-
               <div className="buttons">
-                <button onClick={() => swipe("left")}>X</button>
-                  <button onClick={() => swipe("right")}>✔</button>
+                <button onClick={() => swipe("left")}>Dislike</button>
+                <button onClick={() => swipe("right")}>Like</button>
               </div>
             </div>
-            {
-              somebodyLiked && 
-              <>
-              {console.log("somebodyLiked", somebodyLiked)}
-              <ProfileModal2 profile={profile} onClose={handleCloseModal}/>
-              </>
-            }
-
-          </TinderCard>
-
-          {/* ))} */}
-        </div>
+            {somebodyLiked && (
+              <ProfileModal2 profile={profile} onClose={() => setSomebodyLiked(false)} />
+            )}
+          </div>
+        )}
       </div>
+    
+      
+      : "No profile found"
+      }
+
+      {/* Main Content */}
+
     </div>
 
   );

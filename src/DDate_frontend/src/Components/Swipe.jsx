@@ -32,6 +32,10 @@ function Swipe() {
 
   console.log("this is principal strinng", principalString);
 
+  const userToken = localStorage.getItem('userToken');
+
+  console.log("getting it from local storage", userToken);
+
   const [matchedProfiles, setMatchedProfiles] = useState([]); //principals
   const [db, setSwipeProfiles] = useState([]); // profiles
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);

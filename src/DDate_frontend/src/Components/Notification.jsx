@@ -158,6 +158,7 @@ const Notification = () => {
         <SidebarComponent />
       </div>
       <div className="col-span-9 flex flex-col notification-container">
+        {notifications ? "you have got notifications": "no notification r there" }
         {notificationElements}
       </div>
     </div>

@@ -1,19 +1,83 @@
 import React from 'react'
+import io from 'socket.io-client';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const ChattingSinglePage = () => {
+    const { chatId } = useParams(); //toPrincipal
+
+    const location = useLocation();
+    const { profile } = location.state || {};
+
+    //mera principal
+    //userToken
+
+    let userToken = localStorage.getItem('userToken');
+    let userPrincipal = localStorage.getItem('userPrincipal');
+
+
+    if (!profile) {
+        // Handle the case where profile is not available
+        return <div>No profile data available.</div>;
+    }
+
+    console.log("you will be chating with this id", chatId);
+
+
+    const [socket, setSocket] = useState(null);
+    const [message, setMessage] = useState('');
+    //const [toPrincipal, setToPrincipal] = useState(''); // State for recipient's principal
+    const [receivedMessages, setReceivedMessages] = useState([]);
+
+    useEffect(() => {
+        //const newSocket = io('http://localhost:3000');
+
+        const newSocket = io('http://localhost:3000', {
+            query: { principal: userPrincipal }
+        });
+
+        
+        setSocket(newSocket);
+
+        newSocket.on('receiveMessage', (data) => {
+            setReceivedMessages((prevMessages) => [...prevMessages, data]);
+        });
+
+        return () => newSocket.close();
+    }, [userToken]);
+
+
+    const sendMessage = () => {
+        // if (socket && toPrincipal) {
+        if (socket && chatId) {
+            socket.emit('sendMessage', JSON.stringify({
+                fromPrincipal: userPrincipal,
+                toPrincipal: chatId,
+                message: message,
+                privateToken: userToken
+            }));
+            setMessage('');
+        }
+    };
+
+
+
     return (
         <div className="w-full border flex flex-col">
             <div className="py-2 px-3 bg-gradient-to-b from-[#DB7D11] to-[#6B3018] flex flex-row justify-between items-center">
                 <div className="flex items-center">
                     <div>
-                        <img className="w-10 h-10 rounded-full" src="https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg" />
+                        {/* <img className="w-10 h-10 rounded-full" src="https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg" /> */}
+                        <img className="w-10 h-10 rounded-full" src={profile.images[0]} />
+
                     </div>
                     <div className="ml-4">
                         <p className="text-white ">
-                            New Movie! Expendables 4
+                            {profile.name}
                         </p>
                         <p className="text-white text-xs mt-1">
-                            Andrés, Tom, Harrison, Arnold, Sylvester
+                            {profile.name}
                         </p>
                     </div>
                 </div>
@@ -33,11 +97,19 @@ const ChattingSinglePage = () => {
 
 
             <div className="flex-1 overflow-auto" style={{ backgroundColor: "#DAD3CC" }}>
+
+                {/*  */}
                 <div className="py-2 px-3">
 
+                    <div>
+                        {receivedMessages.map((msg, index) => (
+                            <p key={index}><strong>{msg.fromPrincipal}:</strong> {msg.data.message}</p>
+                        ))}
+                    </div>
 
 
-                    <div className="flex mb-2">
+
+                    {/* <div className="flex mb-2">
                         <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
                             <p className="text-sm text-teal">
                                 Sylverter Stallone
@@ -153,15 +225,19 @@ const ChattingSinglePage = () => {
                             <p className="text-right text-xs text-grey-dark mt-1">
                                 12:45 pm
                             </p>
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* </div> */}
                 </div>
             </div>
+
+            {/* messages will be shown both sent and received */}
+            {/* received msg; as of yet*/}
 
 
             <div
                 class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
             >
+
                 <div>
                     <button
                         class="flex items-center justify-center text-gray-400 hover:text-gray-600"
@@ -182,10 +258,15 @@ const ChattingSinglePage = () => {
                         </svg>
                     </button>
                 </div>
+
+                {/* message will be sent */}
                 <div class="flex-grow ml-4">
                     <div class="relative w-full">
                         <input
                             type="text"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="write your message!"
                             class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                         />
                         <button
@@ -208,9 +289,13 @@ const ChattingSinglePage = () => {
                         </button>
                     </div>
                 </div>
+
+
+                {/* send button */}
                 <div class="ml-4">
                     <button
                         class="flex items-center justify-center bg-gradient-to-b from-[#DB7D11] to-[#6B3018]  dark:hover:bg-yellow-500 rounded-xl text-white px-4 py-1 flex-shrink-0"
+                        onClick={sendMessage}
                     >
                         <span>Send</span>
                         <span class="ml-2">
@@ -231,6 +316,8 @@ const ChattingSinglePage = () => {
                         </span>
                     </button>
                 </div>
+
+
             </div>
         </div>
     )
