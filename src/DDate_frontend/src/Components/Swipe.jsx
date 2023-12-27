@@ -25,10 +25,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Swipe() {
-  const principalString =
-    "lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
+  //const principalString =
+  //"lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
 
-  //const principalString = localStorage.getItem("id");
+  const principalString = localStorage.getItem("id");
 
   console.log("this is principal strinng", principalString);
 

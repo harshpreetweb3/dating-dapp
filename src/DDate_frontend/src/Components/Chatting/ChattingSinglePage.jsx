@@ -9,7 +9,7 @@ const ChattingSinglePage = () => {
 
     const location = useLocation();
     const { profile } = location.state || {};
-
+    const [sentMessages, setSentMessages] = useState([]);
     //mera principal
     //userToken
 
@@ -37,7 +37,7 @@ const ChattingSinglePage = () => {
             query: { principal: userPrincipal }
         });
 
-        
+
         setSocket(newSocket);
 
         newSocket.on('receiveMessage', (data) => {
@@ -48,19 +48,27 @@ const ChattingSinglePage = () => {
     }, [userToken]);
 
 
+
     const sendMessage = () => {
-        // if (socket && toPrincipal) {
         if (socket && chatId) {
-            socket.emit('sendMessage', JSON.stringify({
+            const newMessage = {
                 fromPrincipal: userPrincipal,
                 toPrincipal: chatId,
                 message: message,
                 privateToken: userToken
-            }));
+            };
+
+            socket.emit('sendMessage', JSON.stringify(newMessage));
+
+            // Add the new message to sent messages state
+            setSentMessages(prevMessages => [...prevMessages, newMessage]);
+
             setMessage('');
         }
     };
 
+    // Function to determine if a message is sent or received
+    const isMessageSent = (msg) => msg.fromPrincipal === userPrincipal;
 
 
     return (
@@ -99,11 +107,26 @@ const ChattingSinglePage = () => {
             <div className="flex-1 overflow-auto" style={{ backgroundColor: "#DAD3CC" }}>
 
                 {/*  */}
-                <div className="py-2 px-3">
+                <div className="py-2 px-3" style={{ height: '84vh' }}>
 
                     <div>
-                        {receivedMessages.map((msg, index) => (
+                        {/* {receivedMessages.map((msg, index) => (
                             <p key={index}><strong>{msg.fromPrincipal}:</strong> {msg.data.message}</p>
+                        ))} */}
+
+                        {receivedMessages.concat(sentMessages).sort(/* sort by timestamp if available */).map((msg, index) => (
+                            <div key={index} className={`flex ${isMessageSent(msg) ? 'justify-end' : ''} mb-2`}>
+                                <div className={`rounded-xl py-2 px-3 ${isMessageSent(msg) ? 'bg-[#E2F7CB]' : 'bg-[#F2F2F2]'}`}>
+                                    {!isMessageSent(msg) && <>
+                                    {/* <p className="text-sm text-teal">{msg.fromPrincipal}</p> */}
+                                    <p className="text-sm mt-1">{msg.data.message}</p></>}
+                                    <p className="text-sm mt-1">{msg.message}</p>
+                                    {/* <p>{console.log("here is the message", msg.data.message)}</p> */}
+                                    <p>{console.log("here is the message", msg.message)}</p>
+                                    <p>{console.log("object", msg)}</p>
+                                    {/* Include timestamp if available */}
+                                </div>
+                            </div>
                         ))}
                     </div>
 

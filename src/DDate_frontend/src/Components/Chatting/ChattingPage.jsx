@@ -52,9 +52,9 @@ const ChattingPage = ({ finalMatch }) => {
   }, [finalMatch]);
   //array
 
-  if (loading) {
-    return <div>Loading profiles...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading profiles...</div>;
+  // }
 
   if (error) {
     return <div>Error fetching profiles: {error}</div>;
@@ -102,6 +102,10 @@ const ChattingPage = ({ finalMatch }) => {
     {/* <AuthContextProvider> */}
     {/* // <ChatContextProvider> */}
     <SidebarComponent />
+
+    {loading &&
+    <div>Loading profiles...</div>
+    }
     <div className="h-screen grid grid-cols-12">
       {/* Sidebar */}
       <div className="col-span-2">
