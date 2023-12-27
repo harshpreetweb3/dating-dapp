@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
 import { DDate_backend } from "../../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
+import CompressImage from "../ImageCompressFolder/CompressImage";
 
 const CreateAccount5 = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const CreateAccount5 = () => {
     selectedIntro: "",
   });
   const [imageFiles, setImageFiles] = useState([]);
+  const [compressedImage, setCompressedImage] = useState([]);
+
   const [imageError, setImageError] = useState(false);
   const [isButtonDisable, setIsButtonDisable] = useState(false);
 
@@ -37,7 +40,6 @@ const CreateAccount5 = () => {
         minAge = 30;
         maxAge = 60;
       } else {
-        // Split the selected age range into minimum and maximum values
         [minAge, maxAge] = value.split("-").map(Number);
       }
 
@@ -52,21 +54,30 @@ const CreateAccount5 = () => {
     }
   };
 
+  
 
-
-  const handleImageChange = (e, index) => {
+  const handleImageChange = async (e, index) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const updatedImages = [...imageFiles];
-        updatedImages[index] = event.target.result;
-        setImageFiles(updatedImages);
-        setIsButtonDisable(false);
-      };
-      reader.readAsDataURL(file);
+        try {
+            const compressedFile = await CompressImage(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                // Update state in the onload callback
+                const updatedImages = [...imageFiles];
+                updatedImages[index] = reader.result; 
+                setImageFiles(updatedImages);
+            };
+            reader.readAsDataURL(compressedFile);
+        } catch (error) {
+            console.error('Error during image processing:', error);
+        }
     }
-  };
+};
+
+
+  
 
 
 

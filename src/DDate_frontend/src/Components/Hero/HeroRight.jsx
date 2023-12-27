@@ -4,6 +4,7 @@ import WalletModal from '../WalletModal';
 import { useEffect } from 'react';
 import LogoutModal from '../LogoutModal';
 import createPageImage from '../../../assets/Images/CreateAccount/createPageImage.png'
+import Profile from '../Profile';
 
 const HeroRight = () => {
 
@@ -93,6 +94,8 @@ const HeroRight = () => {
     </div>
     <WalletModal isOpen={isWalletModalOpen} onClose={toggleWalletModal} />
     <LogoutModal isOpen={isLogoutModal} onClose={toggleLogoutModal} />
+    {/* <Profile isOpen={isLogoutModal} onClose={toggleLogoutModal} /> */}
+
   </div>
 );
 };

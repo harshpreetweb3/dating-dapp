@@ -1,17 +1,19 @@
 /* the loader */
 
 .load {
-    margin: 150px auto;
-    width: 100px;
-    height: 100px;
-    /** height is required as absolute value **/
-    background-image: linear-gradient(to bottom, #DB7D11, #6B3018);
-    border-radius: 100px;
-    position:relative;
-    animation: pulse 2000ms linear infinite;
-    -webkit-animation: pulse 2000ms linear infinite;
-    -moz-animation: pulse 2000ms linear infinite;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 150px auto;
+  width: 100px;
+  height: 100px;
+  background-image: linear-gradient(to bottom, #DB7D11, #6B3018);
+  border-radius: 100px;
+  position: relative;
+  animation: pulse 2000ms linear infinite;
+  z-index: 500;
+}
+
   
   .load img {
     width: 100%; /* Adjust the size of the logo as needed */
