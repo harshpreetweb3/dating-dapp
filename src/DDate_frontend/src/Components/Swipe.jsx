@@ -25,10 +25,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Swipe() {
-  // const principalString =
-  //   "lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
+  const principalString =
+    "lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
 
-  const principalString = localStorage.getItem("id");
+  //const principalString = localStorage.getItem("id");
 
   console.log("this is principal strinng", principalString);
 
@@ -403,7 +403,7 @@ function Swipe() {
 
                     <div
                       className="pl-4 bottom-16 absolute z-21"
-                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                    // style={{ marginBottom: "-7px", lineHeight: "4px" }}
                     >
                       <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
                         {character.name}
@@ -428,7 +428,7 @@ function Swipe() {
                     </div>
                     <div
                       className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
-                      // style={{ paddingTop: "65px" }}
+                    // style={{ paddingTop: "65px" }}
                     >
                       <button
                         className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"

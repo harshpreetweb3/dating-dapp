@@ -458,9 +458,8 @@ const SidebarComponent = () => {
         </svg>
       </button>
       <aside
-        className={`fixed top-0 w-64 h-screen z-50 transition-transform ${
-          isSidebarOpen || !isMobileOrTablet ? "" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 w-64 h-screen z-50 transition-transform ${isSidebarOpen || !isMobileOrTablet ? "" : "-translate-x-full"
+          }`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gradient-to-b from-[#DB7D11] to-[#6B3018]">
@@ -533,7 +532,7 @@ const SidebarComponent = () => {
                 onClick={() => navigate("/Notification")}
                 className="block p-2 text-white text-sm rounded"
               >
-                <span>Notification</span>
+                <span>Matches</span>
               </button>
             </li>
 

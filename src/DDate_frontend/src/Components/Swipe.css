@@ -154,16 +154,20 @@ body {
 
 
 ::-webkit-scrollbar {
-  width: 10px; /* Adjust the width of the scrollbar */
+  width: 10px;
+  /* Adjust the width of the scrollbar */
 }
 
 /* Customize the scrollbar thumb */
 ::-webkit-scrollbar-thumb {
-  background: transparent; /* Color of the scrollbar thumb */
-  border-radius: 5px; /* Roundness of the scrollbar thumb */
+  background: transparent;
+  /* Color of the scrollbar thumb */
+  border-radius: 5px;
+  /* Roundness of the scrollbar thumb */
 }
 
 /* Change the scrollbar thumb color when hovered over */
 ::-webkit-scrollbar-thumb:hover {
-  background: transparent; /* Darker color on hover */
+  background: transparent;
+  /* Darker color on hover */
 }
