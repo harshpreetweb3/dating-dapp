@@ -6,11 +6,11 @@ import CreateAccount2 from "./Components/Hero/CreateAccount2";
 import CreateAccount3 from "./Components/Hero/CreateAccount3";
 import CreateAccount4 from "./Components/Hero/CreateAccount4";
 import CreateAccount5 from "./Components/Hero/CreateAccount5";
-import Swipe from "./Components/Swipe"
+import Swipe from "./Components/Swipe";
 import Profile from "./Components/Profile";
 import Notification from "./Components/Notification";
 import ChattingPage from "./Components/Chatting/ChattingPage";
-import ProfileViewer from './Components/ProfileViewer';
+import ProfileViewer from "./Components/ProfileViewer";
 import { DDate_backend } from "../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,8 @@ import ChattingSinglePage from "./Components/Chatting/ChattingSinglePage";
 
 
 const App = () => {
+
+  
   const navigate = useNavigate();
   const [userCheckComplete, setUserCheckComplete] = useState(false);
   const [finalMatch, setFinalMatch] = useState([]);
@@ -52,7 +54,7 @@ const App = () => {
 
 
   const existingUserHandler = async () => {
-    const principalString = localStorage.getItem('id');
+    const principalString = localStorage.getItem("id");
     const principal = convertStringToPrincipal(principalString);
 
     if (principal) {
@@ -62,7 +64,7 @@ const App = () => {
         const principalToString = principal.toText();
 
         if (userPrincipalInString === principalToString) {
-          navigate('/Swipe');
+          navigate("/Swipe");
         }
       } catch (error) {
         console.error("Error checking user existence: ", error);
@@ -73,6 +75,8 @@ const App = () => {
       setUserCheckComplete(true);
     }
   };
+
+
 
   useEffect(() => {
     existingUserHandler();

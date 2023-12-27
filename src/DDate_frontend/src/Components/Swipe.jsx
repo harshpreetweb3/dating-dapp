@@ -13,7 +13,6 @@ import { Principal } from "@dfinity/principal";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import SwipeBottomBar from "./SwipeBottomBar";
 import Loader from "./Loader";
-// import logo from "../../assets/Images/SwapImage/swapLogo.svg";
 import logo from "../../assets/Images/SwapImage/slideLogo1.svg";
 import {
   faArrowRotateLeft,
@@ -23,6 +22,8 @@ import {
   faBolt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 
 function Swipe() {
   //const principalString =
@@ -45,21 +46,31 @@ function Swipe() {
   const [startLoader, setStartLoader] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [noMatch, setNoMatch] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); 
+  const [current, setCurrent] = useState(null);
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [moveX, setMoveX] = useState(0);
+  const [moveY, setMoveY] = useState(0);
+
   const isMobile = windowWidth <= 480;
   const isTablet = windowWidth > 480 && windowWidth <= 768;
+
   console.log("profiles are being returned overhere!", matchedProfiles);
   console.log("aha array aa jehra profiles sambhi betha", db);
+
 
   const handleDislike = () => {
     console.log("Dislike button is clicked");
     // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
   };
 
+
   const handleLike = () => {
     console.log("Like button is clicked");
     // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
   };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,11 +92,14 @@ function Swipe() {
     }
   }
 
+
   const principal = convertStringToPrincipal(principalString); //principal
+
 
   console.log("pri =>", principal);
 
   // DDate_backend.find_match_for_me(principal);
+
 
   const findMatchesForMe = async (principal) => {
     try {
@@ -99,6 +113,7 @@ function Swipe() {
     }
   };
 
+
   useEffect(() => {
     console.log("outside useEffect!!!");
     if (principal) {
@@ -107,6 +122,7 @@ function Swipe() {
       console.log("useEffect is getting called");
     }
   }, []);
+
 
   const fetchUserProfile = async (principal) => {
     try {
@@ -122,20 +138,24 @@ function Swipe() {
     }
   };
 
+
   const fetchAllUserProfiles = async (principals) => {
+    setStartLoader(true); 
     try {
       const profilesPromises = principals.map((principal) =>
         fetchUserProfile(principal)
       );
       const profiles = await Promise.all(profilesPromises);
       //setMatchedProfiles(profiles.filter(profile => profile !== null)); // Update state with non-null profiles
-
       setSwipeProfiles(profiles.filter((profile) => profile !== null));
       setStartLoader(false);
     } catch (error) {
       console.error("Error fetching all user profiles:", error);
+      setStartLoader(false);
+
     }
   };
+
 
   useEffect(() => {
     if (matchedProfiles.length > 0) {
@@ -144,12 +164,14 @@ function Swipe() {
   }, [matchedProfiles]);
 
   // console.log("find_match_for_me will find match for you");
-
   // DDate_backend.get_matched_profiles(principal);
+
 
   function closeKrna() {
     setNoMatch(false);
   }
+
+
 
   const getMatchedProfiles = async (principal) => {
     try {
@@ -169,6 +191,8 @@ function Swipe() {
     }
   };
 
+
+
   useEffect(() => {
     setCurrentIndex(db.length - 1);
   }, [db]);
@@ -187,6 +211,7 @@ function Swipe() {
     currentIndexRef.current = val;
   };
 
+
   const canSwipe = currentIndex >= 0;
   console.log("selected idd dekhde aa ke milda", selectedId);
 
@@ -201,6 +226,7 @@ function Swipe() {
 
     updateCurrentIndex(index - 1);
   };
+
 
   // Define the checkMatch function
   const checkMatch = async (id) => {
@@ -222,18 +248,22 @@ function Swipe() {
     }
   };
 
+
   useEffect(() => {
     if (selectedId !== null) {
       checkMatch(selectedId);
     }
   }, [selectedId]);
 
+
   console.log("swiped profile has this principal", selectedId);
+
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
+
 
   const swipe = async (dir) => {
     if (canSwipe && currentIndex >= 0 && currentIndex < db.length) {
@@ -252,6 +282,7 @@ function Swipe() {
     }
   };
 
+
   // {console.log("Princiapl to like state" +pToLike)}
   const handleCloseModal = () => {
     setMatch(false);
@@ -263,11 +294,8 @@ function Swipe() {
       "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
   };
 
-  const [current, setCurrent] = useState(null);
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const [moveX, setMoveX] = useState(0);
-  const [moveY, setMoveY] = useState(0);
+
+ 
 
   const setTransform = useCallback(
     (x, y, deg, duration) => {
@@ -367,9 +395,19 @@ function Swipe() {
     <>
       <SidebarComponent />
 
-      <div className="sm:ml-64">
+      {startLoader ? (
+        <div className="sm:ml-64">
+        <div className="container flex justify-center">
+          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+                  <div className="h-screen">
+                 <Loader/>
+            </div>
+          </div>
+        </div>
+      </div>         ) :
+     (  <div className="sm:ml-64">
         <div className="container flex justify-center px-4">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-lg shadow-2xl shadow-slate-100	overflow-hidden">
+          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
             <div>
               {db.map((character, index) => (
                 <TinderCard
@@ -380,41 +418,41 @@ function Swipe() {
                   onCardLeftScreen={() => outOfFrame(character.name, index)}
                 >
                   <div className="h-screen">
-                    <div className=" pl-2 pb-2 pt-4">
+                    {/* <div className=" pl-2 pb-2 pt-4">
                       <img src={logo} alt="swapLogo" />
-                    </div>
+                    </div> */}
 
                     <div className="object-fit relative top-20">
                       <img
                         alt="img"
                         src={character.images[0]}
-                        className="h-full object-cover rounded-md relative "
+                        className="h-full object-cover rounded-xl relative "
                         style={{ height: "83vh", top: "-83px" }}
                       />
                     </div>
                     <div
-                      className="bg-black h-32 w-full z-20 bottom-0"
+                      className="bg-black h-48 w-full z-10 bottom-0"
                       style={{
                         background:
-                          "linear-gradient(to top, rgb(0, 0, 0) 59%, rgba(255, 255, 255, 0) 100%)",
+                          "linear-gradient(to top, rgb(0, 0, 0) 64%, rgba(255, 255, 255, 0) 100%)",
                         position: "fixed",
                       }}
                     ></div>
 
                     <div
                       className="pl-4 bottom-16 absolute z-21"
-                    // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
                     >
-                      <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
+                      <h2 className="text-4xl font-bold text-white  z-30  relative">
                         {character.name}
                       </h2>
-                      <p className="text-lg text-gray-700 font-bold z-10 relative">
+                      <p className="text-lg text-gray-500 z-30 font-bold  relative">
                         {character.location}
                       </p>
                       {console.log(character.id)}
                       {console.log(character.location)}
                       {console.log(character.images[0])}
-                      <p className="mt-2 z-10 relative font-bold text-white mb-6">
+                      <p className="mt-2 z-30 relative font-bold text-white mb-6">
                         {character.introduction}
                       </p>
 
@@ -427,8 +465,8 @@ function Swipe() {
                       )}
                     </div>
                     <div
-                      className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
-                    // style={{ paddingTop: "65px" }}
+                      className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
+                      // style={{ paddingTop: "65px" }}
                     >
                       <button
                         className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
@@ -456,6 +494,7 @@ function Swipe() {
           </div>
         </div>
       </div>
+      )}
     </>
   );
 }
