@@ -19,7 +19,7 @@ import {
   faClose,
   faStar,
   faHeart,
-  faBolt,setLastDirectionsetLastDirection
+  faBolt, setLastDirectionsetLastDirection
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -46,7 +46,7 @@ function Swipe() {
   const [startLoader, setStartLoader] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [noMatch, setNoMatch] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [current, setCurrent] = useState(null);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -140,7 +140,7 @@ function Swipe() {
 
 
   const fetchAllUserProfiles = async (principals) => {
-    setStartLoader(true); 
+    setStartLoader(true);
     try {
       const profilesPromises = principals.map((principal) =>
         fetchUserProfile(principal)
@@ -295,7 +295,7 @@ function Swipe() {
   // };
 
 
- 
+
 
   const setTransform = useCallback(
     (x, y, deg, duration) => {
@@ -402,105 +402,119 @@ function Swipe() {
 
       {startLoader ? (
         <div className="sm:ml-64">
-        <div className="container flex justify-center">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
-                  <div className="h-screen">
-                 <Loader/>
+          <div className="container flex justify-center">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+              <div className="h-screen">
+                <Loader />
+              </div>
             </div>
           </div>
-        </div>
-      </div>         ) :
-     (  <div className="sm:ml-64">
-        <div className="container flex justify-center px-4">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
-            <div>
-              {db.map((character, index) => (
-                <TinderCard
-                  ref={childRefs[index]}
-                  className="swipe"
-                  key={character.name}
-                  onSwipe={(dir) => swiped(dir, character.name, index)}
-                  onCardLeftScreen={() => outOfFrame(character.name, index)}
-                >
-                  <div className="h-screen">
-                    {/* <div className=" pl-2 pb-2 pt-4">
+        </div>) :
+        (<div className="sm:ml-64">
+          <div className="container flex justify-center px-4">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
+              <div>
+                {db.map((character, index) => (
+                  <>
+                    <TinderCard
+                      ref={childRefs[index]}
+                      className="swipe"
+                      key={character.name}
+                      onSwipe={(dir) => swiped(dir, character.name, index)}
+                      onCardLeftScreen={() => outOfFrame(character.name, index)}
+                    >
+                      <div className="h-screen">
+                        {/* <div className=" pl-2 pb-2 pt-4">
                       <img src={logo} alt="swapLogo" />
                     </div> */}
 
-                    <div className="object-fit relative top-20">
-                      <img
-                        alt="img"
-                        src={character.images[0]}
-                        className="h-full object-cover rounded-xl relative "
-                        style={{ height: "83vh", top: "-83px" }}
+                        <div className="object-fit relative top-20">
+                          <img
+                            alt="img"
+                            src={character.images[0]}
+                            className="h-full object-cover rounded-xl relative "
+                            style={{ height: "83vh", top: "-83px" }}
+                          />
+                        </div>
+                        <div
+                          className="bg-black h-48 w-full z-10 bottom-0"
+                          style={{
+                            background:
+                              "linear-gradient(to top, rgb(0, 0, 0) 64%, rgba(255, 255, 255, 0) 100%)",
+                            position: "fixed",
+                          }}
+                        ></div>
+
+                        <div
+                          className="pl-4 bottom-16 absolute z-21"
+                        // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                        >
+                          <h2 className="text-4xl font-bold text-white  z-30  relative">
+                            {character.name}
+                          </h2>
+                          <p className="text-lg text-gray-500 z-30 font-bold  relative">
+                            {character.location}
+                          </p>
+                          {console.log(character.id)}
+                          {console.log(character.id.toText())}
+                          {console.log(character.location)}
+                          {console.log(character.images[0])}
+                          <p className="mt-2 z-30 relative font-bold text-white mb-6">
+                            {character.introduction}
+                          </p>
+
+                          {/* {match && (
+                          <ProfileModal
+                            profile={db[indexxx]}
+                            indexxx={indexxx}
+                            onClose={handleCloseModal}
+                          />
+                        )} */}
+                        </div>
+                        <div
+                          className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
+                        // style={{ paddingTop: "65px" }}
+                        >
+                          <button
+                            className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+                            onClick={() => swipe("left")}
+                          >
+                            <FontAwesomeIcon
+                              icon={faClose}
+                              style={{ color: "#fd5068" }}
+                            />
+                          </button>
+                          <button
+                            className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+                            onClick={() => swipe("right")}
+                          >
+                            <FontAwesomeIcon
+                              icon={faHeart}
+                              style={{ color: "#1be4a1" }}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </TinderCard>
+
+                    {match && (
+                      <>
+                      <ProfileModal
+                        profile={db[indexxx]}
+                        indexxx={indexxx}
+                        onClose={handleCloseModal}
                       />
-                    </div>
-                    <div
-                      className="bg-black h-48 w-full z-10 bottom-0"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgb(0, 0, 0) 64%, rgba(255, 255, 255, 0) 100%)",
-                        position: "fixed",
-                      }}
-                    ></div>
-
-                    <div
-                      className="pl-4 bottom-16 absolute z-21"
-                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
-                    >
-                      <h2 className="text-4xl font-bold text-white  z-30  relative">
-                        {character.name}
-                      </h2>
-                      <p className="text-lg text-gray-500 z-30 font-bold  relative">
-                        {character.location}
-                      </p>
-                      {console.log(character.id)}
-                      {console.log(character.id.toText())}
-                      {console.log(character.location)}
-                      {console.log(character.images[0])}
-                      <p className="mt-2 z-30 relative font-bold text-white mb-6">
-                        {character.introduction}
-                      </p>
-
-                      {match && (
-                        <ProfileModal
-                          profile={db[indexxx]}
-                          indexxx={indexxx}
-                          onClose={handleCloseModal}
-                        />
-                      )}
-                    </div>
-                    <div
-                      className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
-                      // style={{ paddingTop: "65px" }}
-                    >
-                      <button
-                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
-                        onClick={() => swipe("left")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faClose}
-                          style={{ color: "#fd5068" }}
-                        />
-                      </button>
-                      <button
-                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
-                        onClick={() => swipe("right")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          style={{ color: "#1be4a1" }}
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </TinderCard>
-              ))}
+                      {console.log("it's a match..", match)}
+                      </>
+                    )}
+                  </>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      )}
+        )}
+
     </>
   );
 }
