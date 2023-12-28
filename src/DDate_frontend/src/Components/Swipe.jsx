@@ -19,7 +19,7 @@ import {
   faClose,
   faStar,
   faHeart,
-  faBolt,setLastDirectionsetLastDirection
+  faBolt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -62,13 +62,13 @@ function Swipe() {
 
   // const handleDislike = () => {
   //   console.log("Dislike button is clicked");
-  //   setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  //   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
   // };
 
 
   // const handleLike = () => {
   //   console.log("Like button is clicked");
-  //   setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  //   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
   // };
 
 
@@ -167,9 +167,9 @@ function Swipe() {
   // DDate_backend.get_matched_profiles(principal);
 
 
-  // function closeKrna() {
-  //   setNoMatch(false);
-  // }
+  function closeKrna() {
+    setNoMatch(false);
+  }
 
 
 
@@ -345,8 +345,6 @@ function Swipe() {
     }
   }, [moveX, moveY, setTransform]);
 
-
-
   // useEffect(() => {
   //   if (cards.length > 0) {
   //     setCurrent(document.querySelector(".card:last-child"));
@@ -370,7 +368,6 @@ function Swipe() {
     };
   }, [current, onPointerDown, onPointerMove, onPointerUp]);
 
-
   // New function to handle left swipe
   // const handleLeftSwipe = useCallback(() => {
   //   if (current) {
@@ -383,7 +380,6 @@ function Swipe() {
   //   }
   // }, [current, setTransform]);
 
-
   // New function to handle right swipe
   // const handleRightSwipe = useCallback(() => {
   //   if (current) {
@@ -395,6 +391,8 @@ function Swipe() {
   //     );
   //   }
   // }, [current, setTransform]);
+
+
 
   return (
     <>
@@ -412,7 +410,7 @@ function Swipe() {
       </div>         ) :
      (  <div className="sm:ml-64">
         <div className="container flex justify-center px-4">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
+          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-lg shadow-2xl shadow-slate-100	overflow-hidden">
             <div>
               {db.map((character, index) => (
                 <TinderCard
@@ -455,7 +453,6 @@ function Swipe() {
                         {character.location}
                       </p>
                       {console.log(character.id)}
-                      {console.log(character.id.toText())}
                       {console.log(character.location)}
                       {console.log(character.images[0])}
                       <p className="mt-2 z-30 relative font-bold text-white mb-6">
@@ -470,7 +467,10 @@ function Swipe() {
                         />
                       )}
                     </div>
-                    <div
+                   
+                  </div>
+                </TinderCard>
+              ))} <div
                       className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
                       // style={{ paddingTop: "65px" }}
                     >
@@ -493,9 +493,6 @@ function Swipe() {
                         />
                       </button>
                     </div>
-                  </div>
-                </TinderCard>
-              ))}
             </div>
           </div>
         </div>

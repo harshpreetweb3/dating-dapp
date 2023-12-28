@@ -156,6 +156,7 @@ body {
   width: 100%;
   max-width: 300px; /* adjust as needed */
   height: 500px; /* adjust as needed */
+  
 }
 
 ::-webkit-scrollbar {
@@ -177,10 +178,6 @@ body {
   /* Darker color on hover */
 }
 
-.container {
-  position: relative;
-  height: 500px; /* adjust as needed */
-}
 
 
 .loader-container {
