@@ -434,7 +434,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //               onClick={() => swipe("right")}>
     //                 <FontAwesomeIcon
     //                   icon={faHeart}
-                      
+
     //                   style={{ color: "#1be4a1" }}
     //                 />
     //               </button>
@@ -454,37 +454,37 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //   {/* Main Content */}
 
     // </div>
-<>
+    <>
       <SidebarComponent />
 
       {loading ? (
         <div className="sm:ml-64">
-        <div className="container flex justify-center">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
-                  <div className="h-screen">
-                 <Loader/>
+          <div className="container flex justify-center">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+              <div className="h-screen">
+                <Loader />
+              </div>
             </div>
           </div>
-        </div>
-      </div>         ) :
-     (  <div className="sm:ml-64">
-        <div className="container flex justify-center px-4">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
-            <div>
-                  <div className="h-screen ">
-                    {/* <div className=" pl-2 pb-2 pt-4">
+        </div>) :
+        (<div className="sm:ml-64">
+          <div className="container flex justify-center px-4">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
+              <div>
+                <div className="h-screen ">
+                  {/* <div className=" pl-2 pb-2 pt-4">
                       <img src={logo} alt="swapLogo" />
                     </div> */}
 
-                    <div className="object-fit md:absolute relative">
-                      <img
-                        alt="img"
-                        src={profile.images[0]}
-                        className="h-screen object-cover rounded-xl relative md:top-0 top-[-83px] "
-                        // style={{ height: "83vh"}}
-                      />
-                    </div>
-                    {/* <div
+                  <div className="object-fit md:absolute relative">
+                    <img
+                      alt="img"
+                      src={profile.images[0]}
+                      className="h-screen object-cover rounded-xl relative md:top-0 top-[-83px] "
+                    // style={{ height: "83vh"}}
+                    />
+                  </div>
+                  {/* <div
                       className="bg-black h-48 w-full z-10 bottom-0"
                       style={{
                         background:
@@ -493,26 +493,26 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                       }}
                     ></div> */}
 
-                    <div
-                      className="pl-4 md:relative absolute top-0 md:top-6 z-21"
-                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
-                    >
-                      <h2 className="text-4xl font-bold text-white  z-30  relative">
-                        {profile.name}
-                      </h2>
-                      <p className="text-lg text-gray-500 z-30 font-bold  relative">
-                        {profile.location}
-                      </p>
-                      {/* {console.log(profile.id)}
+                  <div
+                    className="pl-4 md:relative absolute top-0 md:top-6 z-21"
+                  // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                  >
+                    <h2 className="text-4xl font-bold text-white  z-30  relative">
+                      {profile.name}
+                    </h2>
+                    <p className="text-lg text-gray-500 z-30 font-bold  relative">
+                      {profile.location}
+                    </p>
+                    {/* {console.log(profile.id)}
                       {console.log(profile.id.toText())}
                       {console.log(profile.location)}
                       {console.log(profile.images[0])} */}
-                      <p className="mt-2 z-30 relative font-bold text-white">
-                        {profile.introduction}
-                      </p>
-                      <div
+                    <p className="mt-2 z-30 relative font-bold text-white">
+                      {profile.introduction}
+                    </p>
+                    <div
                       className=" flex absolute gap-4 "
-                      // style={{ paddingTop: "65px" }}
+                    // style={{ paddingTop: "65px" }}
                     >
                       <button
                         className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
@@ -533,21 +533,21 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                         />
                       </button>
                     </div>
-                    {
-         somebodyLiked &&
-         <>
-           {console.log("somebodyLiked", somebodyLiked)}
-           <ProfileModal2 profile={profile} onClose={handleCloseModal} />
-         </>
-       }
-                    </div>
-                  
                   </div>
+                  {
+                    somebodyLiked &&
+                    <>
+                      {console.log("somebodyLiked", somebodyLiked)}
+                      <ProfileModal2 profile={profile} onClose={handleCloseModal} />
+                    </>
+                  }
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      )}
+        )}
     </>
   );
 };
