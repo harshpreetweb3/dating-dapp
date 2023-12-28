@@ -214,6 +214,16 @@ const Notification = () => {
           />
           <div className="ml-2 text-lg font-medium">Your Matches</div>
         </div>
+        {/* <div class="flex items-center mt-[-110rem] ml-1.5 gap-0.5 mb-1 sm:mt-0">
+          <img
+            src={back}
+            alt="back"
+            onClick={() => navigate("/Swipe")}
+            class="w-4 h-4 cursor-pointer"
+          />
+          <div class="ml-2 text-lg font-medium">Your Matches</div>
+        </div> */}
+
         {/* <ChatSidebar/> */}
         <div className="relative flex justify-center items-center w-full mb-2">
           <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
@@ -267,7 +277,7 @@ const Notification = () => {
         </div>
       </div>
 
-      <div className="hidden lg:block col-span-6 xl:col-span-6 bg-gray-200" style={{height: '100vh'}}>
+      <div className="hidden lg:block col-span-6 xl:col-span-6 bg-gray-200" style={{ height: '100vh' }}>
         {/* <img src={logo} alt="Logo" className="w-12 h-12" /> */}
         {/* <ChattingPage /> */}
       </div>

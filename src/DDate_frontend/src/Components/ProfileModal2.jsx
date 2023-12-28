@@ -15,7 +15,7 @@ function ProfileModal2({ profile, onClose }) {
     borderRadius: '10px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
     width: '30%',
-    height: '100%'
+    // height: '100%'
   };
 
   const imgg = {

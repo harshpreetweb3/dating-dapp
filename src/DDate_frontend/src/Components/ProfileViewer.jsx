@@ -295,18 +295,18 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
 
       {!profile &&
 
-        <div style={profileStyle}>
-          <div>No profile found</div>
-        </div>
-
+        // <div style={profileStyle}>
+        //   <div>{console.log("No profile found")}</div>
+        // </div>
+        console.log("No profile found")
       }
 
       {loading &&
-
-        <div style={profileStyle}>
-          <div>wait a bit.. Let us show you the profile you are looking for</div>
-          <div style={loadingStyle}>Loading...</div>
-        </div>
+        console.log("wait a bit.. Let us show you the profile you are looking for")
+        // <div style={profileStyle}>
+        //   <div>{console.log("wait a bit.. Let us show you the profile you are looking for")}</div>
+        //   <div style={loadingStyle}>Loading...</div>
+        // </div>
       }
 
       {profile ?
@@ -365,13 +365,16 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
         // </div>
 
 
-        <div className="col-span-9 flex flex-col items-center">
+        <div className="col-span-9 flex flex-col">
           {profile && (
             <div className="cardContainer" style={{
               display: 'flex',
               justifyContent: 'center', // Center horizontally
-              alignItems: 'center', // Center vertically
-              height: '100vh', // Take full height of the viewport
+              alignItems: 'flex-start',
+              position: 'relative',
+              left: '-28%',
+              width: '100%',
+              top: '80px',
             }}>
               <div
                 className="card"
@@ -386,7 +389,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                   padding: '20px',
                   borderRadius: '10px',
                   boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-
+                  margin:'20px'
                 }}
               >
                 {/* <h3>{profile.name}</h3>
@@ -408,28 +411,28 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                 </div>
 
                 <div
-                      className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
-                    // style={{ paddingTop: "65px" }}
-                    >
-                      <button
-                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
-                        onClick={() => swipe("left")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faClose}
-                          style={{ color: "#fd5068" }}
-                        />
-                      </button>
-                      <button
-                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
-                        onClick={() => swipe("right")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          style={{ color: "#1be4a1" }}
-                        />
-                      </button>
-                    </div>
+                  className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
+                // style={{ paddingTop: "65px" }}
+                >
+                  <button
+                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+                    onClick={() => swipe("left")}
+                  >
+                    <FontAwesomeIcon
+                      icon={faClose}
+                      style={{ color: "#fd5068" }}
+                    />
+                  </button>
+                  <button
+                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+                    onClick={() => swipe("right")}
+                  >
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      style={{ color: "#1be4a1" }}
+                    />
+                  </button>
+                </div>
 
 
                 {/* <div className="buttons">
