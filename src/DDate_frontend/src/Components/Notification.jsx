@@ -203,9 +203,9 @@ const Notification = () => {
   return (<>
     <SidebarComponent />
     <div className="h-screen grid grid-cols-12">
-      <div className="col-span-2"></div>
-      <div className="col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-4">
-        <div className="flex items-center mt-10 ml-6 gap-2 mb-4">
+      <div className="md:col-span-2"></div>
+      <div className="col-span-12 lg:col-span-4 xl:col-span-4">
+        <div className="flex items-center md:mt-10 ml-6 gap-2 mb-4">
           <img
             src={back}
             alt="back"
@@ -258,7 +258,7 @@ const Notification = () => {
         </div> */}
         <div className="p-4 flex flex-wrap gap-2">
           {profiles.map((profile, index) => (
-            <div key={index} className="relative" onClick={() => handleNotificationClick(profile.id.toText())}>
+            <div key={index} className="relative w-full sm:w-1/2 md:w-1/3 lg:w-full" onClick={() => handleNotificationClick(profile.id.toText())}>
               <img className="w-[230px] h-[280px] rounded-[20px]" src={profile.images[0]} alt={profile.name} />
               {/* <img src={profile.images[0]}></img> */}
               <div className="w-[41px] h-[41px]">
@@ -273,6 +273,7 @@ const Notification = () => {
                 </div>
               </div>
             </div>
+            
           ))}
         </div>
       </div>

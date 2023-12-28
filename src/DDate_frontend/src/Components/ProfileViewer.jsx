@@ -471,7 +471,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
           <div className="container flex justify-center px-4">
             <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
               <div>
-                <div className="h-screen ">
+                <div className="h-screen my-10">
                   {/* <div className=" pl-2 pb-2 pt-4">
                       <img src={logo} alt="swapLogo" />
                     </div> */}
