@@ -5,6 +5,9 @@
 
 
 
+body{
+    overflow-x: hidden !important;
+}
 
 /* body {
     font-family: sans-serif;
