@@ -124,9 +124,12 @@ const Profile = () => {
     }
   };
 
+  const [isLoading, setIsLoading] = useState({});
+
   const handleAdditionalImageChange = (index) => async (e) => {
     const file = e.target.files[0];
     if (file) {
+      setIsLoading((prevLoading) => ({ ...prevLoading, [index]: true })); 
       try {
         const compressedFile = await CompressImage(file);
         const reader = new FileReader();
@@ -134,16 +137,18 @@ const Profile = () => {
         reader.onload = () => {
           setFormData((prevData) => {
             const newImages = [...prevData.images];
-            newImages[index] = reader.result; // Update the existing image at the specified index
+            newImages[index] = reader.result; 
             return { ...prevData, images: newImages };
           });
+          setIsLoading((prevLoading) => ({ ...prevLoading, [index]: false })); 
         };
       } catch (error) {
         console.error('Error compressing the image:', error);
+        setIsLoading((prevLoading) => ({ ...prevLoading, [index]: false })); 
       }
     }
   };
-  
+
   
   
 
@@ -266,9 +271,9 @@ const Profile = () => {
           
       ) : (
         <div className="h-screen grid grid-cols-12">
-          <div className="col-span-2"></div>
-          <div className="col-span-12 md:col-span-12 lg:col-span-6 xl:col-span-6">
-            <div className="flex items-center mt-10 ml-12 gap-2 mb-4">
+          <div className="md:col-span-2"></div>
+          <div className="col-span-12 lg:col-span-6 xl:col-span-6 px-6 lg:px-10 xl:px-12">
+            <div className="flex items-center md:mt-10 ml-12 gap-2 mb-4">
               <img
                 src={back}
                 alt="back"
@@ -277,8 +282,8 @@ const Profile = () => {
               />
               <div className="ml-2 text-lg font-medium">Edit Your Profile</div>
             </div>
-            <div className="px-6 p-2 sm:p-4 md:px-8 lg:px-10 xl:px-12 overflow-y-auto">
-              <div className="relative flex justify-center items-center w-full mb-16">
+            <div className="px-6 sm:p-4 md:px-8 lg:px-10 xl:px-12 overflow-y-auto">
+              <div className="relative flex justify-center items-center w-full mb-16 mt-2">
                 <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -354,16 +359,9 @@ const Profile = () => {
                         />
                         <div className=" text-white font-bold text-xs absolute z-30" style={{ top: '6.6rem', left: '3.4rem' }} >{progress} %</div>
                       </div>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-12 w-12 text-gray-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4z" />
-                      </svg>
-                    )}
+                    ) : <svg className="w-full h-full p-4 text-gray-200 dark:text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                </svg>}
                   </label>
                 </div>
                 <form
@@ -472,20 +470,13 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center mt-6">
-                    <button
-                      type="submit"
-                      className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
+                 
                 </form>
               </div>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-4">
-            <div className="flex items-center mt-10 ml-6 gap-2 mb-4">
+          <div className="col-span-12 lg:col-span-4 xl:col-span-4 px-4 lg:px-8 xl:px-10">
+            <div className="flex items-center md:mt-10 ml-6 gap-2 mb-6">
               <img
                 src={addProfile}
                 alt="addProfile"
@@ -493,7 +484,7 @@ const Profile = () => {
               />
               <div className="ml-2 text-lg font-medium">Your Photos</div>
             </div>
-            <div className="relative flex justify-center items-center w-full mb-2">
+            <div className="relative flex justify-center items-center w-full mb-2 mt-2">
             <p className="border-t border-black w-2/3 px-2 md:w-3/4 lg:w-2/3"></p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -509,7 +500,7 @@ const Profile = () => {
                 />
               </svg>
             </div>
-            <div className="border-b border-gray-300">
+            <div className="border-gray-300">
               <div className="flex items-center justify-center p-4 bg-white mb-2">
                 <div className=" text-black text-opacity-50 font-normal text-sm">
                   Add maximum 2 photos for better reach
@@ -519,34 +510,48 @@ const Profile = () => {
               <div className="bg-white">
   <div className="flex items-center flex-wrap p-3 md:p-4 justify-center cursor-pointer gap-4">
     {/* First input field for additional photos */}
-    <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
-      <label htmlFor={`additional-image-1`}>
-        {formData.images[0] ? (
-          <img
-            src={formData.images[1]}
-            alt={`Additional Image 1`}
-            className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
-          />
-        ) : (
-          <img
-            src={uploadProfile}
-            alt="uploadProfile"
-            className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
-          />
-        )}
-        <input
-          id={`additional-image-1`}
-          type="file"
-          onChange={handleAdditionalImageChange(1)}
-          className="hidden"
-        />
-      </label>
-    </div>
+    <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200 flex justify-center items-center">
+  <label htmlFor={`additional-image-1`}>
+    {isLoading[1] ? (
+      <div className="flex items-center justify-center w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200" key="1">
+       <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+        </svg>
+      </div>
+    ) : formData.images[1] ? (
+      <img
+        src={formData.images[1]}
+        alt={`Additional Image 1`}
+        className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
+      />
+    ) : (
+      <img
+        src={uploadProfile}
+        alt="uploadProfile"
+        className=" rounded-[15px] cursor-pointer"
+      />
+    )}
+    <input
+      id={`additional-image-1`}
+      type="file"
+      onChange={handleAdditionalImageChange(1)}
+      className="hidden"
+    />
+  </label>
+</div>
 
+    {Object.entries(isLoading).map(([key, value]) => (console.log(value)))}
     {/* Second input field for additional photos */}
     <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
       <label htmlFor={`additional-image-2`}>
-        {formData.images[1] ? (
+      {isLoading[2] ? (
+      <div className="flex items-center justify-center w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200" key="1">
+       <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+        </svg>
+      </div>
+    ) :
+    formData.images[2] ? (
           <img
             src={formData.images[2]}
             alt={`Additional Image 2`}
@@ -556,7 +561,7 @@ const Profile = () => {
           <img
             src={uploadProfile}
             alt="uploadProfile"
-            className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
+            className="rounded-[15px] cursor-pointer"
           />
         )}
         <input
@@ -569,7 +574,14 @@ const Profile = () => {
     </div>
   </div>
 </div>
-
+<div className="flex justify-center mt-6">
+                    <button
+                      type="submit"
+                      className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
 
             </div>
           </div>
