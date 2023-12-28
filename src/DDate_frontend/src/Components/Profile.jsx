@@ -106,39 +106,45 @@ const Profile = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-        try {
-            const compressedFile = await CompressImage(file);
-            const reader = new FileReader();
-            reader.readAsDataURL(compressedFile);
-            reader.onload = () => {
-                setTempProfileImage(reader.result); // Update tempProfileImage
-            };
-        } catch (error) {
-            console.error('Error compressing the image:', error);
-        }
+      try {
+        const compressedFile = await CompressImage(file);
+        const reader = new FileReader();
+        reader.readAsDataURL(compressedFile);
+        reader.onload = () => {
+          const newImageBase64 = reader.result;
+          setTempProfileImage(newImageBase64); // Set the first image as temporary profile image
+          setFormData((prevData) => ({
+            ...prevData,
+            images: [newImageBase64, ...prevData.images.slice(1)],
+          }));
+        };
+      } catch (error) {
+        console.error('Error compressing the image:', error);
+      }
     }
-};
+  };
 
-
-const handleAdditionalImageChange = (index) => async (e) => {
+  const handleAdditionalImageChange = (index) => async (e) => {
     const file = e.target.files[0];
     if (file) {
-        try {
-            const compressedFile = await CompressImage(file);
-            const reader = new FileReader();
-            reader.readAsDataURL(compressedFile);
-            reader.onload = () => {
-                setFormData(prevData => {
-                    const newImages = [...prevData.images];
-                    newImages[index] = reader.result;
-                    return { ...prevData, images: newImages };
-                });
-            };
-        } catch (error) {
-            console.error('Error compressing the image:', error);
-        }
+      try {
+        const compressedFile = await CompressImage(file);
+        const reader = new FileReader();
+        reader.readAsDataURL(compressedFile);
+        reader.onload = () => {
+          setFormData((prevData) => {
+            const newImages = [...prevData.images];
+            newImages[index] = reader.result; // Update the existing image at the specified index
+            return { ...prevData, images: newImages };
+          });
+        };
+      } catch (error) {
+        console.error('Error compressing the image:', error);
+      }
     }
-};
+  };
+  
+  
   
 
 
@@ -506,41 +512,64 @@ const handleAdditionalImageChange = (index) => async (e) => {
             <div className="border-b border-gray-300">
               <div className="flex items-center justify-center p-4 bg-white mb-2">
                 <div className=" text-black text-opacity-50 font-normal text-sm">
-                  Add maximum 5 photos for better reach
+                  Add maximum 2 photos for better reach
                 </div>
               </div>
+             
               <div className="bg-white">
   <div className="flex items-center flex-wrap p-3 md:p-4 justify-center cursor-pointer gap-4">
-    {formData.images.slice(1).map((image, index) => (
-      <div key={index} className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
-        {image ? (
+    {/* First input field for additional photos */}
+    <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
+      <label htmlFor={`additional-image-1`}>
+        {formData.images[0] ? (
           <img
-            src={image}
-            alt={`Additional Image ${index + 1}`}
+            src={formData.images[1]}
+            alt={`Additional Image 1`}
             className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
-            onClick={() => document.getElementById(`additional-image-${index + 1}`).click()}
           />
         ) : (
           <img
             src={uploadProfile}
             alt="uploadProfile"
             className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
-            onClick={() => document.getElementById(`additional-image-${index + 1}`).click()}
           />
         )}
         <input
-          id={`additional-image-${index + 1}`}
+          id={`additional-image-1`}
           type="file"
-          onChange={handleAdditionalImageChange(index + 1)}
+          onChange={handleAdditionalImageChange(1)}
           className="hidden"
         />
-      </div>
-    ))}
-    {/* <div className="w-[375px] h-[50px] bg-yellow-400 rounded-[40.50px] flex justify-center items-center">
-      <span>Save</span>
-    </div> */}
+      </label>
+    </div>
+
+    {/* Second input field for additional photos */}
+    <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
+      <label htmlFor={`additional-image-2`}>
+        {formData.images[1] ? (
+          <img
+            src={formData.images[2]}
+            alt={`Additional Image 2`}
+            className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
+          />
+        ) : (
+          <img
+            src={uploadProfile}
+            alt="uploadProfile"
+            className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] cursor-pointer"
+          />
+        )}
+        <input
+          id={`additional-image-2`}
+          type="file"
+          onChange={handleAdditionalImageChange(2)}
+          className="hidden"
+        />
+      </label>
+    </div>
   </div>
 </div>
+
 
             </div>
           </div>

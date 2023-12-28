@@ -18,9 +18,9 @@ const HeroRight = () => {
   const id =localStorage.getItem('id')
   console.log(id)
 
-  const createAccountHandler = () => {
-    navigate('/CreateAccount1');
-  };
+  // const createAccountHandler = () => {
+  //   navigate('/CreateAccount1');
+  // };
 
   // const uploadHandler = () => {
   //   navigate("/Upload");

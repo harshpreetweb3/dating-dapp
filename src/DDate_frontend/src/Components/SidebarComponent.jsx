@@ -285,7 +285,7 @@ const SidebarComponent = () => {
               {formData.images ? (
                 <div className="pt-2">
                   <img
-                    src={formData.images || "https://via.placeholder.com/150"}
+                    src={formData.images[0] || "https://via.placeholder.com/150"}
                     alt="Profile"
                     className="rounded-full w-10 h-10  object-cover border-2 border-white "
                     style={{ marginTop: "-10px" }}

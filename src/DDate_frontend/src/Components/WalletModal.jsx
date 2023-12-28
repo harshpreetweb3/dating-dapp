@@ -10,6 +10,9 @@ import { AuthClient } from "@dfinity/auth-client";
 import { useNavigate } from 'react-router-dom';
 import { toHex } from "@dfinity/agent";
 import axios from 'axios';
+import { DDate_backend } from "../../../declarations/DDate_backend/index";
+import { Principal } from "@dfinity/principal";
+
 
 const WalletModal = ({ isOpen, onClose }) => {
 
@@ -34,24 +37,53 @@ const WalletModal = ({ isOpen, onClose }) => {
 
   };
 
-
+  // const [loader, setLoader] = useState(false);
 
   if (!isOpen) return null;
 
+  // const navigateWithLoader = (path) => {
+  //   setLoader(false);
+  //   navigate(path);
+  // };
 
+  const existingUserHandler = async () => {
+    const principalString = localStorage.getItem("id");
+
+    if (principalString) {
+      try {
+        const newPrincipal = Principal.fromText(principalString);
+        const userExist = await DDate_backend.get_profile(newPrincipal);
+        const userPrincipalInString = userExist.id.toText();
+        const principalToString = newPrincipal.toText();
+
+        if (userPrincipalInString === principalToString) {
+          navigate("/Swipe");
+        } else {
+          navigate("/CreateAccount1");
+        }
+      } catch (error) {
+        console.error("Error checking user existence: ", error);
+        // navigate("/CreateAccount1");
+      }
+    } else {
+      navigate("/CreateAccount1");
+    }
+  };
 
   const InternetIdentityHandler = async () => {
     const authClient = await AuthClient.create();
     authClient.login({
       identityProvider: "https://identity.ic0.app/#authorize",
-      onSuccess: () => {
+      onSuccess: async () => {
         const identity = authClient.getIdentity();
-        const principal = identity.getPrincipal().toString();
-        localStorage.setItem('id', JSON.stringify(principal))
+        const principal = identity.getPrincipal();
+        let principalText = principal.toText();
+
+        localStorage.setItem("id", principalText);
         // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
-        localStorage.setItem('identity', JSON.stringify(identity))
-        navigate('/CreateAccount1')
-        onClose()
+        localStorage.setItem("identity", JSON.stringify(identity));
+        await existingUserHandler();
+        onClose();
       },
     });
   };
@@ -87,11 +119,9 @@ const WalletModal = ({ isOpen, onClose }) => {
         const isConnected = await window.ic.stoic.isConnected();
         if (isConnected) {
           console.log("Stoic Wallet is connected!");
-          // Handle successful connection here
         }
       } catch (error) {
         console.error("Error connecting to Stoic Wallet:", error);
-        // Handle connection error here
       }
     } else {
       alert("Stoic Wallet extension is not installed!");
@@ -229,19 +259,13 @@ const WalletModal = ({ isOpen, onClose }) => {
 
           //1. 3.
           console.log("id", principalText);
+          
+registerUser(principalText, rawKeyHex, principalText)
+          
+localStorage.setItem("id", principalText);
 
-          console.log("calling register user");
-
-          registerUser(principalText, rawKeyHex, principalText)
-          // let limitedPrincipalText = principalText.substring(0, 15);
-
-          localStorage.setItem('id', principalText)
-          localStorage.setItem('wallet', JSON.stringify('PlugWallet'))
-
-
-
-          navigate('/CreateAccount1')
-          onClose()
+          await existingUserHandler();
+          onClose();
         }
       } catch (error) {
         console.error("Error connecting to Plug Wallet:", error);
@@ -250,7 +274,6 @@ const WalletModal = ({ isOpen, onClose }) => {
       alert("Plug Wallet extension is not installed!");
     }
   };
-
 
   const connectAstroXME = async () => {
     if (window?.ic?.astroxme) { // Replace with actual check for AstroX ME
@@ -273,7 +296,6 @@ const WalletModal = ({ isOpen, onClose }) => {
       alert("AstroX ME extension is not installed!");
     }
   };
-
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-start z-50 pt-20" onClick={onClose}>
@@ -301,9 +323,16 @@ const WalletModal = ({ isOpen, onClose }) => {
           </li>
 
           {/* Plug Wallet */}
+
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img src={PlugWallet} alt="PlugWallet" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
-            <span className="text-center flex-grow" onClick={connectPlugWallet}>Plug Wallet</span>
+            <img
+              src={PlugWallet}
+              alt="PlugWallet"
+              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
+            />
+            <span className="text-center flex-grow" onClick={connectPlugWallet}>
+              Plug Wallet
+            </span>
           </li>
 
           {/* Stoic Wallet */}
