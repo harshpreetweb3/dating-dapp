@@ -75,11 +75,41 @@ import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 import './Notification.css';
 import back from "../../assets/Images/CreateAccount/back.svg";
-import ChattingSinglePage from "./Chatting/ChattingSinglePage";
+import ChattingPage from "./Chatting/ChattingPage";
+
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [selectedUserPrincipal, setSelectedUserPrincipal] = useState(null);
+
+  const [profiles, setProfiles] = useState([]); // State to store fetched profiles
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      // Create an array to hold the profiles
+
+
+      const fetchedProfiles = [];
+
+      // Iterate over each notification
+      for (const notification of notifications) {
+        try {
+          // Fetch the profile using the sender_id from the notification
+          const profile = await DDate_backend.get_profile(notification.sender_id);
+          fetchedProfiles.push(profile);
+        } catch (error) {
+          console.error("Failed to fetch profile:", error);
+        }
+      }
+
+      // Update the state with the fetched profiles
+      setProfiles(fetchedProfiles);
+    };
+
+    if (notifications.length > 0) {
+      fetchProfiles();
+    }
+  }, [notifications]);
 
   // const principalString = "tc7cw-ilo2x-rwqep-gohde-puqog-soeyv-szxvv-ybcgw-lbrkl-sm7ab-wae";
 
@@ -110,6 +140,7 @@ const Notification = () => {
       try {
         const notificationData = await DDate_backend.retrieve_notifications_for_user(principal);
         setNotifications(notificationData);
+
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
@@ -118,8 +149,24 @@ const Notification = () => {
     fetchNotifications();
   }, []);
 
+  console.log("these are the notification Which I have got in the array", notifications);
+  console.log("profiles from where notifications are received!!!", profiles);
+
+
+
+  // useEffect(()=>{
+
+
+  // }, [notifications])
+
+
+
+
   // Handler for when a notification is clicked
   const handleNotificationClick = (senderId) => {
+
+    console.log("sender id I am getting on click of your matches profile !@!", senderId, "we will navigate to this^^&&");
+
     setSelectedUserPrincipal(senderId);
     // You can then pass 'selectedUserPrincipal' to the getProfileComponent or navigate to a route that handles it
     navigate(`/profile/${senderId}`); // This is just an example. Replace with your actual routing logic.
@@ -184,7 +231,7 @@ const Notification = () => {
             />
           </svg>
         </div>
-        <div className="p-4 flex flex-wrap gap-2">
+        {/* <div className="p-4 flex flex-wrap gap-2">
           <div className="absolute">
             <img class="w-[230px] h-[280px] rounded-[20px]" src="https://via.placeholder.com/250x300" />
             <div class="w-[41px] h-[41px] ">
@@ -198,12 +245,36 @@ const Notification = () => {
             </div>
           </div>
 
+        </div> */}
+        <div className="p-4 flex flex-wrap gap-2">
+          {profiles.map((profile, index) => (
+            <div key={index} className="relative" onClick={() => handleNotificationClick(profile.id.toText())}>
+              <img className="w-[230px] h-[280px] rounded-[20px]" src={profile.images[0]} alt={profile.name} />
+              {/* <img src={profile.images[0]}></img> */}
+              <div className="w-[41px] h-[41px]">
+                <div className="w-[41px] h-[41px] absolute bg-yellow-400 rounded-full flex justify-center items-center" style={{ top: '14.2rem', left: '11.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512">
+                    <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" />
+                  </svg>
+                </div>
+                <div className="text-lg font-medium text-center absolute top-56 left-4">
+                  <span className="block -mb-2">{profile.name}</span>
+                  <span className="flex justify-start">{profile.age}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      <div className="hidden lg:block col-span-6 xl:col-span-6 bg-gray-200">
+
+      <div className="hidden lg:block col-span-6 xl:col-span-6 bg-gray-200" style={{height: '100vh'}}>
         {/* <img src={logo} alt="Logo" className="w-12 h-12" /> */}
-        <ChattingSinglePage />
+        {/* <ChattingPage /> */}
       </div>
+      {/* <div className="col-span-9 flex flex-col notification-container">
+        {notifications ? "you have got notifications" : "no notification r there"}
+        {notificationElements}
+      </div> */}
     </div >
   </>
   )

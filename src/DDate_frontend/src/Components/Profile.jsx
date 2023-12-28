@@ -69,10 +69,13 @@ const Profile = () => {
       };
 
       fetchUserProfile();
+      setLoader(false);
+
     } else {
       console.warn("Principal string is null or empty.");
     }
   }, []);
+  
 
   function convertStringToPrincipal(principalString) {
     try {
@@ -232,6 +235,8 @@ const Profile = () => {
     try {
       await DDate_backend.update_profile(updatedProfileData);
       navigate("/Swipe");
+     
+
     } catch (error) {
       console.error("Error sending data to the backend:", error);
     }

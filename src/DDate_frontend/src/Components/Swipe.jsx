@@ -19,19 +19,23 @@ import {
   faClose,
   faStar,
   faHeart,
-  faBolt,
+  faBolt,setLastDirectionsetLastDirection
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
 function Swipe() {
-  const principalString =
-    "lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
+  //const principalString =
+  //"lqfrt-gz5bh-7z76h-3hb7a-jh2hq-be7jp-equjq-b7wrw-u2xub-tnk3x-qqe";
 
-  //const principalString = localStorage.getItem("id");
+  const principalString = localStorage.getItem("id");
 
   console.log("this is principal strinng", principalString);
+
+  const userToken = localStorage.getItem('userToken');
+
+  console.log("getting it from local storage", userToken);
 
   const [matchedProfiles, setMatchedProfiles] = useState([]); //principals
   const [db, setSwipeProfiles] = useState([]); // profiles
@@ -56,16 +60,16 @@ function Swipe() {
   console.log("aha array aa jehra profiles sambhi betha", db);
 
 
-  const handleDislike = () => {
-    console.log("Dislike button is clicked");
-    // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
-  };
+  // const handleDislike = () => {
+  //   console.log("Dislike button is clicked");
+  //   setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  // };
 
 
-  const handleLike = () => {
-    console.log("Like button is clicked");
-    // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
-  };
+  // const handleLike = () => {
+  //   console.log("Like button is clicked");
+  //   setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  // };
 
 
   useEffect(() => {
@@ -163,9 +167,9 @@ function Swipe() {
   // DDate_backend.get_matched_profiles(principal);
 
 
-  function closeKrna() {
-    setNoMatch(false);
-  }
+  // function closeKrna() {
+  //   setNoMatch(false);
+  // }
 
 
 
@@ -285,10 +289,10 @@ function Swipe() {
     //setMatchedProfile(null);
   };
 
-  const mobileBackgroundStyle = {
-    background:
-      "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
-  };
+  // const mobileBackgroundStyle = {
+  //   background:
+  //     "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
+  // };
 
 
  
@@ -341,6 +345,8 @@ function Swipe() {
     }
   }, [moveX, moveY, setTransform]);
 
+
+
   // useEffect(() => {
   //   if (cards.length > 0) {
   //     setCurrent(document.querySelector(".card:last-child"));
@@ -364,29 +370,32 @@ function Swipe() {
     };
   }, [current, onPointerDown, onPointerMove, onPointerUp]);
 
+
   // New function to handle left swipe
-  const handleLeftSwipe = useCallback(() => {
-    if (current) {
-      const flyX = -window.innerWidth * 1.3;
-      setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
-      setTimeout(
-        // () => setCards((prevCards) => prevCards.slice(1)),
-        window.innerWidth
-      );
-    }
-  }, [current, setTransform]);
+  // const handleLeftSwipe = useCallback(() => {
+  //   if (current) {
+  //     const flyX = -window.innerWidth * 1.3;
+  //     setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
+  //     setTimeout(
+  //       // () => setCards((prevCards) => prevCards.slice(1)),
+  //       window.innerWidth
+  //     );
+  //   }
+  // }, [current, setTransform]);
+
 
   // New function to handle right swipe
-  const handleRightSwipe = useCallback(() => {
-    if (current) {
-      const flyX = window.innerWidth * 1.3;
-      setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
-      setTimeout(
-        // () => setCards((prevCards) => prevCards.slice(1)),
-        window.innerWidth
-      );
-    }
-  }, [current, setTransform]);
+  // const handleRightSwipe = useCallback(() => {
+  //   if (current) {
+  //     const flyX = window.innerWidth * 1.3;
+  //     setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
+  //     setTimeout(
+  //       // () => setCards((prevCards) => prevCards.slice(1)),
+  //       window.innerWidth
+  //     );
+  //   }
+  // }, [current, setTransform]);
+
   return (
     <>
       <SidebarComponent />
@@ -446,6 +455,7 @@ function Swipe() {
                         {character.location}
                       </p>
                       {console.log(character.id)}
+                      {console.log(character.id.toText())}
                       {console.log(character.location)}
                       {console.log(character.images[0])}
                       <p className="mt-2 z-30 relative font-bold text-white mb-6">

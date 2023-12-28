@@ -1,19 +1,41 @@
 import * as React from "react";
-import AstroXME from "../../assets/Images/WalletLogos/AstroXME.png";
-import infinityWallet from "../../assets/Images/WalletLogos/infinityWallet.png";
-import InternetIdentity from "../../assets/Images/WalletLogos/InternetIdentity.png";
-import NFID from "../../assets/Images/WalletLogos/NFID.png";
-import PlugWallet from "../../assets/Images/WalletLogos/PlugWallet.png";
-import StoicWallet from "../../assets/Images/WalletLogos/StoicWallet.png";
+import { useState } from "react";
+import AstroXME from "../../assets/Images/WalletLogos/AstroXME.png"
+import infinityWallet from "../../assets/Images/WalletLogos/infinityWallet.png"
+import InternetIdentity from "../../assets/Images/WalletLogos/InternetIdentity.png"
+import NFID from "../../assets/Images/WalletLogos/NFID.png"
+import PlugWallet from "../../assets/Images/WalletLogos/PlugWallet.png"
+import StoicWallet from "../../assets/Images/WalletLogos/StoicWallet.png"
 import { AuthClient } from "@dfinity/auth-client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { toHex } from "@dfinity/agent";
+import axios from 'axios';
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
-import Loader from "./Loader";
-import { useState } from "react";
+
 
 const WalletModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
+
+  const [userToken, setUserToken] = useState('');
+  const [userPrincipal, setUserPrincipal] = useState('');
+
+  console.log("tokan aaya after login", userToken);
+  console.log("principal userPrincipal after login", userPrincipal);
+
+  const onLogin = (token, principal) => {
+    console.log("aha token set state vich jau ga", token);
+    console.log("aha principal set state vich jau ga", principal);
+
+    setUserToken(token);
+    setUserPrincipal(principal);
+
+    localStorage.setItem('userToken', token);
+    localStorage.setItem('userPrincipal', principal);
+   
+
+  };
 
   // const [loader, setLoader] = useState(false);
 
@@ -66,9 +88,9 @@ const WalletModal = ({ isOpen, onClose }) => {
     });
   };
 
+
   const connectInfinityWallet = async () => {
-    if (window?.ic?.infinityWallet) {
-      // Replace with actual check for Infinity Wallet
+    if (window?.ic?.infinityWallet) { // Replace with actual check for Infinity Wallet
       try {
         // Request connection to the user's Infinity Wallet
         // This is a placeholder and should be replaced with the actual method
@@ -78,7 +100,7 @@ const WalletModal = ({ isOpen, onClose }) => {
         if (isConnected) {
           console.log("Infinity Wallet is connected!");
           // Handle successful connection here
-          navigate("/CreateAccount1");
+          navigate('/CreateAccount1');
         }
       } catch (error) {
         console.error("Error connecting to Infinity Wallet:", error);
@@ -88,6 +110,7 @@ const WalletModal = ({ isOpen, onClose }) => {
       alert("Infinity Wallet extension is not installed!");
     }
   };
+
 
   const connectStoicWallet = async () => {
     if (window?.ic?.stoic) {
@@ -105,6 +128,99 @@ const WalletModal = ({ isOpen, onClose }) => {
     }
   };
 
+  // async function getSignatureWithData(authClient) {
+  //   let principal = authClient.getPrincipal().toString();
+  //   let encoder = new TextEncoder();
+  //   let message = encoder.encode(principal);
+  //   let signature = await authClient.getPrincipal().sign(message);
+  //   let exportedKey = await crypto.subtle.exportKey('raw', authClient.getPrincipal()._inner._keyPair.publicKey);
+  //   return {
+  //     publicKey: toHex(exportedKey),
+  //     signature: toHex(signature),
+  //     principal: principal,
+  //   }
+  // }
+
+  async function registerUser(principal, publicKey, signature) {
+    console.log("inside register user!!")
+
+    // Retrieve the necessary information from localStorage
+    // const principal = localStorage.getItem('id');
+    // const publicKey = localStorage.getItem('publicKey'); // Assuming you have stored it already
+    // const signature = localStorage.getItem('signature'); // Assuming you have stored it already
+
+    // Construct the API endpoint (if it's always localhost, you can hardcode it, otherwise, make it configurable)
+    const apiEndpoint = 'http://localhost:3000/api/v1/register/user';
+
+    // Construct the payload
+    const payload = {
+      principal,
+      publicKey,
+      signature
+    };
+
+    // Use fetch to make the API call
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Check if the request was successful
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Registration successful:', data);
+
+        handleLogin(principal, publicKey);
+
+        // Handle successful registration (e.g., redirect to a login page or display a success message)
+      } else {
+        // If the server response was not ok, handle the error
+        console.error('Registration failed:', response.status, response.statusText);
+        // Handle error (e.g., display an error message to the user)
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Network error:', error);
+      // Handle error (e.g., display an error message to the user)
+    }
+  }
+
+
+
+  const handleLogin = async (principal, publicKey) => {
+    try {
+      // Replace with actual login API call
+      const response = await axios.post('http://localhost:3000/api/v1/login/user', {
+        principal: principal,
+        publicKey: publicKey // Modify as needed
+      });
+
+      if (response.data.status) {
+        onLogin(response.data.userToken, principal);
+        console.log("login sucesssssss__ss");
+
+        console.log("ls see token updated ja nhi befor local storage", userToken);
+        console.log("ls see userPrincipal updated ja nhi befor local storage", userPrincipal);
+
+        
+      } else {
+        console.log('Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+
+
+
+
+
+
   const connectPlugWallet = async () => {
     if (window?.ic?.plug) {
       try {
@@ -116,11 +232,37 @@ const WalletModal = ({ isOpen, onClose }) => {
           if (!window.ic.plug.agent) {
             await window.ic.plug.createAgent();
           }
-          console.log(window.ic.plug.agent);
+
+          console.log("authClient kind of thing..", window.ic.plug.agent);
+
+          const publicKey = await window.ic.plug.requestConnect();
+
+          console.log("public key mil gyi", publicKey)
+          console.log("public key mil gyi", publicKey)
+          console.log("public key mil gyi", publicKey.rawKey.data)
+
+          // 2.
+
+          let rawKeyHex = toHex(publicKey.rawKey.data);
+
+          console.log("this is rawKeyHex___________", rawKeyHex);
+
+
+
+          // let data_received = getSignatureWithData(window.ic.plug.agent);
+          // console.log("data received", data_received);
+
+
           let principal = await window.ic.plug.agent.getPrincipal();
+
           let principalText = principal.toText();
+
+          //1. 3.
           console.log("id", principalText);
-          localStorage.setItem("id", principalText);
+          
+registerUser(principalText, rawKeyHex, principalText)
+          
+localStorage.setItem("id", principalText);
 
           await existingUserHandler();
           onClose();
@@ -134,8 +276,7 @@ const WalletModal = ({ isOpen, onClose }) => {
   };
 
   const connectAstroXME = async () => {
-    if (window?.ic?.astroxme) {
-      // Replace with actual check for AstroX ME
+    if (window?.ic?.astroxme) { // Replace with actual check for AstroX ME
       try {
         // Request connection to the user's AstroX ME
         // This is a placeholder and should be replaced with the actual method
@@ -157,52 +298,27 @@ const WalletModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-start z-50 pt-20"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md p-5 m-3 rounded-lg shadow-lg bg-walletColor text-white"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-start z-50 pt-20" onClick={onClose}>
+      <div className="relative w-full max-w-md p-5 m-3 rounded-lg shadow-lg bg-walletColor text-white" onClick={(e) => e.stopPropagation()}>
         <h3 className="text-lg font-lg mb-4 text-center">Connect With</h3>
         <p className="border-t border-white w-full md:w-3/4 lg:w-2/3 mx-auto mb-4"></p>
 
         <ul className="space-y-3">
           {/* AstroX ME */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out  hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img
-              src={AstroXME}
-              alt="AstroXME"
-              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
-            />
-            <span className="text-center flex-grow" onClick={connectAstroXME}>
-              AstroX ME
-            </span>
+            <img src={AstroXME} alt="AstroXME" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
+            <span className="text-center flex-grow" onClick={connectAstroXME}>AstroX ME</span>
           </li>
 
           {/* Infinity Wallet */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img
-              src={infinityWallet}
-              alt="infinityWallet"
-              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
-            />
-            <span
-              className="text-center flex-grow"
-              onClick={connectInfinityWallet}
-            >
-              Infinity Wallet
-            </span>
+            <img src={infinityWallet} alt="infinityWallet" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
+            <span className="text-center flex-grow" onClick={connectInfinityWallet}>Infinity Wallet</span>
           </li>
 
           {/* NFID */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img
-              src={NFID}
-              alt="NFID"
-              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
-            />
+            <img src={NFID} alt="NFID" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
             <span className="text-center flex-grow">NFID</span>
           </li>
 
@@ -221,34 +337,18 @@ const WalletModal = ({ isOpen, onClose }) => {
 
           {/* Stoic Wallet */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img
-              src={StoicWallet}
-              alt="StoicWallet"
-              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
-            />
-            <span
-              className="text-center flex-grow"
-              onClick={connectStoicWallet}
-            >
-              Stoic Wallet
-            </span>
+            <img src={StoicWallet} alt="StoicWallet" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
+            <span className="text-center flex-grow" onClick={connectStoicWallet}>Stoic Wallet</span>
           </li>
 
           {/* Internet Identity */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
-            <img
-              src={InternetIdentity}
-              alt="InternetIdentity"
-              className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2"
-            />
-            <span
-              className="text-center flex-grow"
-              onClick={InternetIdentityHandler}
-            >
-              Internet Identity
-            </span>
+            <img src={InternetIdentity} alt="InternetIdentity" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
+            <span className="text-center flex-grow" onClick={InternetIdentityHandler}>Internet Identity</span>
           </li>
         </ul>
+
+
       </div>
     </div>
   );
