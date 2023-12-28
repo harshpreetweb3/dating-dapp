@@ -60,16 +60,16 @@ function Swipe() {
   console.log("aha array aa jehra profiles sambhi betha", db);
 
 
-  // const handleDislike = () => {
-  //   console.log("Dislike button is clicked");
-  //   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
-  // };
+  const handleDislike = () => {
+    console.log("Dislike button is clicked");
+    // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  };
 
 
-  // const handleLike = () => {
-  //   console.log("Like button is clicked");
-  //   // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
-  // };
+  const handleLike = () => {
+    console.log("Like button is clicked");
+    // setCurrentIndex(prevIndex => (prevIndex + 1) % swipeProfiles.length);
+  };
 
 
   useEffect(() => {
@@ -289,10 +289,10 @@ function Swipe() {
     //setMatchedProfile(null);
   };
 
-  // const mobileBackgroundStyle = {
-  //   background:
-  //     "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
-  // };
+  const mobileBackgroundStyle = {
+    background:
+      "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #2F2F2F 0%, #000 100%)",
+  };
 
 
  
@@ -369,31 +369,28 @@ function Swipe() {
   }, [current, onPointerDown, onPointerMove, onPointerUp]);
 
   // New function to handle left swipe
-  // const handleLeftSwipe = useCallback(() => {
-  //   if (current) {
-  //     const flyX = -window.innerWidth * 1.3;
-  //     setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
-  //     setTimeout(
-  //       // () => setCards((prevCards) => prevCards.slice(1)),
-  //       window.innerWidth
-  //     );
-  //   }
-  // }, [current, setTransform]);
+  const handleLeftSwipe = useCallback(() => {
+    if (current) {
+      const flyX = -window.innerWidth * 1.3;
+      setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
+      setTimeout(
+        // () => setCards((prevCards) => prevCards.slice(1)),
+        window.innerWidth
+      );
+    }
+  }, [current, setTransform]);
 
   // New function to handle right swipe
-  // const handleRightSwipe = useCallback(() => {
-  //   if (current) {
-  //     const flyX = window.innerWidth * 1.3;
-  //     setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
-  //     setTimeout(
-  //       // () => setCards((prevCards) => prevCards.slice(1)),
-  //       window.innerWidth
-  //     );
-  //   }
-  // }, [current, setTransform]);
-
-
-
+  const handleRightSwipe = useCallback(() => {
+    if (current) {
+      const flyX = window.innerWidth * 1.3;
+      setTransform(flyX, 0, (flyX / window.innerWidth) * 50, window.innerWidth);
+      setTimeout(
+        // () => setCards((prevCards) => prevCards.slice(1)),
+        window.innerWidth
+      );
+    }
+  }, [current, setTransform]);
   return (
     <>
       <SidebarComponent />
@@ -410,7 +407,7 @@ function Swipe() {
       </div>         ) :
      (  <div className="sm:ml-64">
         <div className="container flex justify-center px-4">
-          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-lg shadow-2xl shadow-slate-100	overflow-hidden">
+          <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
             <div>
               {db.map((character, index) => (
                 <TinderCard
@@ -467,10 +464,7 @@ function Swipe() {
                         />
                       )}
                     </div>
-                   
-                  </div>
-                </TinderCard>
-              ))} <div
+                    <div
                       className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
                       // style={{ paddingTop: "65px" }}
                     >
@@ -493,6 +487,9 @@ function Swipe() {
                         />
                       </button>
                     </div>
+                  </div>
+                </TinderCard>
+              ))}
             </div>
           </div>
         </div>

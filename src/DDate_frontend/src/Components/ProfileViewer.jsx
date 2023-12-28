@@ -125,12 +125,14 @@ import {
   faBolt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loader from './Loader';
 
 const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
   const { senderId } = useParams(); // assuming the sender's ID is passed as a URL parameter
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState(null);
   const [somebodyLiked, setSomebodyLiked] = useState(false);
 
@@ -287,189 +289,266 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
   // };
 
   return (
-    <div className="h-screen grid grid-cols-12">
-      {/* Sidebar */}
-      <div className="col-span-3">
-        <SidebarComponent />
-      </div>
+    // <div className="h-screen grid grid-cols-12">
+    //   {/* Sidebar */}
+    //   <div className="md:col-span-3 absolute md:relative">
+    //     <SidebarComponent />
+    //   </div>
 
-      {!profile &&
+    //   {!profile &&
 
-        // <div style={profileStyle}>
-        //   <div>{console.log("No profile found")}</div>
-        // </div>
-        console.log("No profile found")
-      }
+    //     // <div style={profileStyle}>
+    //     //   <div>{console.log("No profile found")}</div>
+    //     // </div>
+    //     console.log("No profile found")
+    //   }
 
-      {loading &&
-        console.log("wait a bit.. Let us show you the profile you are looking for")
-        // <div style={profileStyle}>
-        //   <div>{console.log("wait a bit.. Let us show you the profile you are looking for")}</div>
-        //   <div style={loadingStyle}>Loading...</div>
-        // </div>
-      }
+    //   {loading &&
+    //     console.log("wait a bit.. Let us show you the profile you are looking for")
+    //     // <div style={profileStyle}>
+    //     //   <div>{console.log("wait a bit.. Let us show you the profile you are looking for")}</div>
+    //     //   <div style={loadingStyle}>Loading...</div>
+    //     // </div>
+    //   }
 
-      {profile ?
+    //   {profile ?
 
-        //   <div className="col-span-9 flex flex-col items-center">
-        //   {/* Title */}
-        //   {/* <h1>React Tinder Card</h1> */}
+    //     //   <div className="col-span-9 flex flex-col items-center">
+    //     //   {/* Title */}
+    //     //   {/* <h1>React Tinder Card</h1> */}
 
-        //   {/* Card Container */}
-        //   <div className="cardContainer">
-        //     {/* {db.map((profile, index) => ( */}
-        //     {/* <TinderCard
-        //       //ref={childRefs[index]}
-        //       className="swipe"
-        //       key={profile.location}
-        //     // onSwipe={(dir) =>   swiped(dir, profile.name, index)}
-        //     // onCardLeftScreen={() => outOfFrame(profile.name, index)}
-        //     > */}
+    //     //   {/* Card Container */}
+    //     //   <div className="cardContainer">
+    //     //     {/* {db.map((profile, index) => ( */}
+    //     //     {/* <TinderCard
+    //     //       //ref={childRefs[index]}
+    //     //       className="swipe"
+    //     //       key={profile.location}
+    //     //     // onSwipe={(dir) =>   swiped(dir, profile.name, index)}
+    //     //     // onCardLeftScreen={() => outOfFrame(profile.name, index)}
+    //     //     > */}
 
-        //       <div
-        //         style={{ backgroundImage: "url(" + profile.images[0] + ")" }}
-        //         className="card"
-        //       >
-
-
-        //         {/* <img src={profile.images[0]}></img> */}
-        //         <h3>{profile.name}</h3>
-        //         <h4>{profile.location}</h4>
-        //         {/* <h4>{profile.id}</h4> */}
-        //         {console.log(profile.id)}
-        //         {console.log(profile.location)}
-        //         {console.log(profile.images[0])}
-        //         <h5>{profile.introduction}</h5>
-        //         {/* {setPToLike(profile.id)} */}
+    //     //       <div
+    //     //         style={{ backgroundImage: "url(" + profile.images[0] + ")" }}
+    //     //         className="card"
+    //     //       >
 
 
+    //     //         {/* <img src={profile.images[0]}></img> */}
+    //     //         <h3>{profile.name}</h3>
+    //     //         <h4>{profile.location}</h4>
+    //     //         {/* <h4>{profile.id}</h4> */}
+    //     //         {console.log(profile.id)}
+    //     //         {console.log(profile.location)}
+    //     //         {console.log(profile.images[0])}
+    //     //         <h5>{profile.introduction}</h5>
+    //     //         {/* {setPToLike(profile.id)} */}
 
 
-        //         <div className="buttons">
-        //           <button onClick={() => swipe("left")}>X</button>
-        //           <button onClick={() => swipe("right")}>✔</button>
-        //         </div>
-        //       </div>
-        //       {
-        //         somebodyLiked &&
-        //         <>
-        //           {console.log("somebodyLiked", somebodyLiked)}
-        //           <ProfileModal2 profile={profile} onClose={handleCloseModal} />
-        //         </>
-        //       }
-
-        //     {/* </TinderCard> */}
-
-        //     {/* ))} */}
-        //   </div>
-        // </div>
 
 
-        <div className="col-span-9 flex flex-col">
-          {profile && (
-            <div className="cardContainer" style={{
-              display: 'flex',
-              justifyContent: 'center', // Center horizontally
-              alignItems: 'flex-start',
-              position: 'relative',
-              left: '-28%',
-              width: '100%',
-              top: '80px',
-            }}>
-              <div
-                className="card"
-                style={{
-                  backgroundImage: `url(${profile.images[0]})`,
-                  backgroundSize: 'cover',
-                  width: getCardWidth(),
-                  height: '100vh', // Set the height of the card
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  padding: '20px',
-                  borderRadius: '10px',
-                  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-                  margin:'20px'
-                }}
-              >
-                {/* <h3>{profile.name}</h3>
-                <h4>{profile.location}</h4>
-                <h5>{profile.introduction}</h5> */}
+    //     //         <div className="buttons">
+    //     //           <button onClick={() => swipe("left")}>X</button>
+    //     //           <button onClick={() => swipe("right")}>✔</button>
+    //     //         </div>
+    //     //       </div>
+    //     //       {
+    //     //         somebodyLiked &&
+    //     //         <>
+    //     //           {console.log("somebodyLiked", somebodyLiked)}
+    //     //           <ProfileModal2 profile={profile} onClose={handleCloseModal} />
+    //     //         </>
+    //     //       }
 
-                <div
-                  className="pl-4 bottom-16 absolute z-21"
-                // style={{ marginBottom: "-7px", lineHeight: "4px" }}
-                >
+    //     //     {/* </TinderCard> */}
 
-                  <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
-                    {profile.name}
-                  </h2>
-                  <p className="text-lg text-gray-700 font-bold z-10 relative">
-                    {profile.location}
-                  </p>
-
-                </div>
-
-                <div
-                  className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
-                // style={{ paddingTop: "65px" }}
-                >
-                  <button
-                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
-                    onClick={() => swipe("left")}
-                  >
-                    <FontAwesomeIcon
-                      icon={faClose}
-                      style={{ color: "#fd5068" }}
-                    />
-                  </button>
-                  <button
-                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
-                    onClick={() => swipe("right")}
-                  >
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      style={{ color: "#1be4a1" }}
-                    />
-                  </button>
-                </div>
+    //     //     {/* ))} */}
+    //     //   </div>
+    //     // </div>
 
 
-                {/* <div className="buttons">
-                  <button 
-                  className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
-                  onClick={() => swipe("left")}>
-                    <FontAwesomeIcon
-                      icon={faClose}
-                      style={{ color: "#fd5068" }}
-                    />
-                  </button>
-                  <button
-                  className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
-                  onClick={() => swipe("right")}>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      
-                      style={{ color: "#1be4a1" }}
-                    />
-                  </button>
-                </div> */}
+    //     <div className="md:col-span-9 col-span-12 flex flex-col justify-start">
+    //       {profile && (
+    //         <div className="flex justify-center items-center md:relative  w-full top-0 h-full my-10 md:my-0" >
+    //           <div
+    //             className="flex p-5 rounded-[10px] shadow-[0px 0px 10px rgba(0, 0, 0, 0.5)] m-5 flex-col justify-between bg-cover h-full w-full md:w-[50%] my-10"
+    //             style={{
+    //               backgroundImage: `url(${profile.images[0]})`,
+
+    //             }}
+    //           >
+    //             {/* <h3>{profile.name}</h3>
+    //             <h4>{profile.location}</h4>
+    //             <h5>{profile.introduction}</h5> */}
+
+    //             <div
+    //               className="pl-4 bottom-16 absolute z-21"
+    //             // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+    //             >
+
+    //               <h2 className="text-4xl font-bold text-gradient-to-b from-[#DB7D11] to-[#6B3018] z-10 relative">
+    //                 {profile.name}
+    //               </h2>
+    //               <p className="text-lg text-gray-700 font-bold z-10 relative">
+    //                 {profile.location}
+    //               </p>
+
+    //             </div>
+
+    //             <div
+    //               className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-30"
+    //             // style={{ paddingTop: "65px" }}
+    //             >
+    //               <button
+    //                 className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+    //                 onClick={() => swipe("left")}
+    //               >
+    //                 <FontAwesomeIcon
+    //                   icon={faClose}
+    //                   style={{ color: "#fd5068" }}
+    //                 />
+    //               </button>
+    //               <button
+    //                 className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+    //                 onClick={() => swipe("right")}
+    //               >
+    //                 <FontAwesomeIcon
+    //                   icon={faHeart}
+    //                   style={{ color: "#1be4a1" }}
+    //                 />
+    //               </button>
+    //             </div>
+
+
+    //             {/* <div className="buttons">
+    //               <button 
+    //               className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+    //               onClick={() => swipe("left")}>
+    //                 <FontAwesomeIcon
+    //                   icon={faClose}
+    //                   style={{ color: "#fd5068" }}
+    //                 />
+    //               </button>
+    //               <button
+    //               className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+    //               onClick={() => swipe("right")}>
+    //                 <FontAwesomeIcon
+    //                   icon={faHeart}
+
+    //                   style={{ color: "#1be4a1" }}
+    //                 />
+    //               </button>
+    //             </div> */}
+    //           </div>
+    //           {somebodyLiked && (
+    //             <ProfileModal2 profile={profile} onClose={() => setSomebodyLiked(false)} />
+    //           )}
+    //         </div>
+    //       )}
+    //     </div>
+
+
+    //     : "No profile found"
+    //   }
+
+    //   {/* Main Content */}
+
+    // </div>
+    <>
+      <SidebarComponent />
+
+      {loading ? (
+        <div className="sm:ml-64">
+          <div className="container flex justify-center">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+              <div className="h-screen">
+                <Loader />
               </div>
-              {somebodyLiked && (
-                <ProfileModal2 profile={profile} onClose={() => setSomebodyLiked(false)} />
-              )}
             </div>
-          )}
+          </div>
+        </div>) :
+        (<div className="sm:ml-64">
+          <div className="container flex justify-center px-4">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
+              <div>
+                <div className="h-screen ">
+                  {/* <div className=" pl-2 pb-2 pt-4">
+                      <img src={logo} alt="swapLogo" />
+                    </div> */}
+
+                  <div className="object-fit md:absolute relative">
+                    <img
+                      alt="img"
+                      src={profile.images[0]}
+                      className="h-screen object-cover rounded-xl relative md:top-0 top-[-83px] "
+                    // style={{ height: "83vh"}}
+                    />
+                  </div>
+                  {/* <div
+                      className="bg-black h-48 w-full z-10 bottom-0"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgb(0, 0, 0) 64%, rgba(255, 255, 255, 0) 100%)",
+                        position: "fixed",
+                      }}
+                    ></div> */}
+
+                  <div
+                    className="pl-4 md:relative absolute top-0 md:top-6 z-21"
+                  // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                  >
+                    <h2 className="text-4xl font-bold text-white  z-30  relative">
+                      {profile.name}
+                    </h2>
+                    <p className="text-lg text-gray-500 z-30 font-bold  relative">
+                      {profile.location}
+                    </p>
+                    {/* {console.log(profile.id)}
+                      {console.log(profile.id.toText())}
+                      {console.log(profile.location)}
+                      {console.log(profile.images[0])} */}
+                    <p className="mt-2 z-30 relative font-bold text-white">
+                      {profile.introduction}
+                    </p>
+                    <div
+                      className=" flex absolute gap-4 "
+                    // style={{ paddingTop: "65px" }}
+                    >
+                      <button
+                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
+                        onClick={() => swipe("left")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faClose}
+                          style={{ color: "#fd5068" }}
+                        />
+                      </button>
+                      <button
+                        className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
+                        onClick={() => swipe("right")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          style={{ color: "#1be4a1" }}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  {
+                    somebodyLiked &&
+                    <>
+                      {console.log("somebodyLiked", somebodyLiked)}
+                      <ProfileModal2 profile={profile} onClose={handleCloseModal} />
+                    </>
+                  }
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-        : "No profile found"
-      }
-
-      {/* Main Content */}
-
-    </div>
-
+        )}
+    </>
   );
 };
 

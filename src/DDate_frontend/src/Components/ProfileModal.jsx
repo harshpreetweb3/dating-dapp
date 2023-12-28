@@ -13,8 +13,14 @@ import React from "react";
       padding: '20px',
       zIndex: 1000,
       borderRadius: '10px',
-      boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)'
+      boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
+      width: '30%',
     };
+
+    const imgg = {
+      maxWidth: '100%',
+      height: 'auto'
+    }
   
     const backdropStyle = {
       position: 'fixed',
@@ -44,7 +50,7 @@ import React from "react";
         {console.log("chlo bhai index dekhde aa ", indexxx)}
 
 
-        <img src={profile.images[0]}></img>
+        <img src={profile.images[0]} style={imgg}></img>
           <h2>You've Matched!</h2>
           <p>Congratulations, you've been matched with {profile.name}!</p>
           <button onClick={onClose} style={buttonStyle}>Close</button>
