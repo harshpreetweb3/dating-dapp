@@ -12,57 +12,55 @@ import { Principal } from "@dfinity/principal";
 import Loader from "./Loader";
 import { useState } from "react";
 
-
 const WalletModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-
 
   // const [loader, setLoader] = useState(false);
 
   if (!isOpen) return null;
-
 
   // const navigateWithLoader = (path) => {
   //   setLoader(false);
   //   navigate(path);
   // };
 
-  const existingUserHandler =async ()=>{
-
+  const existingUserHandler = async () => {
     const principalString = localStorage.getItem("id");
-    const newPrincipal = Principal.fromText(principalString);
 
-    if (newPrincipal) {
+    if (principalString) {
       try {
+        const newPrincipal = Principal.fromText(principalString);
         const userExist = await DDate_backend.get_profile(newPrincipal);
         const userPrincipalInString = userExist.id.toText();
         const principalToString = newPrincipal.toText();
 
         if (userPrincipalInString === principalToString) {
+          navigate("/Swipe");
+        } else {
           navigate("/CreateAccount1");
         }
       } catch (error) {
         console.error("Error checking user existence: ", error);
-
+        // navigate("/CreateAccount1");
       }
     } else {
       navigate("/CreateAccount1");
     }
-   }
-   
-
+  };
 
   const InternetIdentityHandler = async () => {
     const authClient = await AuthClient.create();
     authClient.login({
       identityProvider: "https://identity.ic0.app/#authorize",
-      onSuccess: () => {
+      onSuccess: async () => {
         const identity = authClient.getIdentity();
-        const principal = identity.getPrincipal().toString();
-        localStorage.setItem("id", JSON.stringify(principal));
+        const principal = identity.getPrincipal();
+        let principalText = principal.toText();
+
+        localStorage.setItem("id", principalText);
         // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
         localStorage.setItem("identity", JSON.stringify(identity));
-        navigate("/CreateAccount1");
+        await existingUserHandler();
         onClose();
       },
     });
@@ -98,21 +96,16 @@ const WalletModal = ({ isOpen, onClose }) => {
         const isConnected = await window.ic.stoic.isConnected();
         if (isConnected) {
           console.log("Stoic Wallet is connected!");
-          // Handle successful connection here
         }
       } catch (error) {
         console.error("Error connecting to Stoic Wallet:", error);
-        // Handle connection error here
       }
     } else {
       alert("Stoic Wallet extension is not installed!");
     }
   };
 
-
-
   const connectPlugWallet = async () => {
-
     if (window?.ic?.plug) {
       try {
         await window.ic.plug.requestConnect();
@@ -127,13 +120,9 @@ const WalletModal = ({ isOpen, onClose }) => {
           let principal = await window.ic.plug.agent.getPrincipal();
           let principalText = principal.toText();
           console.log("id", principalText);
-          // let limitedPrincipalText = principalText.substring(0, 15);
-
           localStorage.setItem("id", principalText);
-          // localStorage.setItem('wallet',JSON.stringify('PlugWallet'))
-         
-          existingUserHandler()
-          // navigate('/CreateAccount1')
+
+          await existingUserHandler();
           onClose();
         }
       } catch (error) {
@@ -143,8 +132,6 @@ const WalletModal = ({ isOpen, onClose }) => {
       alert("Plug Wallet extension is not installed!");
     }
   };
-
-
 
   const connectAstroXME = async () => {
     if (window?.ic?.astroxme) {
@@ -168,10 +155,6 @@ const WalletModal = ({ isOpen, onClose }) => {
       alert("AstroX ME extension is not installed!");
     }
   };
-
-
- 
-
 
   return (
     <div
@@ -225,7 +208,7 @@ const WalletModal = ({ isOpen, onClose }) => {
 
           {/* Plug Wallet */}
 
-         <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
+          <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
             <img
               src={PlugWallet}
               alt="PlugWallet"
@@ -235,7 +218,7 @@ const WalletModal = ({ isOpen, onClose }) => {
               Plug Wallet
             </span>
           </li>
-  
+
           {/* Stoic Wallet */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
             <img

@@ -57,25 +57,26 @@ const CreateAccount5 = () => {
   
 
   const handleImageChange = async (e, index) => {
+    setIsButtonDisable(true)
     const file = e.target.files[0];
     if (file) {
         try {
             const compressedFile = await CompressImage(file);
 
             const reader = new FileReader();
-            reader.onload = () => {
-                // Update state in the onload callback
+            reader.onload = (event) => {
                 const updatedImages = [...imageFiles];
-                updatedImages[index] = reader.result; 
+                updatedImages[index] = event.target.result;
                 setImageFiles(updatedImages);
+                setIsButtonDisable(false); // Set isButtonDisable to false here
             };
             reader.readAsDataURL(compressedFile);
         } catch (error) {
             console.error('Error during image processing:', error);
+            
         }
     }
 };
-
 
   
 
@@ -401,7 +402,7 @@ const CreateAccount5 = () => {
                     : "bg-yellow-500 hover:bg-yellow-600 text-white"
                 }`}
               >
-                Save and Start
+               { isButtonDisable ? "loading..." : "Save and Start" }
               </button>
             </div>
           </form>
