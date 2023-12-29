@@ -472,7 +472,15 @@ const Profile = () => {
                         className="form-input w-full px-2 py-1.5 rounded-3xl bg-gray-200"
                       ></textarea>
                     </div>
-                  </div>
+                  </div> 
+                  <div className="flex justify-center mt-6">
+                <button
+                  type="submit"
+                  className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
+                >
+                  Save Changes
+                </button>
+              </div>
                 </form>
               </div>
             </div>
@@ -595,14 +603,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center mt-6">
-                <button
-                  type="submit"
-                  className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
-                >
-                  Save Changes
-                </button>
-              </div>
+             
             </div>
           </div>
         </div>
