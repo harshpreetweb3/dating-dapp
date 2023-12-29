@@ -51,12 +51,7 @@ body {
   fill: #fff;
 }
 
-.swipe {
-  position: absolute;
-  width: 100%;
-  max-width: 90%;
-  /* height: 500px; */
-}
+
 .card {
   position: absolute;
   display: flex;
@@ -159,8 +154,6 @@ body {
 .swipe {
   position: absolute;
   width: 100%;
-  max-width: 90%;
-  /* height: 500px;  */
 }
 
 ::-webkit-scrollbar {
