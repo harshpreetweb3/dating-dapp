@@ -7,16 +7,19 @@ import p3 from "../../assets/Images/FeedbackImages/p3.svg";
 const Feedback = () => {
   const feedbackData = [
     {
-      name: 'Camilla',
-      description: "I had an amazing experience using the app! The user interface is so user-friendly, and I quickly found new friends.",
+      name: "Camilla",
+      description:
+        "I had an amazing experience using the app! The user interface is so user-friendly, and I quickly found new friends.",
     },
     {
-      name: 'Eliana',
-      description: "The app has exceeded my expectations. It's not just about dating; it's about meaningful connections. Thanks to this app, I met someone special.",
+      name: "Eliana",
+      description:
+        "The app has exceeded my expectations. It's not just about dating; it's about meaningful connections. Thanks to this app, I met someone special.",
     },
     {
-      name: 'Antonio',
-      description: "I've been using this app for a while now, and it has helped me expand my professional network significantly. It's a game-changer!",
+      name: "Antonio",
+      description:
+        "I've been using this app for a while now, and it has helped me expand my professional network significantly. It's a game-changer!",
     },
   ];
 

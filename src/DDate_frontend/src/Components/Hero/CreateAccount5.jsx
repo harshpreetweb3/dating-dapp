@@ -152,6 +152,12 @@ const CreateAccount5 = () => {
         images: imageFiles,
       };
 
+      localStorage.setItem('myImage', objectSendToBackendFormat.images[0]);
+
+      console.log("image in local storage", objectSendToBackendFormat.images[0]);
+
+
+
       console.log("objectSendToBackendFormat", objectSendToBackendFormat);
 
       try {

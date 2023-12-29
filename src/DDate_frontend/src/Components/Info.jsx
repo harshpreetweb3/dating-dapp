@@ -6,7 +6,8 @@ const Info = () => {
       <div
         className="w-full py-8 sm:py-10 md:py-12 lg:py-14 px-2"
         style={{
-          background: "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #E28110 0%, #26011C 100%)"
+          background:
+            "radial-gradient(84.33% 84.32% at 51.71% 43.22%, #E28110 0%, #26011C 100%)",
         }}
       >
         <h2 className="text-center font-num text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 mt-2">
@@ -40,7 +41,8 @@ const Info = () => {
             <div>
               <p className="text-2xl text-white mb-2">Create Account</p>
               <p className="text-white text-sm font-light max-w-xs">
-              Create an account to get started on our platform. It's easy and only takes a few minutes to set up your profile.
+                Create an account to get started on our platform. It's easy and
+                only takes a few minutes to set up your profile.
               </p>
             </div>
           </div>
@@ -50,7 +52,9 @@ const Info = () => {
             <div>
               <p className="text-2xl text-white mb-2">Update Your Profile</p>
               <p className="text-white text-sm font-light max-w-xs">
-              Make your profile stand out by adding your interests, photos, and more. The more information you provide, the easier it is for others to find you.
+                Make your profile stand out by adding your interests, photos,
+                and more. The more information you provide, the easier it is for
+                others to find you.
               </p>
             </div>
           </div>
@@ -60,9 +64,9 @@ const Info = () => {
             <div>
               <p className="text-2xl text-white mb-2">Swipe To Find Match</p>
               <p className="text-white text-sm font-light max-w-xs">
-              Explore and discover potential matches by swiping right or left. Find people who share your interests and start a conversation today.
-
-
+                Explore and discover potential matches by swiping right or left.
+                Find people who share your interests and start a conversation
+                today.
               </p>
             </div>
           </div>

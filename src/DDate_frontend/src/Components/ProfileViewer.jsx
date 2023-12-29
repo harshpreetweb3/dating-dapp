@@ -38,7 +38,6 @@
 
 // // const principall = convertStringToPrincipal(senderId); //principal
 
-
 //   // useEffect(() => {
 //   //   const fetchProfile = async () => {
 
@@ -80,7 +79,6 @@
 //     }
 //   }, [senderId]);
 
-
 //   if (loading) {
 //     return <div>Loading profile...</div>;
 //   }
@@ -95,7 +93,7 @@
 
 //   console.log("profile which will be viewed!!!", profile)
 
-//   // Render the profile data 
+//   // Render the profile data
 //   // let nafees make the UI
 //   return (
 //     <div>
@@ -109,14 +107,13 @@
 
 // export default ProfileViewer;
 
-
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { DDate_backend } from '../../../declarations/DDate_backend/index';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 import TinderCard from "react-tinder-card";
-import SidebarComponent from './SidebarComponent';
-import ProfileModal2 from './ProfileModal2';
+import SidebarComponent from "./SidebarComponent";
+import ProfileModal2 from "./ProfileModal2";
 import {
   faArrowRotateLeft,
   faClose,
@@ -125,7 +122,7 @@ import {
   faBolt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Loader from './Loader';
+import Loader from "./Loader";
 
 const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
   const { senderId } = useParams(); // assuming the sender's ID is passed as a URL parameter
@@ -143,7 +140,6 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
   const swipe = async (dir) => {
     console.log("Attempting to swipe:", dir);
 
-
     //if (canSwipe && currentIndex >= 0 && currentIndex < db.length) {
     // const cardRef = childRefs[currentIndex];
     // if (cardRef && cardRef.current) {
@@ -156,18 +152,17 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //   console.error("Cannot swipe. Index or db length issue.");
     // }
 
-
-
-
-
-    if (dir == 'right') {
+    if (dir == "right") {
       console.log("like button hoya clicked##");
       setSomebodyLiked(true);
-      console.log("aha profile jehre array chh pai rhi hai", profile.id.toText());
+      console.log(
+        "aha profile jehre array chh pai rhi hai",
+        profile.id.toText()
+      );
 
       setFinalMatch((currentMatches) => [...currentMatches, profile.id]);
     } else {
-      console.log("Dislike button ho clicked##")
+      console.log("Dislike button ho clicked##");
     }
   };
 
@@ -177,20 +172,19 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
 
   // Define styles directly within the component
   const profileStyle = {
-    backgroundColor: 'white',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)'
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
   };
 
   const loadingStyle = {
-    fontSize: '20px'
+    fontSize: "20px",
   };
 
   useEffect(() => {
     const fetchProfile = async () => {
-
-      console.log("fetchProfile is being called!!@@@")
+      console.log("fetchProfile is being called!!@@@");
       try {
         setLoading(true);
         // Convert the senderId to Principal inside useEffect
@@ -253,30 +247,30 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
 
   const [windowWidth, setWindowWidth] = useState(getWindowWidth());
 
-
-
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(getWindowWidth());
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Function to determine the card's width based on the window width
   const getCardWidth = () => {
-    if (windowWidth > 1200) { // Large screens
-      return '450px';
-    } else if (windowWidth > 768) { // Medium screens
-      return '300px';
-    } else { // Small screens
-      return '100%'; // Full width on small screens
+    if (windowWidth > 1200) {
+      // Large screens
+      return "450px";
+    } else if (windowWidth > 768) {
+      // Medium screens
+      return "300px";
+    } else {
+      // Small screens
+      return "100%"; // Full width on small screens
     }
   };
 
-  // Render the profile data 
+  // Render the profile data
   // let nafees make the UI
   //return (
   // <div style={profileStyle}>
@@ -333,7 +327,6 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //     //         className="card"
     //     //       >
 
-
     //     //         {/* <img src={profile.images[0]}></img> */}
     //     //         <h3>{profile.name}</h3>
     //     //         <h4>{profile.location}</h4>
@@ -343,9 +336,6 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //     //         {console.log(profile.images[0])}
     //     //         <h5>{profile.introduction}</h5>
     //     //         {/* {setPToLike(profile.id)} */}
-
-
-
 
     //     //         <div className="buttons">
     //     //           <button onClick={() => swipe("left")}>X</button>
@@ -365,7 +355,6 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //     //     {/* ))} */}
     //     //   </div>
     //     // </div>
-
 
     //     <div className="md:col-span-9 col-span-12 flex flex-col justify-start">
     //       {profile && (
@@ -419,9 +408,8 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //               </button>
     //             </div>
 
-
     //             {/* <div className="buttons">
-    //               <button 
+    //               <button
     //               className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
     //               onClick={() => swipe("left")}>
     //                 <FontAwesomeIcon
@@ -447,7 +435,6 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
     //       )}
     //     </div>
 
-
     //     : "No profile found"
     //   }
 
@@ -466,8 +453,9 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
               </div>
             </div>
           </div>
-        </div>) :
-        (<div className="sm:ml-64">
+        </div>
+      ) : (
+        <div className="sm:ml-64">
           <div className="container flex justify-center px-4">
             <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
               <div>
@@ -481,7 +469,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                       alt="img"
                       src={profile.images[0]}
                       className="h-screen object-cover rounded-xl relative md:top-0 top-[-83px] "
-                    // style={{ height: "83vh"}}
+                      // style={{ height: "83vh"}}
                     />
                   </div>
                   {/* <div
@@ -495,7 +483,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
 
                   <div
                     className="pl-4 md:relative absolute top-0 md:top-6 z-21"
-                  // style={{ marginBottom: "-7px", lineHeight: "4px" }}
+                    // style={{ marginBottom: "-7px", lineHeight: "4px" }}
                   >
                     <h2 className="text-4xl font-bold text-white  z-30  relative">
                       {profile.name}
@@ -512,7 +500,7 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                     </p>
                     <div
                       className=" flex absolute gap-4 "
-                    // style={{ paddingTop: "65px" }}
+                      // style={{ paddingTop: "65px" }}
                     >
                       <button
                         className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
@@ -534,20 +522,21 @@ const ProfileViewer = ({ setFinalMatch, finalMatch }) => {
                       </button>
                     </div>
                   </div>
-                  {
-                    somebodyLiked &&
+                  {somebodyLiked && (
                     <>
                       {console.log("somebodyLiked", somebodyLiked)}
-                      <ProfileModal2 profile={profile} onClose={handleCloseModal} />
+                      <ProfileModal2
+                        profile={profile}
+                        onClose={handleCloseModal}
+                      />
                     </>
-                  }
-
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        )}
+      )}
     </>
   );
 };

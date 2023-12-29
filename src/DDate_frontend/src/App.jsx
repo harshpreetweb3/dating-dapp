@@ -18,40 +18,28 @@ import ChattingSinglePage from "./Components/Chatting/ChattingSinglePage";
 
 //import { toHex } from "@dfinity/agent";
 
-
 const App = () => {
-
-  
   const navigate = useNavigate();
   const [userCheckComplete, setUserCheckComplete] = useState(false);
   const [finalMatch, setFinalMatch] = useState([]);
-  const [myPrincipal, setMyPrincipal] = useState('');
+  const [myPrincipal, setMyPrincipal] = useState("");
 
   //const [publicKey, setPublicKey] = useState('');
-  const [signature, setSignature] = useState('');
-  const [principal, setPrincipal] = useState('');
-
+  const [signature, setSignature] = useState("");
+  const [principal, setPrincipal] = useState("");
 
   // const principalString = localStorage.getItem('id');
   // const publicKey = localStorage.getItem('publicKey');
 
-
-  const userToken = localStorage.getItem('userToken');
+  const userToken = localStorage.getItem("userToken");
 
   console.log("getting it from local storage", userToken);
 
-
   // useEffect(()=>{
-
 
   // }, [principalString, publicKey])
 
-
   //
-
-
-
-
 
   const existingUserHandler = async () => {
     const principalString = localStorage.getItem("id");
@@ -75,8 +63,6 @@ const App = () => {
       setUserCheckComplete(true);
     }
   };
-
-
 
   useEffect(() => {
     existingUserHandler();
@@ -104,7 +90,7 @@ const App = () => {
   //         signature: toHex(signature),
   //         principal: principal,
   //     }
-  // } 
+  // }
 
   // const fetchSignatureData = async (authClient) => {
   //   try {
@@ -122,8 +108,6 @@ const App = () => {
   //   fetchSignatureData(authClient);
   // }, []);
 
-
-
   return (
     <>
       {userCheckComplete && (
@@ -137,10 +121,24 @@ const App = () => {
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Notification" element={<Notification />} />
-          <Route path="/ChattingPage" element={<ChattingPage finalMatch={finalMatch}/>} />
-          <Route path="/ChattingSinglePage/:chatId" element={<ChattingSinglePage />} />
+          <Route
+            path="/ChattingPage"
+            element={<ChattingPage finalMatch={finalMatch} />}
+          />
+          <Route
+            path="/ChattingSinglePage/:chatId"
+            element={<ChattingSinglePage />}
+          />
 
-          <Route path="/profile/:senderId" element={<ProfileViewer finalMatch={finalMatch} setFinalMatch={setFinalMatch} />} />
+          <Route
+            path="/profile/:senderId"
+            element={
+              <ProfileViewer
+                finalMatch={finalMatch}
+                setFinalMatch={setFinalMatch}
+              />
+            }
+          />
         </Routes>
       )}
     </>
