@@ -1,8 +1,16 @@
 
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProfileModal2({ profile, onClose }) {
+
+  const navigate= useNavigate()
+
+  const redirectMessageHandler=()=>{
+    onClose()
+    navigate("/ChattingPage")
+  }
   return (
 
     <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center ">
@@ -17,7 +25,7 @@ function ProfileModal2({ profile, onClose }) {
     </div>
   </div>
   <div className="font-dynalight text-white text-[20px]">Congratulations, you've been matched with {profile.name}!</div>
-  <button className="text-white text-lg border border-white w-[250px] py-4 px-6 rounded-md mb-5" onClick={onClose} >Send a Message</button>
+  <button className="text-white text-lg border border-white w-[250px] py-4 px-6 rounded-md mb-5" onClick={redirectMessageHandler} >Send a Message</button>
 </div>
    
 </div>

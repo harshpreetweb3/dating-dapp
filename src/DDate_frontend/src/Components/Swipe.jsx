@@ -406,7 +406,7 @@ function Swipe() {
         </div>
       </div>         ) :
      (  <div className="sm:ml-64">
-        <div className="container flex justify-center px-4">
+        <div className="container h-screen flex justify-center px-4">
           <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden">
             <div>
               {db.map((character, index) => (
@@ -417,11 +417,7 @@ function Swipe() {
                   onSwipe={(dir) => swiped(dir, character.name, index)}
                   onCardLeftScreen={() => outOfFrame(character.name, index)}
                 >
-                  <div className="h-screen">
-                    {/* <div className=" pl-2 pb-2 pt-4">
-                      <img src={logo} alt="swapLogo" />
-                    </div> */}
-
+                  <div className="">
                     <div className="object-fit relative top-20">
                       <img
                         alt="img"
@@ -441,7 +437,6 @@ function Swipe() {
 
                     <div
                       className="pl-4 bottom-16 absolute z-21"
-                      // style={{ marginBottom: "-7px", lineHeight: "4px" }}
                     >
                       <h2 className="text-4xl font-bold text-white  z-30  relative">
                         {character.name}
@@ -464,9 +459,12 @@ function Swipe() {
                         />
                       )}
                     </div>
-                    <div
+                  
+                  </div>
+                </TinderCard>
+              ))}
+                <div
                       className="px-0 flex absolute gap-4 pl-4 pt-10 py-6 m-0 z-30"
-                      // style={{ paddingTop: "65px" }}
                     >
                       <button
                         className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
@@ -487,9 +485,6 @@ function Swipe() {
                         />
                       </button>
                     </div>
-                  </div>
-                </TinderCard>
-              ))}
             </div>
           </div>
         </div>
