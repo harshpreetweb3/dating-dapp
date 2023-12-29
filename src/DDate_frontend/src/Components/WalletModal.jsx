@@ -150,8 +150,9 @@ const WalletModal = ({ isOpen, onClose }) => {
     // const signature = localStorage.getItem('signature'); // Assuming you have stored it already
 
     // Construct the API endpoint (if it's always localhost, you can hardcode it, otherwise, make it configurable)
-    const apiEndpoint = 'http://localhost:3000/api/v1/register/user';
-
+    //const apiEndpoint = 'http://localhost:3000/api/v1/register/user';
+    
+    const apiEndpoint = 'https://ddate.kaifoundry.com/api/v1/register/user';
     // Construct the payload
     const payload = {
       principal,
@@ -194,7 +195,7 @@ const WalletModal = ({ isOpen, onClose }) => {
   const handleLogin = async (principal, publicKey) => {
     try {
       // Replace with actual login API call
-      const response = await axios.post('http://localhost:3000/api/v1/login/user', {
+      const response = await axios.post('https://ddate.kaifoundry.com/api/v1/login/user', {
         principal: principal,
         publicKey: publicKey // Modify as needed
       });

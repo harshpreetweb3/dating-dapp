@@ -5,8 +5,13 @@ import { Principal } from "@dfinity/principal";
 import TinderCard from "react-tinder-card";
 import SidebarComponent from "./SidebarComponent";
 import ProfileModal2 from "./ProfileModal2";
-
-
+import {
+  faArrowRotateLeft,
+  faClose,
+  faStar,
+  faHeart,
+  faBolt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "./Loader";
 
