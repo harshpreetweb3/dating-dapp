@@ -113,7 +113,8 @@ fn post_upgrade() {
         //pub matched: bool, 
         pub introduction: String,
         pub likes: HashSet<Principal>, // Add this to store likes
-        pub matches: HashSet<Principal>,
+        //pub matches: HashSet<Principal>,
+        pub matches: Vec<Principal>,
         pub notifications: VecDeque<Notification>,
         pub images: Vec<String>,
         pub matched_profiles : Vec<Principal>
@@ -246,7 +247,7 @@ impl UserProfiles {
             preferred_location: params.preferred_location.clone(),
             introduction: params.introduction.clone(),
             likes: HashSet::new(),
-            matches: HashSet::new(),
+            matches: Vec::new(),
             notifications: VecDeque::new(),
             images: params.images.clone(),
             matched_profiles: Vec::new()
@@ -415,6 +416,10 @@ impl UserProfiles {
 
             if let Some(images) = params.images {
                 profile.images = images;
+            }
+
+            if let Some(matches) = params.matches {
+                profile.matches = matches;
             }
     
             ic_cdk::println!("Profile for {} updated successfully.", params.id);

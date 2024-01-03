@@ -72,6 +72,8 @@ pub struct UpdateUserProfileParams {
     new_introduction: Option<String>,
     images: Option<Vec<String>>,
     new_gender: Option<String>,
+    matches : Option<Vec<Principal>>
+    
 }
 
 //struct for profile creation
@@ -171,7 +173,7 @@ fn get_profile(id: Principal) -> UserProfile {
             preferred_location: String::new(),
             introduction: String::new(),
             likes: HashSet::new(),
-            matches: HashSet::new(),
+            matches: Vec::new(),
             notifications: VecDeque::new(),
             images: Vec::new(),
             matched_profiles: Vec::new(),

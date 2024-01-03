@@ -104,7 +104,8 @@ type UpdateUserProfileParams = record {
     new_matched: opt bool;
     new_introduction: opt text;
     images : opt vec text;
-    new_gender: opt text
+    new_gender: opt text;
+    matches : opt vec Principal;
 };
 
 
