@@ -73,7 +73,7 @@ const CreateAccount2 = () => {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
         <div className="w-full max-w-md my-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
-            Allow us to know you
+            Allow Us to Know You
           </h2>
           {/* <div className="border-t-2 border-dotted md:border-black border-white w-full mt-4 mb-4"></div> */}
           <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
@@ -146,7 +146,7 @@ const CreateAccount2 = () => {
                   htmlFor="selectedHeight"
                   className=" block text-lg font-semibold  mb-2 text-white md:text-black"
                 >
-                  Height (feet)
+                  Height (Feet)
                 </label>
                 <input
                   type="number"
@@ -181,7 +181,7 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">
-                Fooding
+                Food Preferences
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {["Lacto-vegeterian", "Ovo-vegeterian", "Non-vegeterian"].map(
@@ -210,7 +210,7 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">
-                What You do
+                What Do You Do?
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {["In School", "In College", "Employed", "Unemployed"].map(
@@ -239,7 +239,7 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                What are you looking for
+                What Are You Looking For?
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {[
@@ -247,7 +247,8 @@ const CreateAccount2 = () => {
                   "Short-term relationship",
                   "Long-term relationship",
                   "Dating",
-                  "XYZ",
+                  "Relationship",
+                  "Prefer not to say",
                 ].map((lookingFor) => (
                   <label
                     key={lookingFor}

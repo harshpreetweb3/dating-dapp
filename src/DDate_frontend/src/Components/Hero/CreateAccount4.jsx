@@ -27,11 +27,19 @@ const CreateAccount4 = () => {
 
   const handleFormChange = (e) => {
     const { name, value, checked } = e.target;
+
+    const maxSelections = {
+      selectedArt: 6,
+      selectedMovies: 19,
+      selectedTravel: 14,
+      selectedActivities: 8,
+      selectedHabbits: 4,
+    };
     if (
       name === "selectedArt" ||
       name === "selectedMovies" ||
       name === "selectedTravel" ||
-      name === "selectedActivities"||
+      name === "selectedActivities" ||
       name === "selectedHabbits"
     ) {
       setFormData((prevData) => {
@@ -50,7 +58,7 @@ const CreateAccount4 = () => {
           };
         }
         // Limit the selection to 2 items
-        if (updatedData[name].length > 2) {
+        if (updatedData[name].length > maxSelections[name]) {
           updatedData[name].shift(); // Remove the first item
         }
         return updatedData;
@@ -76,7 +84,7 @@ const CreateAccount4 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto">
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -102,7 +110,7 @@ const CreateAccount4 = () => {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
         <div className="w-full max-w-md my-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
-            Allow us to know you
+            Allow Us to Know You
           </h2>
           <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
@@ -113,7 +121,7 @@ const CreateAccount4 = () => {
             {/* art Selection */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Art & Culture (select any 2)
+                Art & Culture
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2  rounded-3xl">
                 {[
@@ -176,37 +184,38 @@ const CreateAccount4 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
-                General Habbits
+                General Habits
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
-                {["Early rise", "lazy", "Night owl", "Activ"].map((habbits) => (
-                  <label
-                  key={habbits}
-                  className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                    formData.selectedHabbits.includes(habbits)
-                      ? "bg-yellow-500 text-black"
-                      : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    name="selectedHabbits"
-                    value={habbits}
-                    onChange={handleFormChange}
-                    checked={formData.selectedHabbits.includes(habbits)}
-                    style={{ display: "none" }}
-                  />
+                {["Early rise", "lazy", "Night owl", "Active"].map(
+                  (habbits) => (
+                    <label
+                      key={habbits}
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                        formData.selectedHabbits.includes(habbits)
+                          ? "bg-yellow-500 text-black"
+                          : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="selectedHabbits"
+                        value={habbits}
+                        onChange={handleFormChange}
+                        checked={formData.selectedHabbits.includes(habbits)}
+                        style={{ display: "none" }}
+                      />
 
-                  {habbits}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
+                      {habbits}
+                    </label>
+                  )
+                )}
+              </div>
+            </fieldset>
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Outdoor Activities(select any 2)
+                Outdoor Activities
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {[
@@ -244,7 +253,7 @@ const CreateAccount4 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Movies(select any 2)
+                Movies
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
@@ -258,6 +267,15 @@ const CreateAccount4 = () => {
                   "Documentary",
                   "War",
                   "Film noir",
+                  "Fantasy",
+                  "Bollywood",
+                  "K-drama",
+                  "Sports",
+                  "Historical",
+                  "Superhero",
+                  "Biography",
+                  "Adventure",
+                  "Mystery",
                 ].map((movies) => (
                   <label
                     key={movies}
@@ -284,7 +302,7 @@ const CreateAccount4 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Travel(select any 2)
+                Travel
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {[
@@ -293,6 +311,15 @@ const CreateAccount4 = () => {
                   "Adventure",
                   "Wonderlust",
                   "Exploring cuisines",
+                  "Road Trips",
+                  "Historical Sites",
+                  "Wildlife Safari",
+                  "Eco-Tourism",
+                  "Spa Weekends",
+                  "Urban Exploration",
+                  "staycations",
+                  "Camping",
+                  "Backpacking",
                 ].map((travel) => (
                   <label
                     key={travel}

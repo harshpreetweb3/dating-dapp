@@ -5,7 +5,6 @@ import createAccountImage from "../../../assets/Images/CreateAccount/createAccou
 const CreateAccount3 = () => {
   const navigate = useNavigate();
 
-
   const [formData, setFormData] = useState({
     selectedsmoking: "",
     selecteddrink: "",
@@ -24,27 +23,33 @@ const CreateAccount3 = () => {
     }
   }, []);
 
-  
   const handleFormChange = (e) => {
     const { name, value, checked } = e.target;
+
+    const maxSelections = {
+      selectedhobbies: 10,
+      selectedsports: 26,
+    };
+
     if (name === "selectedhobbies" || name === "selectedsports") {
       setFormData((prevData) => {
         let updatedData;
         if (checked) {
-          // If the user checks a new option, add it to the selection (up to 2)
+          // Adding the selection
           updatedData = {
             ...prevData,
             [name]: [...prevData[name], value],
           };
         } else {
-          // If the user unchecks an option, remove it from the selection
+          // Removing the selection
           updatedData = {
             ...prevData,
             [name]: prevData[name].filter((item) => item !== value),
           };
         }
+
         // Limit the selection to 2 items
-        if (updatedData[name].length > 2) {
+        if (updatedData[name].length > maxSelections[name]) {
           updatedData[name].shift(); // Remove the first item
         }
         return updatedData;
@@ -53,9 +58,7 @@ const CreateAccount3 = () => {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
-  
-  
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -73,7 +76,7 @@ const CreateAccount3 = () => {
       >
         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
           <div className="w-full max-w-xl mx-auto text-left">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto" >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto">
               Create Your
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -99,7 +102,7 @@ const CreateAccount3 = () => {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
         <div className="w-full max-w-md my-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
-            Allow us to know you
+            Allow Us to Know You
           </h2>
           <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
@@ -137,7 +140,7 @@ const CreateAccount3 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Alcohol/Drink
+                Alcohol/Drink Preferences
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {["Regular", "occasionally", "Never"].map((drink) => (
@@ -162,93 +165,102 @@ const CreateAccount3 = () => {
               </div>
             </fieldset>
 
-           {/* Hobbies (select any 2) */}
-<fieldset className="mb-2">
-  <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
-    Hobbies (select any 2)
-  </legend>
-  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
-    {[
-      "Reading",
-      "Dancing",
-      "Singing",
-      "Cooking",
-      "Photography",
-      "Comics",
-      "Gardening",
-    ].map((hobbies) => (
-      <label
-        key={hobbies}
-        className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-          formData.selectedhobbies.includes(hobbies)
-            ? "bg-yellow-500 text-black"
-            : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-        }`}
-      >
-        <input
-          type="checkbox"
-          name="selectedhobbies"
-          value={hobbies}
-          onChange={handleFormChange}
-          checked={formData.selectedhobbies.includes(hobbies)}
-          style={{ display: "none" }}
-        />
+            {/* Hobbies (select any 2) */}
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
+                Hobbies
+              </legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
+                {[
+                  "Reading",
+                  "Dancing",
+                  "Singing",
+                  "Cooking",
+                  "Photography",
+                  "Comics",
+                  "Gardening",
+                  "Painting",
+                  "Art",
+                  "Creating videos",
+                ].map((hobbies) => (
+                  <label
+                    key={hobbies}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.selectedhobbies.includes(hobbies)
+                        ? "bg-yellow-500 text-black"
+                        : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="selectedhobbies"
+                      value={hobbies}
+                      onChange={handleFormChange}
+                      checked={formData.selectedhobbies.includes(hobbies)}
+                      style={{ display: "none" }}
+                    />
 
-        {hobbies}
-      </label>
-    ))}
-  </div>
-</fieldset>
+                    {hobbies}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
-{/* Sports (select any 2) */}
-<fieldset className="mb-2">
-  <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-    Sports (select any 2)
-  </legend>
-  <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
-    {[
-      "Cricket",
-      "Football",
-      "Basketball",
-      "Tennis",
-      "Chess",
-      "Badminton",
-      "Boxing",
-      "Gym",
-      "Yoga",
-      "Volleyball",
-      "Carrom",
-      "Golf",
-      "Table-Tennis",
-      "Weightlifting",
-      "Polo",
-      "Rugby",
-      "Cycling",
-      "Wrestling",
-      "Swimming",
-    ].map((sports) => (
-      <label
-        key={sports}
-        className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-          formData.selectedsports.includes(sports)
-            ? "bg-yellow-500 text-black"
-            : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-        }`}
-      >
-        <input
-          type="checkbox"
-          name="selectedsports"
-          value={sports}
-          onChange={handleFormChange}
-          checked={formData.selectedsports.includes(sports)}
-          style={{ display: "none" }}
-        />
-        {sports}
-      </label>
-    ))}
-  </div>
-</fieldset>
-
+            {/* Sports (select any 2) */}
+            <fieldset className="mb-2">
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
+                Sports
+              </legend>
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
+                {[
+                  "Cricket",
+                  "Football",
+                  "Basketball",
+                  "Tennis",
+                  "Chess",
+                  "Badminton",
+                  "Boxing",
+                  "Gym",
+                  "Yoga",
+                  "Volleyball",
+                  "Carrom",
+                  "Golf",
+                  "Table-Tennis",
+                  "Weightlifting",
+                  "Polo",
+                  "Rugby",
+                  "Cycling",
+                  "Wrestling",
+                  "Swimming",
+                  "Snooker",
+                  "Sumo Wrestling",
+                  "Aerobics",
+                  "Skydiving",
+                  "Karate",
+                  "Judo",
+                  "Archery",
+                ].map((sports) => (
+                  <label
+                    key={sports}
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
+                      formData.selectedsports.includes(sports)
+                        ? "bg-yellow-500 text-black"
+                        : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="selectedsports"
+                      value={sports}
+                      onChange={handleFormChange}
+                      checked={formData.selectedsports.includes(sports)}
+                      style={{ display: "none" }}
+                    />
+                    {sports}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">
