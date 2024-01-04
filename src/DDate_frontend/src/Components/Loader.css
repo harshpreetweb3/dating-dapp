@@ -227,3 +227,12 @@
     opacity: 0;
   }
 }
+
+@media (max-width: 768px) {
+  .load {
+    margin: 0; /* Remove margin for mobile */
+    top: 30%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+  }
+}

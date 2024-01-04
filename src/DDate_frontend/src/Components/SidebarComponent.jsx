@@ -28,6 +28,7 @@ const SidebarComponent = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [startLoader, setStartLoader] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const logoutHandler = () => {
     localStorage.removeItem("id");
@@ -40,20 +41,20 @@ const SidebarComponent = () => {
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 768 && !isInputFocused) {
         setIsSidebarOpen(false);
       } else {
         setIsSidebarOpen(true);
       }
     };
-
     window.addEventListener("resize", handleResize);
     handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isInputFocused]);
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -111,6 +112,13 @@ const SidebarComponent = () => {
   const handleFormChange = (e) => {
     const { name, value } = e.target;
 
+    if (name === "location" || name === "preferred_location") {
+      setIsInputFocused(true);
+    } else {
+      setIsInputFocused(false);
+    }
+  
+
     if (name === "preferAge") {
       let minAge, maxAge;
       if (formData.combinedAge === "above 30") {
@@ -123,9 +131,15 @@ const SidebarComponent = () => {
 
       setFormData((prevData) => ({
         ...prevData,
-        min_preferred_age: minAge,
-        max_preferred_age: maxAge,
-        combinedAge: value,
+        min_age: minAge,
+        max_age: maxAge,
+        selectedpreferAge: value,
+      }));
+    } else if (name === "location" || name === "preferred_location") {
+      const lowercaseLocation = value.toLowerCase();
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: lowercaseLocation,
       }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -276,7 +290,7 @@ const SidebarComponent = () => {
               />
             </div>
             <ul className="w-full text-center">
-              <li className=" mb-2 flex flex-row items-center rounded-full p-2  text-gray-900  dark:text-white hover:bg-white dark:hover:bg-yellow-500  group">
+              <li className=" mb-2 flex flex-row items-center rounded-full p-2  text-gray-900  dark:text-white hover:bg-yellow-700 dark:hover:bg-yellow-800  group">
                 {formData.images ? (
                   <div className="pt-2">
                     <img
@@ -304,7 +318,7 @@ const SidebarComponent = () => {
                 </button>
               </li>
 
-              <li className=" mb-2 flex flex-row items-center rounded-full p-2 text-gray-900  dark:text-white hover:bg-white dark:hover:bg-yellow-500  group">
+              <li className=" mb-2 flex flex-row items-center rounded-full p-2 text-gray-900  dark:text-white hover:bg-yellow-700 dark:hover:bg-yellow-800  group">
                 <div className="relative mr-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -318,7 +332,7 @@ const SidebarComponent = () => {
                       fill="white"
                     />
                   </svg>
-                  <span className="absolute top-0  right-0 w-2 h-2 bg-yellow-500 rounded-full"></span>
+                  <span className="absolute top-0  right-0 w-2 h-2 bg-yellow-600 rounded-full"></span>
                 </div>
                 <button
                   onClick={() => navigate("/Notification")}
@@ -328,7 +342,7 @@ const SidebarComponent = () => {
                 </button>
               </li>
 
-              <li className=" mb-2 flex flex-row items-center  p-2 text-gray-900 rounded-full dark:text-white hover:bg-white dark:hover:bg-yellow-500  group">
+              <li className=" mb-2 flex flex-row items-center  p-2 text-gray-900 rounded-full dark:text-white hover:bg-yellow-700 dark:hover:bg-yellow-800  group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -337,7 +351,7 @@ const SidebarComponent = () => {
                   fill="none"
                   className="mr-2"
                 >
-                  <span className="absolute top-0 right-0 w-2 h-2 bg-yellow-500 rounded-full"></span>
+                  <span className="absolute top-0 right-0 w-2 h-2 bg-yellow-600 rounded-full"></span>
 
                   <path
                     d="M1.42105 25.4104L6.52263 20.3088H22.7368C23.4906 20.3088 24.2135 20.0094 24.7465 19.4764C25.2795 18.9434 25.5789 18.2205 25.5789 17.4667V4.67722C25.5789 3.92345 25.2795 3.20055 24.7465 2.66755C24.2135 2.13455 23.4906 1.83512 22.7368 1.83512H4.26316C3.50938 1.83512 2.78648 2.13455 2.25349 2.66755C1.72049 3.20055 1.42105 3.92345 1.42105 4.67722V25.4104ZM1.42105 27.4141H0V4.67722C0 3.54656 0.449153 2.46221 1.24865 1.66271C2.04815 0.863215 3.1325 0.414063 4.26316 0.414062H22.7368C23.8675 0.414063 24.9519 0.863215 25.7514 1.66271C26.5508 2.46221 27 3.54656 27 4.67722V17.4667C27 18.5974 26.5508 19.6817 25.7514 20.4812C24.9519 21.2807 23.8675 21.7299 22.7368 21.7299H7.10526L1.42105 27.4141Z"
@@ -353,7 +367,7 @@ const SidebarComponent = () => {
               </li>
 
               <li
-                className=" mb-2 flex flex-row items-center bg-yellow-500 py-1 rounded-full"
+                className=" mb-2 flex flex-row items-center bg-yellow-600 py-1 rounded-full"
                 style={{
                   background:
                     "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
@@ -458,6 +472,8 @@ const SidebarComponent = () => {
                   placeholder="Your Location"
                   value={formData.location}
                   onChange={handleFormChange}
+                  onFocus={() => setIsInputFocused(true)}
+                  onBlur={() => setIsInputFocused(false)}
                   className="w-11/12 px-2 py-2 rounded-full text-sm border border-white bg-transparent text-white focus:ring-yellow-500 focus:border-yellow-500"
                 />
               </div>
@@ -476,6 +492,8 @@ const SidebarComponent = () => {
                   placeholder="Your Preferred Location"
                   value={formData.preferred_location}
                   onChange={handleFormChange}
+                  onFocus={() => setIsInputFocused(true)}
+                  onBlur={() => setIsInputFocused(false)}
                   className="w-11/12 px-2 py-2 rounded-full text-sm border border-white bg-transparent text-white font-num  focus:ring-yellow-500 focus:border-yellow-500"
                 />
               </div>

@@ -28,7 +28,6 @@ const CreateAccount5 = () => {
     }
   }, []);
 
-
   const handleFormChange = (e) => {
     const { name, value } = e.target;
 
@@ -49,38 +48,40 @@ const CreateAccount5 = () => {
         max_age: maxAge,
         selectedpreferAge: value,
       }));
+    } else if (
+      name === "selectedLocation" ||
+      name === "selectedPrefferedLocation"
+    ) {
+      const lowercaseLocation = value.toLowerCase();
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: lowercaseLocation,
+      }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
-  
-
   const handleImageChange = async (e, index) => {
-    setIsButtonDisable(true)
+    setIsButtonDisable(true);
     const file = e.target.files[0];
     if (file) {
-        try {
-            const compressedFile = await CompressImage(file);
+      try {
+        const compressedFile = await CompressImage(file);
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const updatedImages = [...imageFiles];
-                updatedImages[index] = event.target.result;
-                setImageFiles(updatedImages);
-                setIsButtonDisable(false); // Set isButtonDisable to false here
-            };
-            reader.readAsDataURL(compressedFile);
-        } catch (error) {
-            console.error('Error during image processing:', error);
-            
-        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const updatedImages = [...imageFiles];
+          updatedImages[index] = event.target.result;
+          setImageFiles(updatedImages);
+          setIsButtonDisable(false); // Set isButtonDisable to false here
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error("Error during image processing:", error);
+      }
     }
-};
-
-  
-
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,7 +116,6 @@ const CreateAccount5 = () => {
           Object.assign(result, formData);
         }
       }
-
 
       const objectSendToBackendFormat = {
         id: principal,
@@ -152,11 +152,12 @@ const CreateAccount5 = () => {
         images: imageFiles,
       };
 
-      localStorage.setItem('myImage', objectSendToBackendFormat.images[0]);
+      localStorage.setItem("myImage", objectSendToBackendFormat.images[0]);
 
-      console.log("image in local storage", objectSendToBackendFormat.images[0]);
-
-
+      console.log(
+        "image in local storage",
+        objectSendToBackendFormat.images[0]
+      );
 
       console.log("objectSendToBackendFormat", objectSendToBackendFormat);
 
@@ -172,8 +173,6 @@ const CreateAccount5 = () => {
     }
   };
 
-
-
   function convertStringToPrincipal(principalString) {
     try {
       const principal = Principal.fromText(principalString);
@@ -184,8 +183,6 @@ const CreateAccount5 = () => {
       return null;
     }
   }
-
-
 
   return (
     <div className="flex w-full h-screen md:flex-row font-num">
@@ -222,7 +219,7 @@ const CreateAccount5 = () => {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start px-4 md:px-12 z-10 overflow-y-auto">
         <div className="w-full max-w-md my-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center">
-            Allow us to know you
+            Allow Us to Know You
           </h2>
           <div className="border-t-2 border-solid md:border-black border-white w-full mt-4 mb-4 ml-6"></div>
 
@@ -233,7 +230,7 @@ const CreateAccount5 = () => {
             {/* intrests Selection */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Your intrests in
+                Your Interests In
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-2 rounded-3xl">
                 {["Male", "Female", "All"].map((intrests) => (
@@ -260,7 +257,7 @@ const CreateAccount5 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Preffered age
+                Preferred Age
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-2 rounded-3xl">
                 {["18-20", "20-25", "25-30", "above 30"].map((preferAge) => (
@@ -329,7 +326,7 @@ const CreateAccount5 = () => {
                   htmlFor="selectedIntro"
                   className="block text-lg font-semibold mb-1 text-white md:text-black"
                 >
-                  Introduce yourself
+                  Introduce Yourself
                 </label>
                 <textarea
                   id="selectedIntro"
@@ -346,7 +343,7 @@ const CreateAccount5 = () => {
             <div className="flex flex-row w-full">
               <fieldset className="mb-2 w-full">
                 <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
-                  Add Photos (minimum 1)
+                  Add Photos (Minimum 1)
                 </legend>
                 <div className="flex justify-center gap-2">
                   {Array.from({ length: 3 }).map((_, index) => (
@@ -365,7 +362,7 @@ const CreateAccount5 = () => {
                         <img
                           src={imageFiles[index]}
                           alt={`Image ${index}`}
-                          className="w-full h-auto object-cover rounded"
+                          className="w-full h-full object-cover rounded"
                         />
                       ) : (
                         <div
@@ -384,7 +381,7 @@ const CreateAccount5 = () => {
                 </div>
                 {imageError && (
                   <p className="text-red-500 text-sm">
-                    Please select at least one image.
+                    Please Select at Least One Image
                   </p>
                 )}
               </fieldset>
@@ -408,7 +405,7 @@ const CreateAccount5 = () => {
                     : "bg-yellow-500 hover:bg-yellow-600 text-white"
                 }`}
               >
-               { isButtonDisable ? "loading..." : "Save and Start" }
+                {isButtonDisable ? "loading..." : "Save and Start"}
               </button>
             </div>
           </form>
@@ -417,7 +414,5 @@ const CreateAccount5 = () => {
     </div>
   );
 };
-
-
 
 export default CreateAccount5;

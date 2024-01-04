@@ -868,80 +868,78 @@ function Swipe() {
         </div>
       ) : (
         <div className="sm:ml-64">
-          <div
-            className="container flex justify-center mr-1"
-          >
-            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-screen overflow-hidden
-            relative w-[380px] my-10">
+          <div className="container flex justify-center mr-1">
+            <div
+              className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-xl shadow-2xl shadow-slate-100 h-[91vh] md:h-screen overflow-hidden
+            relative w-[380px] mt-0  mb-0"
+            >
               <div>
-             { db.length === 0 ? (
-          <div className="flex justify-center">
-            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
-              <div className="h-screen">
-                <Loader />
-              </div>
-            </div>
-          </div>
-      ) :db.map((character, index) => (
-                  <TinderCard
-                    ref={childRefs[index]}
-                    className="swipe"
-                    key={character.name}
-                    onSwipe={(dir) => swiped(dir, character.name, index)}
-                    onCardLeftScreen={() => outOfFrame(character.name, index)}
-                  >
-                    {/* <div className="h-screen"> */}
-                    {/* <div className=" pl-2 pb-2 pt-4">
+                {db.length === 0 ? (
+                  <div className="flex justify-center">
+                    <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+                      <div className="h-screen">
+                        <Loader />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  db.map((character, index) => (
+                    <TinderCard
+                      ref={childRefs[index]}
+                      className="swipe"
+                      key={character.name}
+                      onSwipe={(dir) => swiped(dir, character.name, index)}
+                      onCardLeftScreen={() => outOfFrame(character.name, index)}
+                    >
+                      {/* <div className="h-screen"> */}
+                      {/* <div className=" pl-2 pb-2 pt-4">
                       <img src={logo} alt="swapLogo" />
                     </div> */}
 
-                    <div className="h-screen object-fit relative top-20">
-                      <img
-                        alt="img"
-                        src={character.images[0]}
-                        className="h-full object-cover rounded-xl relative w-full -top-[5.5rem]"
-                        style={{ height: "83vh"}}
-                      />
-                    </div>
-                    <div
-                      className="bg-black h-[200px] w-full z-10 rounded-2xl fixed -bottom-7"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgb(0, 0, 0) 64%, rgba(255, 255, 255, 0) 100%)",
-                      }}
-                    ></div>
+                      <div className="h-screen object-fit relative top-20">
+                        <img
+                          alt="img"
+                          src={character.images[0]}
+                          className="h-full object-cover rounded-xl relative w-full -top-[5.5rem]"
+                          style={{ height: "83vh" }}
+                        />
+                      </div>
+                      <div
+                        className="bg-black md:h-[200px] h-[280px] w-full z-10 fixed -bottom-7"
+                        style={{
+                          background:
+                            "linear-gradient(to top, rgb(0, 0, 0) 80%, rgba(255, 255, 255, 0) 100%)",
+                        }}
+                      ></div>
 
-                    <div
-                      className="pl-4 bottom-16 absolute z-21"
-                    >
-                      <h2 className="text-4xl font-bold text-white z-30 relative">
-                        {character.name}
-                      </h2>
-                      <p className="text-lg text-gray-700 font-bold z-30 relative">
-                        {character.location}
-                      </p>
-                      {/* {console.log(character.id)}
+                      <div className="pl-4 md:bottom-16 bottom-[8rem] absolute z-21">
+                        <h2 className="text-4xl font-bold text-white z-30 mb-2 relative">
+                          {character.name}
+                        </h2>
+                        <p className="text-lg text-gray-700 font-bold z-30 relative">
+                          {character.location}
+                        </p>
+                        {/* {console.log(character.id)}
                       {console.log(character.location)}
                       {console.log(character.images[0])} */}
-                      <p className="mt-2 z-30 relative font-bold text-white mb-6">
-                        {character.introduction}
-                      </p>
+                        <p className="mt-2 z-30 relative font-bold text-white mb-6">
+                          {character.introduction}
+                        </p>
 
-                      {match && (
-                        <ProfileModal
-                          profile={db[indexxx]}
-                          indexxx={indexxx}
-                          onClose={handleCloseModal}
-                        />
-                      )}
-                    </div>
+                        {match && (
+                          <ProfileModal
+                            profile={db[indexxx]}
+                            indexxx={indexxx}
+                            onClose={handleCloseModal}
+                          />
+                        )}
+                      </div>
 
-                    {/* </div> */}
-                  </TinderCard>
-                ))}{" "}
-                <div
-                  className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-40 bottom-0"
-                >
+                      {/* </div> */}
+                    </TinderCard>
+                  ))
+                )}{" "}
+                <div className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-40 bottom-0">
                   <button
                     className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
                     onClick={() => swipe("left")}
@@ -949,7 +947,7 @@ function Swipe() {
                   >
                     <FontAwesomeIcon
                       icon={faClose}
-                      style={{ color: db.length === 0 ? '#b2b2b2':"#fd5068" }}
+                      style={{ color: db.length === 0 ? "#b2b2b2" : "#fd5068" }}
                     />
                   </button>
                   <button
@@ -959,7 +957,7 @@ function Swipe() {
                   >
                     <FontAwesomeIcon
                       icon={faHeart}
-                      style={{ color:  db.length === 0 ?'#b2b2b2':"#1be4a1" }}
+                      style={{ color: db.length === 0 ? "#b2b2b2" : "#1be4a1" }}
                     />
                   </button>
                 </div>
