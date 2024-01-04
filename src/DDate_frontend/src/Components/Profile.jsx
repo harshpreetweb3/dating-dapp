@@ -22,6 +22,7 @@ const Profile = () => {
     introduction: "",
     images: [],
     gender_pronouns: "",
+    matches: []
   });
 
   const [principal, setPrincipal] = useState(null);
@@ -56,6 +57,7 @@ const Profile = () => {
             introduction: userProfileData.introduction || "",
             images: userProfileData.images || [],
             gender_pronouns: userProfileData.gender_pronouns || "",
+            matches: userProfileData.matches || []
           });
           setLoader(false);
         } catch (error) {
@@ -196,6 +198,7 @@ const Profile = () => {
           ? [formData.introduction]
           : [userProfile?.introduction],
       images: [formData.images] || [userProfile?.images],
+      matches : [formData.matches] || [userProfile?.matches],
       new_dob: userProfile?.dob || [],
       new_religion: userProfile?.religion || [],
       new_height: userProfile?.height || [],
