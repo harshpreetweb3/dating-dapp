@@ -33,7 +33,7 @@ const ChattingSinglePage = () => {
     useEffect(() => {
         //const newSocket = io('http://localhost:3000');
 
-        const newSocket = io('http://localhost:3000', {
+        const newSocket = io('https://ddate.kaifoundry.com', {
             query: { principal: userPrincipal }
         });
 
