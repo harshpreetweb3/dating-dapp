@@ -686,7 +686,13 @@ function Swipe() {
   console.log("selected idd dekhde aa ke milda", selectedId);
 
   const swiped = (direction, nameToDelete, index) => {
-    setSelectedId(db[index].id);
+
+    console.log("this is direction", direction)
+
+    if(direction == 'right'){
+      setSelectedId(db[index].id);
+    }
+    
 
     setIndexxx(index);
 
