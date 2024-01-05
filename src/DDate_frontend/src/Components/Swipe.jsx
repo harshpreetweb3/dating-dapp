@@ -725,11 +725,12 @@ function Swipe() {
 
   useEffect(() => {
     if (selectedId !== null) {
+      console.log("swiped profile has this principal", selectedId.toText());
       checkMatch(selectedId);
     }
   }, [selectedId]);
 
-  console.log("swiped profile has this principal", selectedId);
+  
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
