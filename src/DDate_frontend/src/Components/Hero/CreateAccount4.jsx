@@ -121,16 +121,17 @@ const CreateAccount4 = () => {
             {/* art Selection */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Art & Culture
+                Art and Culture
               </legend>
+
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2  rounded-3xl">
                 {[
                   "Drawing",
-                  "Visiting Museum",
-                  "Art Gallery",
+                  "Museum",
+                  "Art Galleries",
                   "Craft",
-                  "Decorative",
-                  "Music concert",
+                  "Night Life",
+                  "Exhibitions",
                 ].map((art) => (
                   <label
                     key={art}
@@ -187,7 +188,7 @@ const CreateAccount4 = () => {
                 General Habits
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
-                {["Early rise", "lazy", "Night owl", "Active"].map(
+                {["Early rise", "Night owl", "lazy", "Active"].map(
                   (habbits) => (
                     <label
                       key={habbits}

@@ -87,14 +87,13 @@ const CreateAccount2 = () => {
                 Gender Pronouns
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-4 py-2 px-0 rounded-3xl">
-                {["He/His", "She/Her", "They/Them"].map((genPro) => (
+                {["Man", "Woman", "Nonbinary"].map((genPro) => (
                   <label
                     key={genPro}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      formData.genderPronouns === genPro
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.genderPronouns === genPro
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -114,15 +113,14 @@ const CreateAccount2 = () => {
                 Religion
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
-                {["Hindu", "Muslim", "Sikh", "Christian", "Others"].map(
+                {["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Catholic", "Agnostic", "Jewish", "Atheist", "Buddhist", "Spiritual"].map(
                   (religion) => (
                     <label
                       key={religion}
-                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                        formData.selectedReligion === religion
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedReligion === religion
                           ? "bg-yellow-500 text-black"
                           : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
@@ -181,18 +179,17 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">
-                Food Preferences
+                Fooding
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
-                {["Lacto-vegeterian", "Ovo-vegeterian", "Non-vegeterian"].map(
+                {["Vegan", "vegetarian", "Omnivore", "Kosher", "Carnivore", "Halal", "Pescatarian", "Others"].map(
                   (Fooding) => (
                     <label
                       key={Fooding}
-                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                        formData.selectedFooding === Fooding
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedFooding === Fooding
                           ? "bg-yellow-500 text-black"
                           : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
@@ -210,18 +207,17 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">
-                What Do You Do?
+                What You do
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {["In School", "In College", "Employed", "Unemployed"].map(
                   (WhatYouDo) => (
                     <label
                       key={WhatYouDo}
-                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                        formData.selectedWhatYouDo === WhatYouDo
+                      className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedWhatYouDo === WhatYouDo
                           ? "bg-yellow-500 text-black"
                           : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
@@ -239,24 +235,22 @@ const CreateAccount2 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                What Are You Looking For?
+                What are you looking for
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 px-0 rounded-3xl">
                 {[
-                  "Friendship",
-                  "Short-term relationship",
                   "Long-term relationship",
-                  "Dating",
-                  "Relationship",
-                  "Prefer not to say",
+                  "Short-term relationship",
+                  "Friends",
+                  "Just Flowing",
+                  "Life Partner",
                 ].map((lookingFor) => (
                   <label
                     key={lookingFor}
-                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      formData.selectedlookingFor === lookingFor
+                    className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${formData.selectedlookingFor === lookingFor
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"

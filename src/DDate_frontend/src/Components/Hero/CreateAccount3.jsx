@@ -140,10 +140,10 @@ const CreateAccount3 = () => {
 
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Alcohol/Drink Preferences
+                Alcohol/Drink 
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
-                {["Regular", "occasionally", "Never"].map((drink) => (
+                {["Regular", "Socially", "Special Occasions", "Never"].map((drink) => (
                   <label
                     key={drink}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
@@ -174,14 +174,13 @@ const CreateAccount3 = () => {
                 {[
                   "Reading",
                   "Dancing",
-                  "Singing",
-                  "Cooking",
-                  "Photography",
-                  "Comics",
-                  "Gardening",
-                  "Painting",
-                  "Art",
-                  "Creating videos",
+                  "Astronomy",
+                  "DIY",
+                  "Gaming",
+                  "Numerology",
+                  "Amateur Cook",
+                  "Formula One",
+                  "Others"
                 ].map((hobbies) => (
                   <label
                     key={hobbies}
