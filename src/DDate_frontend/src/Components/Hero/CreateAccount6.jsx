@@ -465,7 +465,7 @@ const CreateAccount6 = () => {
                     ? "bg-gray-400 text-gray-200 cursor-not-allowed "
                     : "bg-yellow-500 hover:bg-yellow-600 text-white"
                 }`}
-              >
+              > 
                 {isButtonDisable ? "loading..." : "Save and start swipping"}
               </button>
             </div>
