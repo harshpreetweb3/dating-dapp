@@ -290,7 +290,7 @@ const CreateAccount3 = () => {
                   className="text-[#4D73F9] text-lg font-bold"
                   type="button"
                 >
-                  see less
+                  see less <span class="ant-select-selection-search-mirror" aria-hidden="true">&nbsp;</span>
                 </button>
               )}
               <button
@@ -298,7 +298,7 @@ const CreateAccount3 = () => {
                 className="text-[#4D73F9] text-lg font-bold"
                 type="button"
               >
-                {showAllSports ? "" : "See more"}
+                {showAllSports ? "" : "see more"}
               </button>
               </div>
               
