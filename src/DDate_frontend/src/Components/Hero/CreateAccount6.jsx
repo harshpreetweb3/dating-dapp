@@ -323,7 +323,7 @@ const CreateAccount6 = () => {
                         <img
                           src={imageFiles[0]}
                           alt="Image 0"
-                          className="w-full h-auto object-cover rounded-lg" 
+                          className="w-full h-auto object-cover rounded-lg"
                         />
                       ) : (
                         <div
@@ -340,7 +340,7 @@ const CreateAccount6 = () => {
                     </div>
                   </div>
 
-                  <legend className="block text-md font-semibold text-gray-300  mt-12">
+                  <legend className="block text-md font-semibold text-gray-300  mt-[1rem]">
                     Optional
                   </legend>
 
@@ -377,8 +377,43 @@ const CreateAccount6 = () => {
                     ))}
                   </div>
 
-                  <div className="flex justify-start mt-8 gap-2">
-                    <div className="flex-1 mx-2 max-w-[calc(33%-1rem)]">
+                  <div className="mt-[2.5rem] w-full grid grid-cols-3 gap-4">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className={`flex justify-center items-center ${
+                          index > 0 ? "hidden" : ""
+                        }`}
+                      >
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageChange(e, 4)}
+                          id="file-input-4"
+                          className="hidden"
+                        />
+                        {imageFiles[4] ? (
+                          <img
+                            src={imageFiles[4]}
+                            alt="Image 4"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <label
+                            htmlFor={`file-input-4`}
+                            className="h-36 w-full cursor-pointer flex justify-center items-center border border-gray-400 md:bg-gray-200 bg-transparent rounded-2xl hover:bg-gray-300"
+                          >
+                            <div className="flex items-center justify-center w-10 h-10 md:bg-white bg-transparent border-2 border-gray-600 rounded-full">
+                              <span className="text-2xl text-gray-600">+</span>
+                            </div>
+                          </label>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* <div className="flex justify-center items-center w-full mt-[3rem]">
+                  <div className="w-40 max-w-xs mx-auto">
                       <input
                         type="file"
                         accept="image/*"
@@ -390,12 +425,12 @@ const CreateAccount6 = () => {
                         <img
                           src={imageFiles[4]}
                           alt="Image 4"
-                          className="w-full h-full object-fit rounded"
+                          className="w-full h-auto object-cover rounded-lg" 
                         />
                       ) : (
                         <div
-                          className="custom-input h-36 w-32 ml-[2px] flex justify-center items-center border  border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded-2xl cursor-pointer"
-                          onClick={() =>
+                        className="h-48 w-full flex justify-center items-center border border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded-2xl cursor-pointer"
+                        onClick={() =>
                             document.getElementById("file-input-4").click()
                           }
                         >
@@ -405,7 +440,40 @@ const CreateAccount6 = () => {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </div> */}
+                  {/* </div>
+              </fieldset>
+            </div> */}
+
+                  {/* <div className="flex justify-center items-center w-full mt-[3rem]">
+                  <div className="w-40 max-w-xs mx-auto">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageChange(e, 4)}
+                        id="file-input-4"
+                        style={{ display: "none" }}
+                      />
+                      {imageFiles[4] ? (
+                        <img
+                          src={imageFiles[4]}
+                          alt="Image 4"
+                          className="w-full h-auto object-cover rounded-lg" 
+                        />
+                      ) : (
+                        <div
+                        className="h-48 w-full flex justify-center items-center border border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded-2xl cursor-pointer"
+                        onClick={() =>
+                            document.getElementById("file-input-4").click()
+                          }
+                        >
+                          <div className="flex items-center justify-center w-10 h-10 md:bg-white bg-transparent border-2 border-gray-600 rounded-full">
+                            <span className="text-2xl text-gray-600">+</span>
+                          </div>{" "}
+                        </div>
+                      )}
+                    </div>
+                  </div> */}
                 </div>
               </fieldset>
             </div>
@@ -465,7 +533,7 @@ const CreateAccount6 = () => {
                     ? "bg-gray-400 text-gray-200 cursor-not-allowed "
                     : "bg-yellow-500 hover:bg-yellow-600 text-white"
                 }`}
-              > 
+              >
                 {isButtonDisable ? "loading..." : "Save and start swipping"}
               </button>
             </div>
