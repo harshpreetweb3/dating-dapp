@@ -347,7 +347,7 @@ const CreateAccount5 = () => {
             </div>
 
             {/* Image Input */}
-            <div className="flex flex-row w-full">
+            {/* <div className="flex flex-row w-full">
               <fieldset className="mb-2 w-full">
                 <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
                   Add Photos (Minimum 1)
@@ -392,7 +392,7 @@ const CreateAccount5 = () => {
                   </p>
                 )}
               </fieldset>
-            </div>
+            </div> */}
 
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">

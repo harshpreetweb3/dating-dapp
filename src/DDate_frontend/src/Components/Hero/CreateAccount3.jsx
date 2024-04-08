@@ -216,7 +216,7 @@ const CreateAccount3 = () => {
                   className="text-[#4D73F9] text-lg font-bold"
                   type="button"
                 >
-                  see less
+                  see less <span>&nbsp;</span>
                 </button>
               )}
               <button
@@ -225,6 +225,7 @@ const CreateAccount3 = () => {
                 type="button"
               >
                 {showhobbies ? "" : "see more"}
+                <span>&nbsp;</span>
               </button>
               </div>
             </fieldset>
@@ -290,12 +291,12 @@ const CreateAccount3 = () => {
                   className="text-[#4D73F9] text-lg font-bold"
                   type="button"
                 >
-                  see less <span class="ant-select-selection-search-mirror" aria-hidden="true">&nbsp;</span>
+                  see less
                 </button>
               )}
               <button
                 onClick={() => setShowAllSports(!showAllSports)}
-                className="text-[#4D73F9] text-lg font-bold"
+                className="text-[#4D73F9]text-lg font-bold"
                 type="button"
               >
                 {showAllSports ? "" : "see more"}

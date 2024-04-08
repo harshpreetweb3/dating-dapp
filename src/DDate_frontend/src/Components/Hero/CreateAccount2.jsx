@@ -123,7 +123,7 @@ const CreateAccount2 = () => {
                   placeholder="Feet’inch’’"
                   value={formData.selectedHeight}
                   onChange={handleFormChange}
-                  className="px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500 text-center font-bold w-48"
+                  className="px-4 py-2 rounded-full border border-white md:border-black bg-transparent text-white md:text-black focus:ring-yellow-500 focus:border-yellow-500 text-center font-samibold w-48"
                 />
 
               </div>
