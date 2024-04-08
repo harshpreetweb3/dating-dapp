@@ -15,6 +15,7 @@ import { DDate_backend } from "../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
 import { useNavigate } from "react-router-dom";
 import ChattingSinglePage from "./Components/Chatting/ChattingSinglePage";
+import CreateAccount6 from "./Components/Hero/CreateAccount6";
 
 //import { toHex } from "@dfinity/agent";
 
@@ -134,6 +135,7 @@ const App = () => {
           <Route path="/CreateAccount3" element={<CreateAccount3 />} />
           <Route path="/CreateAccount4" element={<CreateAccount4 />} />
           <Route path="/CreateAccount5" element={<CreateAccount5 />} />
+          <Route path="/CreateAccount6" element={<CreateAccount6 />} />
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Notification" element={<Notification />} />
@@ -144,6 +146,9 @@ const App = () => {
           
         </Routes>
       )}
+{/*       
+      <CreateAccount3 /> */}
+      {/* <CreateAccount6 /> */}
     </>
   );
 };

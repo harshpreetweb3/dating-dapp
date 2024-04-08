@@ -66,7 +66,8 @@ const CreateAccount3 = () => {
     console.log(formData);
     navigate("/CreateAccount4");
   };
-
+  const [showAllSports, setShowAllSports] = useState(false); 
+  const [showhobbies , setshowhobbies] = useState(false);
   return (
     <div className="flex w-full h-screen md:flex-row font-num">
       {/* Image container for larger screens */}
@@ -180,8 +181,14 @@ const CreateAccount3 = () => {
                   "Numerology",
                   "Amateur Cook",
                   "Formula One",
+                  "Painting",
+                  "Pottery",
+                  "Camping",
+                  "Singing",
+                  "Photography",
                   "Others"
-                ].map((hobbies) => (
+                ].slice(0, showhobbies ? undefined : 8)
+                .map((hobbies) => (
                   <label
                     key={hobbies}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
@@ -202,13 +209,30 @@ const CreateAccount3 = () => {
                     {hobbies}
                   </label>
                 ))}
+                {showhobbies && ( // Render the "See Less" button if showAllSports is true
+                <button
+
+                  onClick={() => setshowhobbies(false)}
+                  className="text-[#4D73F9] text-lg font-bold"
+                  type="button"
+                >
+                  see less
+                </button>
+              )}
+              <button
+                onClick={() => setshowhobbies(!showhobbies)}
+                className="text-[#4D73F9] text-lg font-bold"
+                type="button"
+              >
+                {showhobbies ? "" : "see more"}
+              </button>
               </div>
             </fieldset>
 
             {/* Sports (select any 2) */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Sports
+                Sports <span className="text-[#FFFFFF]">(select any 2)</span>
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
@@ -216,12 +240,12 @@ const CreateAccount3 = () => {
                   "Football",
                   "Basketball",
                   "Tennis",
-                  "Chess",
                   "Badminton",
                   "Boxing",
                   "Gym",
                   "Yoga",
                   "Volleyball",
+                  "Chess",
                   "Carrom",
                   "Golf",
                   "Table-Tennis",
@@ -237,8 +261,10 @@ const CreateAccount3 = () => {
                   "Skydiving",
                   "Karate",
                   "Judo",
-                  "Archery",
-                ].map((sports) => (
+                  "Others",
+                ]
+                .slice(0, showAllSports ? undefined : 10)
+                .map((sports) => (
                   <label
                     key={sports}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
@@ -258,7 +284,24 @@ const CreateAccount3 = () => {
                     {sports}
                   </label>
                 ))}
+                {showAllSports && ( // Render the "See Less" button if showAllSports is true
+                <button
+                  onClick={() => setShowAllSports(false)}
+                  className="text-[#4D73F9] text-lg font-bold"
+                  type="button"
+                >
+                  see less
+                </button>
+              )}
+              <button
+                onClick={() => setShowAllSports(!showAllSports)}
+                className="text-[#4D73F9] text-lg font-bold"
+                type="button"
+              >
+                {showAllSports ? "" : "See more"}
+              </button>
               </div>
+              
             </fieldset>
 
             {/* Form Buttons */}
