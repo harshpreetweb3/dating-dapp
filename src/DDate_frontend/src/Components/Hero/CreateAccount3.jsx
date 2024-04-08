@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
-
+import { SlArrowUp,SlArrowDown } from "react-icons/sl";
 const CreateAccount3 = () => {
   const navigate = useNavigate();
 
@@ -213,10 +213,10 @@ const CreateAccount3 = () => {
                 <button
 
                   onClick={() => setshowhobbies(false)}
-                  className="text-[#4D73F9] text-lg font-bold"
+                  className="text-[#4D73F9] text-lg font-bold flex items-center"
                   type="button"
                 >
-                  see less <span>&nbsp;</span>
+                  see less <SlArrowUp className="bold-icon ml-[6px]"  />
                 </button>
               )}
               <button
@@ -224,8 +224,8 @@ const CreateAccount3 = () => {
                 className="text-[#4D73F9] text-lg font-bold"
                 type="button"
               >
-                {showhobbies ? "" : "see more"}
-                <span>&nbsp;</span>
+                {showhobbies ? "" : <p className="flex items-center ml-[6px]">see more <SlArrowDown /></p>}
+              
               </button>
               </div>
             </fieldset>
@@ -288,18 +288,18 @@ const CreateAccount3 = () => {
                 {showAllSports && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowAllSports(false)}
-                  className="text-[#4D73F9] text-lg font-bold"
-                  type="button"
+                  className="text-[#4D73F9] text-lg font-bold flex items-center"
+                  type="button" 
                 >
-                  see less
+                  see less  <SlArrowUp className="bold-icon ml-[6px]"  />
                 </button>
               )}
               <button
                 onClick={() => setShowAllSports(!showAllSports)}
-                className="text-[#4D73F9]text-lg font-bold"
+                className="text-[#4D73F9] text-lg font-bold"
                 type="button"
               >
-                {showAllSports ? "" : "see more"}
+                {showAllSports ? "" : <p className="flex items-center ml-[6px]">see more <SlArrowDown /></p>}
               </button>
               </div>
               

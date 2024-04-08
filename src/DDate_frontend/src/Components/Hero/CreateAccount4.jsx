@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import createAccountImage from "../../../assets/Images/CreateAccount/createAccountImage.png";
+import { SlArrowUp,SlArrowDown } from "react-icons/sl";
 
 const CreateAccount4 = () => {
   const navigate = useNavigate();
   const [showArt, setShowArt] = useState(false); 
   const [showActivities, setshowActivities] = useState(false);
   const [showTravel, setshowTravel] = useState(false);
+  const [showBussiness, setShowBussiness] = useState(false); 
+
 
   const [formData, setFormData] = useState({
     selectedArt: "",
     selectedPets: "",
-    selectedHabbits: "",
+    selectedHabbits: [],
     selectedActivities: "",
     selectedMovies: "",
+    selectedsports: "",
     selectedBussiness: "",
     selectedTravel: "",
   });
@@ -25,7 +29,9 @@ const CreateAccount4 = () => {
   useEffect(() => {
     const savedData = localStorage.getItem("form4");
     if (savedData) {
-      setFormData(JSON.parse(savedData));
+      let data = JSON.parse(savedData);
+      data.selectedBussiness = [];
+      setFormData(data);
     }
   }, []);
 
@@ -44,6 +50,7 @@ const CreateAccount4 = () => {
       name === "selectedMovies" ||
       name === "selectedTravel" ||
       name === "selectedActivities" ||
+      name === "selectedsports" ||
       name === "selectedHabbits"
     ) {
       setFormData((prevData) => {
@@ -169,18 +176,18 @@ const CreateAccount4 = () => {
                 {showArt && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowArt(false)}
-                  className="text-[#4D73F9] text-lg font-bold"
+                  className="text-[#4D73F9] items-center flex text-lg font-bold"
                   type="button"
                 >
-                  see less
+                  see less <SlArrowUp className="bold-icon ml-[6px]"  />
                 </button>
               )}
               <button
                 onClick={() => setShowArt(!showArt)}
-                className="text-[#4D73F9] text-lg font-bold"
+                className="text-[#4D73F9] text-lg flex items-center font-bold"
                 type="button"
               >
-                {showArt ? "" : "see more"}
+                {showArt ? "" : <p className="flex items-center">see more <SlArrowDown /></p>} 
               </button>
               </div>
             </fieldset>
@@ -288,10 +295,10 @@ const CreateAccount4 = () => {
                 {showActivities && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setshowActivities(false)}
-                  className="text-[#4D73F9] text-lg font-bold"
+                  className="text-[#4D73F9] text-lg font-bold flex items-center"
                   type="button"
                 >
-                  see less
+                  see less  <SlArrowUp className="bold-icon ml-[6px]"  />
                 </button>
               )}
               <button
@@ -299,7 +306,7 @@ const CreateAccount4 = () => {
                 className="text-[#4D73F9] text-lg font-bold"
                 type="button"
               >
-                {showActivities ? "" : "see more"}
+                {showActivities ? "" : <p className="flex items-center">see more <SlArrowDown /></p>}
               </button>
               </div>
             </fieldset>
@@ -401,9 +408,9 @@ const CreateAccount4 = () => {
             </fieldset>
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-              Business And Growth
+              Business And Growth <span className="text-[#FFFFFF]">(select any 2)</span>
               </legend>
-              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
+              <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
                   "Investment",
                   "Networking",
@@ -414,35 +421,51 @@ const CreateAccount4 = () => {
                   "DAO’s",
                   "NFT’s",
                   "Crypto",
-                  "Business",
-                  "Software Developer",
-                  "Stock_Market",
-                  "Blockchain",
+                  "Service-based Business ",
+                  "Franchise ",
+                  " Freelancing",
+                  "IT Development",
                   "Others",
                 ]
-                .slice(0, showTravel ? undefined : 8)
-                .map((travel) => (
+                .slice(0, showBussiness ? undefined : 8)
+                .map((bussniss) => (
                   <label
-                    key={travel}
+                    key={bussniss}
                     className={`inline-block px-3 py-2 rounded-full text-sm focus:outline-none transition duration-300 ${
-                      formData.selectedTravel.includes(travel)
+                      formData.  selectedBussiness.includes(bussniss)
                         ? "bg-yellow-500 text-black"
                         : "bg-transparent hover:bg-yellow-500 hover:text-black text-white md:text-black border border-white md:border-black"
                     }`}
                   >
                     <input
                       type="checkbox"
-                      name="selectedTravel"
-                      value={travel}
+                      name="selectedBussiness"
+                      value={bussniss}
                       onChange={handleFormChange}
-                      checked={formData.selectedTravel.includes(travel)}
+                      checked={formData.selectedBussiness.includes(bussniss)}
                       style={{ display: "none" }}
                     />
-
-                    {travel}
+                    {bussniss}
                   </label>
                 ))}
+                {showBussiness && ( // Render the "See Less" button if showAllSports is true
+                <button
+                  onClick={() => setShowBussiness(false)}
+                  className="text-[#4D73F9] text-lg items-center flex  font-bold"
+                  type="button"
+                >
+                  see less <SlArrowUp className="bold-icon ml-[6px]"  />
+                </button>
+              )}
+              <button
+                onClick={() => setShowBussiness(!showBussiness)}
+                className="text-[#4D73F9] text-lg font-bold"
+                type="button"
+              >
+                {showBussiness ? "" : <p className="flex items-center">see more <SlArrowDown /></p>}
+              </button>
               </div>
+              
             </fieldset>
 
             {/* Form Buttons */}
