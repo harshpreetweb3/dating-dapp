@@ -225,8 +225,8 @@ const CreateAccount6 = () => {
           >
             {/* intrests Selection */}
             <fieldset className="mb-2">
-              <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-              Add Photos <span className="text-gray-400 text-xs">(Add maximum 5 photos)</span>
+              <legend className="block text-lg font-semibold mb-1 text-white md:text-black ">
+              Add Photos <span className="text-gray-400 text-xs ml-4">(Add maximum 5 photos)</span>
               </legend>
               {/* <div className="flex justify-center gap-2">
                   {Array.from({ length: 1 }).map((_, index) => (
@@ -281,24 +281,25 @@ const CreateAccount6 = () => {
               
                 <div>
   {/* First row with only one input field */}
-  <div className="flex justify-center gap-2">
-    <div className="flex-1 mx-2 max-w-[calc(33%-1rem)]">
+  <div className="flex justify-center mt-4 mr-14 ">
+    <div className="flex-1 mx-2 max-w-[calc(33%-1rem)] ">
       <input
         type="file"
         accept="image/*"
         onChange={(e) => handleImageChange(e, 0)}
         id="file-input-0"
+        className="mr-14"
         style={{ display: "none" }}
       />
       {imageFiles[0] ? (
         <img
           src={imageFiles[0]}
           alt="Image 0"
-          className="w-full h-full object-fit rounded"
+          className="h-48 w-48 object-fit rounded"
         />
       ) : (
         <div
-          className="custom-input h-44 w-40 flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
+          className="custom-input h-48 w-40 flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
           onClick={() => document.getElementById("file-input-0").click()}
         >
           <span className="text-2xl text-gray-600">+</span>
@@ -308,10 +309,10 @@ const CreateAccount6 = () => {
   </div>
 
   {/* Second row with three input fields */}
-  <legend className="block text-lg font-semibold text-gray-300 ">
-              optional
+  <legend className="block text-md font-semibold text-gray-300  mt-12">
+              Optional
                 </legend>
-  <div className="flex justify-center gap-2">
+  <div className="flex justify-center mt-2">
  
     {Array.from({ length: 3 }).map((_, index) => (
       <div key={index} className="flex-1 mx-2 max-w-[calc(33%-1rem)]">
@@ -330,7 +331,7 @@ const CreateAccount6 = () => {
           />
         ) : (
           <div
-            className="custom-input  h-28 w-24 flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
+            className="custom-input  h-28 w-24  flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
             onClick={() =>
               document.getElementById(`file-input-${index + 1}`).click()
             }
@@ -343,7 +344,7 @@ const CreateAccount6 = () => {
   </div>
 
   {/* Third row with one input field */}
-  <div className="flex justify-start mt-4 gap-2">
+  <div className="flex justify-start mt-8 gap-2">
     <div className="flex-1 mx-2 max-w-[calc(33%-1rem)]">
       <input
         type="file"
@@ -360,7 +361,7 @@ const CreateAccount6 = () => {
         />
       ) : (
         <div
-          className="custom-input h-28 w-24 flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
+          className="custom-input h-28 w-24 ml-[2px] flex justify-center items-center border border-dashed border-gray-400 lg:bg-gray-200 md:bg-gray-200 bg-transparent rounded cursor-pointer"
           onClick={() => document.getElementById("file-input-4").click()}
         >
           <span className="text-2xl text-gray-600">+</span>

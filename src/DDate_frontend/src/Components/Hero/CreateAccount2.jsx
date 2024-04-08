@@ -203,7 +203,7 @@ const CreateAccount2 = () => {
            
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold  mb-2 text-white md:text-black">
-                Zodiac
+                Zodiac Sign
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {["Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius"].map(

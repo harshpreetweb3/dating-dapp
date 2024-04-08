@@ -169,7 +169,7 @@ const CreateAccount3 = () => {
             {/* Hobbies (select any 2) */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-2 text-white md:text-black">
-                Hobbies
+                Hobbies <span className="text-gray-400 text-sm">(select any 2)</span>
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2  rounded-3xl">
                 {[
@@ -213,18 +213,18 @@ const CreateAccount3 = () => {
                 <button
 
                   onClick={() => setshowhobbies(false)}
-                  className="text-[#4D73F9] text-lg font-bold flex items-center"
+                  className="text-[#4D73F9] text-md font-semibold flex items-center"
                   type="button"
                 >
-                  see less <SlArrowUp className="bold-icon ml-[6px]"  />
+                  see less <SlArrowUp className="bold-icon ml-[10px]"  />
                 </button>
               )}
               <button
                 onClick={() => setshowhobbies(!showhobbies)}
-                className="text-[#4D73F9] text-lg font-bold"
+                className="text-[#4D73F9] text-md font-semibold"
                 type="button"
               >
-                {showhobbies ? "" : <p className="flex items-center ml-[6px]">see more <SlArrowDown /></p>}
+                {showhobbies ? "" : <p className="flex items-center ">see more <SlArrowDown className="ml-[10px]" /></p>}
               
               </button>
               </div>
@@ -233,7 +233,7 @@ const CreateAccount3 = () => {
             {/* Sports (select any 2) */}
             <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-                Sports <span className="text-[#FFFFFF]">(select any 2)</span>
+                Sports <span className="text-gray-400 text-sm">(select any 2)</span>
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
@@ -288,18 +288,18 @@ const CreateAccount3 = () => {
                 {showAllSports && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowAllSports(false)}
-                  className="text-[#4D73F9] text-lg font-bold flex items-center"
+                  className="text-[#4D73F9] text-lg font-semibold flex items-center"
                   type="button" 
                 >
-                  see less  <SlArrowUp className="bold-icon ml-[6px]"  />
+                  see less  <SlArrowUp className="bold-icon ml-[10px]"  />
                 </button>
               )}
               <button
                 onClick={() => setShowAllSports(!showAllSports)}
-                className="text-[#4D73F9] text-lg font-bold"
+                className="text-[#4D73F9] text-md font-semibold "
                 type="button"
               >
-                {showAllSports ? "" : <p className="flex items-center ml-[6px]">see more <SlArrowDown /></p>}
+                {showAllSports ? "" : <p className="flex items-center ml-[6px]">see more <SlArrowDown className="ml-[10px]" /></p>}
               </button>
               </div>
               
