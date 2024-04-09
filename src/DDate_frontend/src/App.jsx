@@ -127,7 +127,7 @@ const App = () => {
 
   return (
     <>
-      {/* {userCheckComplete && (
+       {userCheckComplete && (
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/CreateAccount1" element={<CreateAccount1 />} />
@@ -145,11 +145,11 @@ const App = () => {
           <Route path="/profile/:senderId" element={<ProfileViewer finalMatch={finalMatch} setFinalMatch={setFinalMatch} />} />
           
         </Routes>
-      )} */}
+      )} 
 {/*       
       // <CreateAccount3 /> */}
       {/* <CreateAccount6 /> */}
-      <CreateAccount6 />
+      {/* <CreateAccount6 /> */}
     </>
   );
 };

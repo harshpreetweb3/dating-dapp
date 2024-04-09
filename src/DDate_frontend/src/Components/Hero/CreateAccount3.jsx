@@ -288,10 +288,10 @@ const CreateAccount3 = () => {
                 {showAllSports && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowAllSports(false)}
-                  className="text-[#4D73F9] text-lg font-semibold flex items-center"
+                  className="text-[#4D73F9] text-md font-semibold flex items-center"
                   type="button" 
                 >
-                  see less  <SlArrowUp className="bold-icon ml-[10px]"  />
+                  see less  <SlArrowUp className="bold-icon ml-[10px]"  /> 
                 </button>
               )}
               <button

@@ -11,14 +11,23 @@ const CreateAccount4 = () => {
   const [showBussiness, setShowBussiness] = useState(false); 
 
 
+  // const [formData, setFormData] = useState({
+  //   selectedArt: "",
+  //   selectedPets: "",
+  //   selectedHabbits: [],
+  //   selectedActivities: "",
+  //   selectedMovies: "",
+  //   selectedsports: "",
+  //   selectedBussiness: "",
+  //   selectedTravel: "",
+  // });
+
   const [formData, setFormData] = useState({
     selectedArt: "",
     selectedPets: "",
-    selectedHabbits: [],
+    selectedHabbits: "",
     selectedActivities: "",
     selectedMovies: "",
-    selectedsports: "",
-    selectedBussiness: "",
     selectedTravel: "",
   });
 
@@ -26,12 +35,19 @@ const CreateAccount4 = () => {
     navigate("/CreateAccount3");
   };
 
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem("form4");
+  //   if (savedData) {
+  //     let data = JSON.parse(savedData);
+  //     data.selectedBussiness = [];
+  //     setFormData(data);
+  //   }
+  // }, []);
+
   useEffect(() => {
     const savedData = localStorage.getItem("form4");
     if (savedData) {
-      let data = JSON.parse(savedData);
-      data.selectedBussiness = [];
-      setFormData(data);
+      setFormData(JSON.parse(savedData));
     }
   }, []);
 
@@ -50,7 +66,6 @@ const CreateAccount4 = () => {
       name === "selectedMovies" ||
       name === "selectedTravel" ||
       name === "selectedActivities" ||
-      name === "selectedsports" ||
       name === "selectedHabbits"
     ) {
       setFormData((prevData) => {
@@ -406,9 +421,10 @@ const CreateAccount4 = () => {
                 ))}
               </div>
             </fieldset>
-            <fieldset className="mb-2">
+            
+            {/* <fieldset className="mb-2">
               <legend className="block text-lg font-semibold mb-1 text-white md:text-black">
-              Business And Growth  <span className="text-gray-400 text-sm">(select any 2)</span>
+              Business And Growth 
               </legend>
               <div className="flex flex-wrap gap-2 md:gap-2 mb-2 py-2 rounded-3xl">
                 {[
@@ -466,7 +482,7 @@ const CreateAccount4 = () => {
               </button>
               </div>
               
-            </fieldset>
+            </fieldset> */}
 
             {/* Form Buttons */}
             <div className="flex justify-between mt-6">
