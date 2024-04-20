@@ -70,6 +70,7 @@ const WalletModal = ({ isOpen, onClose }) => {
     }
   };
 
+  
   const InternetIdentityHandler = async () => {
     const authClient = await AuthClient.create();
     authClient.login({
