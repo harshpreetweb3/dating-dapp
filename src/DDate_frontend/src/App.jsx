@@ -146,10 +146,10 @@ const App = () => {
           
         </Routes>
       )} 
-{/*       
-      // <CreateAccount3 /> */}
-      {/* <CreateAccount6 /> */}
-      {/* <CreateAccount6 /> */}
+
+      
+
+
     </>
   );
 };
