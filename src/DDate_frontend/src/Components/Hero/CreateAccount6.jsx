@@ -568,7 +568,7 @@ const CreateAccount6 = () => {
               <button
   type="submit"
   disabled={isButtonDisable}
-  className={`font-semibold py-2 px-4 rounded-full md:text-[15px] md:w-auto w-full text-xs flex justify-center ${
+  className={`font-semibold py-4 px-6 rounded-full md:text-[15px] md:w-auto w-full text-xs flex justify-center ${
     isButtonDisable
       ? "bg-gray-400 text-black cursor-not-allowed "
       : "bg-yellow-500 hover:bg-yellow-600"
