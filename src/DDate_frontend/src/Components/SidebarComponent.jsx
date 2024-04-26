@@ -24,9 +24,9 @@ const SidebarComponent = () => {
 
   const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [showDropDown, setShowDropdown] = useState(false);
   const [startLoader, setStartLoader] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -146,9 +146,6 @@ const SidebarComponent = () => {
     }
   };
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
 
   const handleSubmit = async (e) => {
     setStartLoader(true);
@@ -367,7 +364,8 @@ const SidebarComponent = () => {
               </li>
 
               <li
-                className=" mb-2 flex flex-row items-center bg-yellow-600 py-1 rounded-full"
+                className=" mb-2 cursor-pointer flex flex-row items-center bg-yellow-600 py-1 rounded-full"
+                onClick={()=>{ setShowDropdown(!showDropDown)}}
                 style={{
                   background:
                     "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
@@ -406,11 +404,12 @@ const SidebarComponent = () => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <a href="#" className="block p-2 text-black text-sm rounded ">
-                  <span>Filter</span>
-                </a>
+                <div className="block p-2 text-black text-sm rounded ">
+                  <span>Filter </span>
+                </div>
               </li>
             </ul>
+            {showDropDown &&
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col mb-2 ml-4 text-white">
                 <fieldset className="mb-1">
@@ -506,8 +505,10 @@ const SidebarComponent = () => {
                     background:
                       "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
                   }}
-                  onClick={() =>
+                  onClick={() =>{
+                    console.log("Form data by tushar jain"+formData.location);
                     navigate("/Swipe", { state: { forceRerender: Date.now() } })
+                  }
                   }
                 >
                   Apply
@@ -526,6 +527,7 @@ const SidebarComponent = () => {
                 </button>
               </div>
             </form>
+}
           </div>
         </aside>
       )}
