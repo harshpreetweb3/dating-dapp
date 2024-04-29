@@ -9,6 +9,7 @@ import StoicWallet from "../../assets/Images/WalletLogos/StoicWallet.png"
 import { AuthClient } from "@dfinity/auth-client";
 import { useNavigate } from 'react-router-dom';
 import { toHex } from "@dfinity/agent";
+import { useAuth } from "../auth/useAuthClient";
 import axios from 'axios';
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { Principal } from "@dfinity/principal";
@@ -17,7 +18,9 @@ import { Principal } from "@dfinity/principal";
 const WalletModal = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate()
-
+  console.log("USeAuth :  ",useAuth);
+  const {login} = useAuth();
+  console.log("Login aseAuth",login);
   const [userToken, setUserToken] = useState('');
   const [userPrincipal, setUserPrincipal] = useState('');
 
@@ -219,8 +222,10 @@ const WalletModal = ({ isOpen, onClose }) => {
 
 
 
-
-
+const connectNFID = async()=>{
+  // await login("nfid");
+  // if (isAuthenticated) navigate('/dashboard');
+}
 
 
   const connectPlugWallet = async () => {
@@ -240,7 +245,7 @@ const WalletModal = ({ isOpen, onClose }) => {
           const publicKey = await window.ic.plug.requestConnect();
 
           console.log("public key mil gyi", publicKey)
-          console.log("public key mil gyi", publicKey)
+          console.log("public key mil gyi", publicKey);
           console.log("public key mil gyi", publicKey.rawKey.data)
 
           // 2.
@@ -319,9 +324,9 @@ localStorage.setItem("id", principalText);
           </li>
 
           {/* NFID */}
-          <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600 opacity-50 pointer-events-none">
+          <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600">
             <img src={NFID} alt="NFID" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
-            <span className="text-center flex-grow">NFID</span>
+            <span className="text-center flex-grow" onClick={connectNFID}>NFID</span>
           </li>
 
           {/* Plug Wallet */}
