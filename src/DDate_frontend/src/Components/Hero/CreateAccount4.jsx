@@ -158,7 +158,7 @@ const CreateAccount4 = () => {
         <div className="w-full max-w-md my-10">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white md:text-black text-center ">
         <div className="flex items-center">
-  <svg className="flex-shrink-0 ml-5" onClick={backHandler} width="20" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className="flex-shrink-0 ml-5 cursor-pointer" onClick={backHandler} width="20" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M5.28501 0.285909L0.285013 5.28591C0.193973 5.38101 0.122608 5.49316 0.0750132 5.61591C-0.0250048 5.85937 -0.0250048 6.13245 0.0750133 6.37591C0.122608 6.49866 0.193973 6.6108 0.285013 6.70591L5.28501 11.7059C5.37825 11.7991 5.48894 11.8731 5.61076 11.9236C5.73259 11.974 5.86315 12 5.99501 12C6.26132 12 6.51671 11.8942 6.70501 11.7059C6.89332 11.5176 6.9991 11.2622 6.9991 10.9959C6.9991 10.7296 6.89332 10.4742 6.70501 10.2859L3.40501 6.99591L10.995 6.99591C11.2602 6.99591 11.5146 6.89055 11.7021 6.70301C11.8897 6.51548 11.995 6.26112 11.995 5.99591C11.995 5.73069 11.8897 5.47634 11.7021 5.2888C11.5146 5.10126 11.2602 4.99591 10.995 4.99591L3.40501 4.99591L6.70501 1.70591C6.79874 1.61294 6.87314 1.50234 6.9239 1.38049C6.97467 1.25863 7.00081 1.12792 7.00081 0.995908C7.00081 0.863897 6.97467 0.733191 6.9239 0.611332C6.87314 0.489472 6.79874 0.378873 6.70501 0.285909C6.61205 0.192181 6.50145 0.117785 6.37959 0.0670163C6.25773 0.0162475 6.12703 -0.00988987 5.99501 -0.00988986C5.863 -0.00988986 5.7323 0.0162475 5.61044 0.0670164C5.48858 0.117785 5.37798 0.192181 5.28501 0.285909Z" fill="black" id="svg-path"/>
   </svg>
 
@@ -227,18 +227,18 @@ const CreateAccount4 = () => {
                 {showArt && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowArt(false)}
-                  className="text-[#4D73F9] items-center flex text-md font-semibold "
+                  className="text-black items-center flex text-[12px] md:text-[14px] font-semibold "
                   type="button"
                 >
-                  see less <SlArrowUp className="bold-icon ml-[10px] "  />
+                  see less <SlArrowUp size={12} className="bold-icon ml-[5px] "  />
                 </button>
               )}
               <button
                 onClick={() => setShowArt(!showArt)}
-                className="text-[#4D73F9] text-md flex items-center font-semibold"
+                className="text-black text-[12px] md:text-[14px] flex items-center font-semibold"
                 type="button"
               >
-                {showArt ? "" : <p className="flex items-center">see more <SlArrowDown className="ml-[10px] font-bold"  /></p>} 
+                {showArt ? "" : <p className="flex items-center">see more <SlArrowDown size={12} className="ml-[5px] font-bold"  /></p>} 
               </button>
               </div>
             </fieldset>
@@ -346,18 +346,18 @@ const CreateAccount4 = () => {
                 {showActivities && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setshowActivities(false)}
-                  className="text-[#4D73F9] items-center flex text-md font-semibold"
+                  className="text-black items-center flex text-[12px] md:text-[14px] font-semibold"
                   type="button"
                 >
-                  see less  <SlArrowUp className="bold-icon ml-[10px] "  />
+                  see less  <SlArrowUp size={12} className="bold-icon ml-[5px] "  />
                 </button>
               )}
               <button
                 onClick={() => setshowActivities(!showActivities)}
-                className="text-[#4D73F9] text-md font-semibold"
+                className="text-black text-[12px] md:text-[14px] font-semibold"
                 type="button"
               >
-                {showActivities ? "" :<p className="flex items-center">see more <SlArrowDown className="ml-[10px] font-bold "/></p>}
+                {showActivities ? "" :<p className="flex items-center">see more <SlArrowDown size={12} className="ml-[5px] font-bold "/></p>}
               </button>
               </div>
             </fieldset>
@@ -503,18 +503,18 @@ const CreateAccount4 = () => {
                 {showBussiness && ( // Render the "See Less" button if showAllSports is true
                 <button
                   onClick={() => setShowBussiness(false)}
-                  className="text-[#4D73F9] items-center flex text-md font-semibold"
+                  className="text-black items-center flex text-[12px] md:text-[14px] font-semibold"
                   type="button"
                 >
-                  see less <SlArrowUp className="bold-icon ml-[10px]"  />
+                  see less <SlArrowUp size={12} className="bold-icon ml-[5px]"  />
                 </button>
               )}
               <button
                 onClick={() => setShowBussiness(!showBussiness)}
-                className="text-[#4D73F9] text-md font-samibold ml-[10px] font-semibold "
+                className="text-black text-[12px] md:text-[14px] font-samibold ml-[10px] font-semibold "
                 type="button"
               >
-                {showBussiness ? "" : <p className="flex items-center">see more <SlArrowDown className="ml-[10px] font-bold"  /></p>}
+                {showBussiness ? "" : <p className="flex items-center">see more <SlArrowDown size={12} className="ml-[5px] font-bold"  /></p>}
               </button>
               </div>
               
@@ -529,7 +529,7 @@ const CreateAccount4 = () => {
       }`}
       onClick={nextPageHandler}
     >
-      skip
+      SKIP
     </button>
 
     <button
