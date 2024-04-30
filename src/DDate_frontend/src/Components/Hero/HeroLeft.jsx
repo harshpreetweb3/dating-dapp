@@ -5,7 +5,7 @@ import logo from "../../../assets/Images/CreateAccount/logo.png"
 const HeroLeft = () => {
   return (
     <div className="w-full lg:w-2/5 h-full relative">
-      <img src={heroLeft} alt="heroLeft" className="w-full  object-fit lg:object-contain" />
+      <img src={heroLeft} alt="heroLeft" className="object-cover " />
       
     <img 
         src={logo}

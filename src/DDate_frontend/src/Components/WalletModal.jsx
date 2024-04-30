@@ -19,8 +19,8 @@ const WalletModal = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate()
   console.log("USeAuth :  ",useAuth);
-  const {login} = useAuth();
-  console.log("Login aseAuth",login);
+  // const {login} = useAuth();
+  // console.log("Login aseAuth",login);
   const [userToken, setUserToken] = useState('');
   const [userPrincipal, setUserPrincipal] = useState('');
 

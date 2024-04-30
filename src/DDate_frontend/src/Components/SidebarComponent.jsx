@@ -410,7 +410,7 @@ const SidebarComponent = () => {
               </li>
             </ul>
             {showDropDown &&
-            <form onSubmit={handleSubmit}>
+            <form className="transition-all duration-500 ease-in-out " onSubmit={handleSubmit}>
               <div className="flex flex-col mb-2 ml-4 text-white">
                 <fieldset className="mb-1">
                   <legend className="font-bold p-2 text-base rounded">
@@ -514,10 +514,13 @@ const SidebarComponent = () => {
                   Apply
                 </button>
               </div>
-              <div className="flex flex-col items-center">
+             
+            </form>
+}
+<div className="flex flex-col items-center">
                 <button
                   onClick={logoutHandler}
-                  className="text-black hover:text-white font-normal py-2 px-20 text-sm rounded-full mb-8"
+                  className="text-black hover:text-white font-normal py-2 px-20 text-sm rounded-full "
                   style={{
                     background:
                       "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
@@ -526,8 +529,6 @@ const SidebarComponent = () => {
                   Logout
                 </button>
               </div>
-            </form>
-}
           </div>
         </aside>
       )}

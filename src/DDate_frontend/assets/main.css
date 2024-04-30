@@ -9,6 +9,10 @@ body{
     overflow-x: hidden !important;
 }
 
+@font-face {
+    font-family: 'Viga';
+    src: url('../assets/fonts/Viga-Regular.ttf') format('ttf');
+}
 /* body {
     font-family: sans-serif;
     font-size: 1.5rem;
