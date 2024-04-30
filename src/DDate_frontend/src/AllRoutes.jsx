@@ -129,7 +129,8 @@ const AllRoutes = () => {
     <>
        {userCheckComplete && (
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<CreateAccount1 />} />
           <Route path="/CreateAccount1" element={<CreateAccount1 />} />
           <Route path="/CreateAccount2" element={<CreateAccount2 />} />
           <Route path="/CreateAccount3" element={<CreateAccount3 />} />

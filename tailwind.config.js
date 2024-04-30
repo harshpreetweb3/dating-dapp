@@ -8,6 +8,7 @@
         fontFamily: {
           custom: ['Poppins', 'Helvetica', 'sans-serif'],
           num: ['Poppins'],
+          'viga': ['Viga', 'sans-serif'],
 
         },
         height: {

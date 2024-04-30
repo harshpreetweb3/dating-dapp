@@ -96,23 +96,23 @@ const CreateAccount3 = () => {
         className="w-full md:w-1/2 h-full absolute md:relative bg-cover bg-center z-0"
         style={{ backgroundImage: `url(${createAccountImage})` }}
       >
-        <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
-          <div className="w-full max-w-xl mx-auto text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-num mx-auto">
+         <div className="hidden md:flex md:flex-col md:justify-center md:text-center md:items-center md:absolute md:inset-0 px-8 py-12">
+          <div className="w-full max-w-xl mx-auto text-left ">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-viga mx-auto">
               Create Your
             </h1>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold text-white font-viga mb-2">
               account here
             </h2>
-            <p className="text-white text-bold md:text-2xl">Welcome ..</p>
-            <p className="text-white font-light md:text-xl">
+            <p className="text-white font-[600] mt-[30px] font-viga md:text-2xl">Welcome ..</p>
+            <p className="text-white font-[600] font-viga md:text-xl">
               Complete Your Profile Here.
             </p>
-            <p className="text-white font-extralight md:text-lg">
+            <p className="text-white font-[600] w-2/3 font-viga md:text-md">
               Tell us about yourself and let us help you finding the perfect
               match
             </p>
-            <p className="italic text-yellow-700 md:text-lg">Good Luck!</p>
+            <p className="text-[#FFC107] font-[600] mt-[15px] md:text-lg">Good Luck!</p>
           </div>
         </div>
 
