@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { SlArrowUp,SlArrowDown } from "react-icons/sl";
-const Form4 = ({index, setIndex}) => {
+const Form4 = ({index, setIndex, updateFormData, AllformData}) => {
 
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
     const [showArt, setShowArt] = useState(false); 
     const [showActivities, setshowActivities] = useState(false);
     const [showTravel, setshowTravel] = useState(false);
-    const [showBussiness, setShowBussiness] = useState(false); 
 
     const [formData, setFormData] = useState({
         selectedArt: "",
@@ -18,18 +17,19 @@ const Form4 = ({index, setIndex}) => {
       });
 
     useEffect(() => {
+        setFormData({
+            selectedArt: AllformData.selectedArt || "",
+            selectedPets: AllformData.selectedPets || "",
+            selectedHabbits: AllformData.selectedHabbits || "",
+            selectedActivities: AllformData.selectedActivities || "",
+            selectedMovies: AllformData.selectedMovies || "",
+            selectedTravel: AllformData.selectedTravel || "",
+        });
         const handleResize = () => {
           setIsDesktop(window.innerWidth >= 768);
     
         };
-    
         window.addEventListener("resize", handleResize);
-    
-        // Load data from local storage
-        const savedData = localStorage.getItem("form4");
-        if (savedData) {
-          setFormData(JSON.parse(savedData));
-        }
     
         return () => {
           window.removeEventListener("resize", handleResize);
@@ -81,9 +81,7 @@ const Form4 = ({index, setIndex}) => {
     
       const handleSubmit = (e) => {
         e.preventDefault();
-    
-        localStorage.setItem("form4", JSON.stringify(formData));
-        console.log(formData);
+        updateFormData(formData);
         setIndex(index+1);
       };
      

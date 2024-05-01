@@ -10,6 +10,10 @@ import Form6 from "./Form6";
 
 const CreateAccount1 = () => {
   const [index, setIndex] = useState(0); 
+  const [formData, setFormData] = useState({});
+  const updateFormData = (newData) => {
+    setFormData(prev => ({ ...prev, ...newData }));
+  };
   const backHandler = () => {
     if(index>0){
       setIndex(index-1);
@@ -40,22 +44,22 @@ const CreateAccount1 = () => {
           <div className="border-t-2 border-solid md:border-black border-white w-[90% ] mt-4 mb-4 md:ml-6"></div>
 
           {index ===0 &&
-          <Form1 index={index} setIndex={setIndex} />
+          <Form1 index={index} setIndex={setIndex} updateFormData={updateFormData} AllformData={formData} />
           }
           {index ===1 &&
-          <Form2 index={index} setIndex={setIndex} />
+          <Form2 index={index} setIndex={setIndex} updateFormData={updateFormData} AllformData={formData} />
           }
            {index ===2 &&
-          <Form3 index={index} setIndex={setIndex} />
+          <Form3 index={index} setIndex={setIndex} updateFormData={updateFormData} AllformData={formData} />
           }
            {index ===3 &&
-          <Form4 index={index} setIndex={setIndex} />
+          <Form4 index={index} setIndex={setIndex} updateFormData={updateFormData} AllformData={formData} />
           }
           {index ===4 &&
-          <Form5 index={index} setIndex={setIndex} />
+          <Form5 index={index} setIndex={setIndex} updateFormData={updateFormData} AllformData={formData} />
           }
           {index ===5 &&
-          <Form6 index={index} setIndex={setIndex} />
+          <Form6 AllformData={formData} updateFormData={updateFormData} />
           }
         </div>
       </div>

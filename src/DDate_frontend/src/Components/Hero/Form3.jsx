@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
-const Form3 = ({ index, setIndex }) => {
+const Form3 = ({ index, setIndex, updateFormData, AllformData }) => {
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
     const [formData, setFormData] = useState({
         selectedsmoking: "",
@@ -9,18 +9,17 @@ const Form3 = ({ index, setIndex }) => {
         selectedsports: "",
     });
     useEffect(() => {
+        setFormData({
+            selectedsmoking: AllformData.selectedsmoking || "",
+            selecteddrink: AllformData.selecteddrink || "",
+            selectedhobbies: AllformData.selectedhobbies || "",
+            selectedsports: AllformData.selectedsports || "",
+        });
         const handleResize = () => {
             setIsDesktop(window.innerWidth >= 768);
 
         };
-
         window.addEventListener("resize", handleResize);
-
-        // Load data from local storage
-        const savedData = localStorage.getItem("form3");
-        if (savedData) {
-            setFormData(JSON.parse(savedData));
-        }
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -34,7 +33,6 @@ const Form3 = ({ index, setIndex }) => {
 
     const handleFormChange = (e) => {
         const { name, value, checked } = e.target;
-
         const maxSelections = {
             selectedhobbies: 10,
             selectedsports: 26,
@@ -70,9 +68,7 @@ const Form3 = ({ index, setIndex }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        localStorage.setItem("form3", JSON.stringify(formData));
-        console.log(formData);
+        updateFormData(formData);
         setIndex(index + 1);
     };
     const [showAllSports, setShowAllSports] = useState(false);

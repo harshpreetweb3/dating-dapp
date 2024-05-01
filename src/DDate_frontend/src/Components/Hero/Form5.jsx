@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-const Form5 = ({ index, setIndex }) => {
+const Form5 = ({ index, setIndex, updateFormData, AllformData }) => {
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
     const [formData, setFormData] = useState({
-        selectedintrests: "",
-        selectedpreferAge: "",
-        selectedLocation: "",
-        selectedPrefferedLocation: "",
-        selectedIntro: "",
+        selectedintrests: AllformData.selectedintrests || "",
+        selectedpreferAge: AllformData.selectedpreferAge || "",
+        selectedLocation: AllformData.selectedLocation || "",
+        selectedPrefferedLocation: AllformData.selectedPrefferedLocation || "",
+        selectedIntro: AllformData.selectedIntro || "",
     });
 
     useEffect(() => {
@@ -17,11 +17,6 @@ const Form5 = ({ index, setIndex }) => {
 
         };
         window.addEventListener("resize", handleResize);
-        const savedData = localStorage.getItem("form5");
-        if (savedData) {
-            setFormData(JSON.parse(savedData));
-        }
-
         return () => {
             window.removeEventListener("resize", handleResize);
         };
@@ -65,8 +60,7 @@ const Form5 = ({ index, setIndex }) => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem("form5", JSON.stringify(formData));
-        console.log(formData);
+        updateFormData(formData);
         setIndex(index + 1);
     };
 

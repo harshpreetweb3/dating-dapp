@@ -4,27 +4,12 @@ import { useNavigate } from "react-router-dom";
 import CompressImage from "../ImageCompressFolder/CompressImage";
 import { Principal } from "@dfinity/principal";
 import { DDate_backend } from "../../../../declarations/DDate_backend/index";
-const Form6 = ({ index, setIndex }) => {
+const Form6 = ({ AllformData, updateFormData }) => {
     const isMobileView = useMediaQuery({ maxWidth: 767 });
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-      selectedintrests: "",
-      selectedpreferAge: "",
-      selectedLocation: "",
-      selectedPrefferedLocation: "",
-      selectedIntro: "",
-    });
+    const navigate = useNavigate();    
     const [imageFiles, setImageFiles] = useState([]);
-  
     const [imageError, setImageError] = useState(false);
-    const [isButtonDisable, setIsButtonDisable] = useState(false);
-  
-    useEffect(() => {
-      const savedData = localStorage.getItem("form5");
-      if (savedData) {
-        setFormData(JSON.parse(savedData));
-      }
-    }, []);
+    const [isButtonDisable, setIsButtonDisable] = useState(false);   
   
     const handleImageChange = async (e, index) => {
       setIsButtonDisable(true);
@@ -55,66 +40,47 @@ const Form6 = ({ index, setIndex }) => {
         setImageError(true);
         return;
       }
-      localStorage.setItem("form6", JSON.stringify(formData));
-      console.log(formData);
   
-      const formKeys = ["form1", "form2", "form3", "form4", "form5", "form6"];
-      const userData = {};
       const principalString = localStorage.getItem("id");
       console.log(principalString);
-  
-      // Convert the principal string to a Principal object
       const principal = convertStringToPrincipal(principalString);
   
-      if (principal) {
-        formKeys.forEach((key) => {
-          userData[key] = localStorage.getItem(key);
-        });
-  
-        const result = {};
-  
-        for (const key in userData) {
-          if (userData.hasOwnProperty(key)) {
-            const formData = JSON.parse(userData[key]);
-            Object.assign(result, formData);
-          }
-        }
-  
+      if (principal) {  
         const objectSendToBackendFormat = {
-          id: principal,
-          gender: result.usergender,
-          email: result.email,
-          name: result.username,
-          mobile_number: result.mobile,
-          dob: result.dob,
-          gender_pronouns: result.genderPronouns,
-          religion: result.selectedReligion,
-          height: result.selectedHeight,
-          zodiac: result.selectedZodiac,
-          diet: result.selectedFooding,
-          occupation: result.selectedWhatYouDo,
-          looking_for: result.selectedlookingFor,
-          smoking: result.selectedsmoking,
-          drinking: result.selecteddrink,
-          hobbies: result.selectedhobbies,
-          sports: result.selectedsports,
-          art_and_culture: result.selectedArt,
-          pets: result.selectedPets,
-          general_habits: result.selectedHabbits,
-          outdoor_activities: result.selectedActivities,
-          travel: result.selectedTravel,
-          movies: result.selectedMovies,
-          interests_in: result.selectedintrests,
-          age: result.age,
-          location: result.selectedLocation,
-          min_preferred_age: result.min_age,
-          max_preferred_age: result.max_age,
-          preferred_gender: result.selectedintrests,
-          preferred_location: result.selectedPrefferedLocation,
-          introduction: result.selectedIntro,
-          images: imageFiles,
+            id: principal,
+            gender: AllformData.usergender,
+            email: AllformData.email,
+            name: AllformData.username,
+            mobile_number: AllformData.mobile,
+            dob: AllformData.dob,
+            gender_pronouns: AllformData.genderPronouns,
+            religion: AllformData.selectedReligion,
+            height: AllformData.selectedHeight,
+            zodiac: AllformData.selectedZodiac,
+            diet: AllformData.selectedFooding,
+            occupation: AllformData.selectedWhatYouDo,
+            looking_for: AllformData.selectedlookingFor,
+            smoking: AllformData.selectedsmoking,
+            drinking: AllformData.selecteddrink,
+            hobbies: AllformData.selectedhobbies,
+            sports: AllformData.selectedsports,
+            art_and_culture: AllformData.selectedArt,
+            pets: AllformData.selectedPets,
+            general_habits: AllformData.selectedHabbits,
+            outdoor_activities: AllformData.selectedActivities,
+            travel: AllformData.selectedTravel,
+            movies: AllformData.selectedMovies,
+            interests_in: AllformData.selectedintrests,
+            age: AllformData.age,
+            location: AllformData.selectedLocation,
+            min_preferred_age: AllformData.min_age,
+            max_preferred_age: AllformData.max_age,
+            preferred_gender: AllformData.selectedintrests,
+            preferred_location: AllformData.selectedPrefferedLocation,
+            introduction: AllformData.selectedIntro,
+            images: imageFiles,
         };
-  
+        
         localStorage.setItem("myImage", objectSendToBackendFormat.images[0]);
   
         console.log(

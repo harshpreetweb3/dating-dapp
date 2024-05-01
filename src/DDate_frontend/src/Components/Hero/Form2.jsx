@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Form2 = ({index, setIndex}) => {
+const Form2 = ({index, setIndex, updateFormData, AllformData}) => {
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
     const [formData, setFormData] = useState({
@@ -15,17 +15,22 @@ const Form2 = ({index, setIndex}) => {
     });
   
     useEffect(() => {
+        setFormData({
+            genderPronouns: AllformData.genderPronouns || "",
+            selectedReligion: AllformData.selectedReligion || "",
+            selectedFooding: AllformData.selectedFooding || "",
+            selectedWhatYouDo: AllformData.selectedWhatYouDo || "",
+            selectedlookingFor: AllformData.selectedlookingFor || "",
+            selectedHeight: AllformData.selectedHeight || "Feet’inch’",
+            selectedZodiac: AllformData.selectedZodiac || "",
+            selectedlifePathNumber: AllformData.selectedlifePathNumber || "",
+    });
       const handleResize = () => {
         setIsDesktop(window.innerWidth >= 768);
   
       };
   
       window.addEventListener("resize", handleResize);
-      const savedData = localStorage.getItem("form2");
-      if (savedData) {
-        setFormData(JSON.parse(savedData));
-      }
-  
       return () => {
         window.removeEventListener("resize", handleResize);
       };
@@ -41,9 +46,7 @@ const Form2 = ({index, setIndex}) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        localStorage.setItem("form2", JSON.stringify(formData));
-        console.log(formData);
+        updateFormData(formData);
         setIndex(index+1);
     };
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Form1 = ({index, setIndex}) => {
+const Form1 = ({ index, setIndex, updateFormData, AllformData }) => {
     const [formData, setFormData] = useState({
         usergender: "Male", // Set a default value
         email: "",
@@ -8,34 +8,37 @@ const Form1 = ({index, setIndex}) => {
         mobile: "",
         dob: "",
     });
+    useEffect(() => {
+        setFormData({
+            usergender: AllformData.usergender || "Male",
+            email: AllformData.email || "",
+            username: AllformData.username || "",
+            mobile: AllformData.mobile || "",
+            dob: AllformData.dob || "",
+        });
+    }, []);
 
     const calculateAge = (dobString) => {
         const dob = new Date(dobString);
         const currentDate = new Date();
-    
+
         if (dob > currentDate) {
-          alert("Please enter a valid date of birth.");
-          return null;
+            alert("Please enter a valid date of birth.");
+            return null;
         }
-    
+
         let age = currentDate.getFullYear() - dob.getFullYear();
-    
+
         if (
-          currentDate.getMonth() < dob.getMonth() ||
-          (currentDate.getMonth() === dob.getMonth() &&
-            currentDate.getDate() < dob.getDate())
+            currentDate.getMonth() < dob.getMonth() ||
+            (currentDate.getMonth() === dob.getMonth() &&
+                currentDate.getDate() < dob.getDate())
         ) {
-          age--;
+            age--;
         }
-    
+
         return age;
-      };
-    useEffect(() => {
-        const savedData = localStorage.getItem("form1");
-        if (savedData) {
-            setFormData(JSON.parse(savedData));
-        }
-    }, []);
+    };
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -67,12 +70,8 @@ const Form1 = ({index, setIndex}) => {
             ...formData,
             age: age,
         };
-
-        // Save the updated form data to local storage
-        localStorage.setItem("form1", JSON.stringify(formDataWithAge));
-        console.log(formDataWithAge);
-
-        setIndex(index+1);
+        updateFormData(formDataWithAge);
+        setIndex(index + 1);
     };
     return (
         <form
