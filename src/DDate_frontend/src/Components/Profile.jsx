@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import SidebarComponent from "./SidebarComponent";
 import { Principal } from "@dfinity/principal";
 import back from "../../assets/Images/CreateAccount/back.svg";
-import addProfile from "../../assets/Images/UserProfiles/profileAdd.svg";
-import uploadProfile from "../../assets/Images/UserProfiles/upload.svg";
 import Ellipse from "../../assets/Images/UserProfiles/Ellipse.svg";
+import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import Loader from "./Loader";
 import "./Swipe.css";
-import CompressImage from "./ImageCompressFolder/CompressImage";
 
 const Profile = () => {
   const [loader, setLoader] = useState(false);
@@ -27,8 +25,6 @@ const Profile = () => {
 
   const [principal, setPrincipal] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [imageFiles, setImageFiles] = useState([]);
-  const [imageError, setImageError] = useState(false);
   const [tempProfileImage, setTempProfileImage] = useState("");
 
   const navigate = useNavigate();
@@ -57,8 +53,32 @@ const Profile = () => {
             introduction: userProfileData.introduction || "",
             images: userProfileData.images || [],
             gender_pronouns: userProfileData.gender_pronouns || "",
-            matches: userProfileData.matches || []
+            matches: userProfileData.matches || [],
+            location: userProfileData.location || "",
+            dob: userProfileData.dob || "",
+            hobbies: userProfileData.hobbies || [],
+            occupation: userProfileData.occupation || "",
+            smoking: userProfileData.smoking || "",
+            drinking: userProfileData.drinking || "",
+            religion: userProfileData.religion || "",
+            height: userProfileData.height || "",
+            diet: userProfileData.diet || "",
+            pets: userProfileData.pets || "",
+            zodiac: userProfileData.zodiac || "",
+            sports: userProfileData.sports || [],
+            interests_in: userProfileData.interests_in || "",
+            movies: userProfileData.movies || [],
+            outdoor_activities: userProfileData.outdoor_activities || [],
+            travel: userProfileData.travel || [],
+            general_habits: userProfileData.general_habits || [],
+            art_and_culture: userProfileData.art_and_culture || [],
+            looking_for: userProfileData.looking_for || "",
+            min_preferred_age: userProfileData.min_preferred_age || null,
+            max_preferred_age: userProfileData.max_preferred_age || null,
+            preferred_gender: userProfileData.preferred_gender || "",
+            preferred_location: userProfileData.preferred_location || "",
           });
+
           setLoader(false);
         } catch (error) {
           console.error("Error fetching user profile: ", error);
@@ -91,149 +111,6 @@ const Profile = () => {
     }
   }, [userProfile]);
 
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        const compressedFile = await CompressImage(file);
-        const reader = new FileReader();
-        reader.readAsDataURL(compressedFile);
-        reader.onload = () => {
-          const newImageBase64 = reader.result;
-          setTempProfileImage(newImageBase64); // Set the first image as temporary profile image
-          setFormData((prevData) => ({
-            ...prevData,
-            images: [newImageBase64, ...prevData.images.slice(1)],
-          }));
-        };
-      } catch (error) {
-        console.error("Error compressing the image:", error);
-      }
-    }
-  };
-
-  const [isLoading, setIsLoading] = useState({});
-
-  const handleAdditionalImageChange = (index) => async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setIsLoading((prevLoading) => ({ ...prevLoading, [index]: true }));
-      try {
-        const compressedFile = await CompressImage(file);
-        const reader = new FileReader();
-        reader.readAsDataURL(compressedFile);
-        reader.onload = () => {
-          setFormData((prevData) => {
-            const newImages = [...prevData.images];
-            newImages[index] = reader.result;
-            return { ...prevData, images: newImages };
-          });
-          setIsLoading((prevLoading) => ({ ...prevLoading, [index]: false }));
-        };
-      } catch (error) {
-        console.error("Error compressing the image:", error);
-        setIsLoading((prevLoading) => ({ ...prevLoading, [index]: false }));
-      }
-    }
-  };
-
-  const handleImageClick = () => {
-    document.getElementById("images").click();
-  };
-
-  // Function to handle file input change
-  const handleImageChangeProfile = (event) => {
-    // Handle file change event
-    // For example, you can set the file to state or upload it
-    console.log(event.target.files[0]);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setImageError(false);
-
-    // Check if the image is provided
-    if (formData.images.length === 0) {
-      setImageError(true);
-      return;
-    }
-
-    const finalImagesArray = tempProfileImage
-      ? [tempProfileImage, ...formData.images.slice(1)]
-      : formData.images;
-
-    // Construct updated profile data with original data as fallback
-    const updatedProfileData = {
-      id: principal,
-      new_name:
-        formData.name !== userProfile?.name
-          ? [formData.name]
-          : [userProfile?.name],
-      new_gender:
-        formData.gender !== userProfile?.gender
-          ? [formData.gender]
-          : [userProfile?.gender],
-      new_email:
-        formData.email !== userProfile?.email
-          ? [formData.email]
-          : [userProfile?.email],
-      new_mobile_number:
-        formData.mobile_number.toString() !== userProfile?.mobile_number
-          ? [formData.mobile_number.toString()]
-          : [userProfile?.mobile_number],
-      new_gender_pronouns:
-        formData.gender_pronouns !== userProfile?.gender_pronouns
-          ? [formData.gender_pronouns]
-          : [userProfile?.gender_pronouns],
-      new_introduction:
-        formData.introduction !== userProfile?.introduction
-          ? [formData.introduction]
-          : [userProfile?.introduction],
-      images: [formData.images] || [userProfile?.images],
-      matches : [formData.matches] || [userProfile?.matches],
-      new_dob: userProfile?.dob || [],
-      new_religion: userProfile?.religion || [],
-      new_height: userProfile?.height || [],
-      new_zodiac: userProfile?.zodiac || [],
-      new_diet: userProfile?.diet || [],
-      new_occupation: userProfile?.occupation || [],
-      new_looking_for: userProfile?.looking_for || [],
-      new_smoking: userProfile?.smoking || [],
-      new_drinking: userProfile?.drinking || [],
-      new_hobbies: userProfile?.hobbies || [],
-      new_sports: userProfile?.sports || [],
-      new_art_and_culture: userProfile?.art_and_culture || [],
-      new_pets: userProfile?.pets || [],
-      new_general_habits: userProfile?.general_habits || [],
-      new_outdoor_activities: userProfile?.outdoor_activities || [],
-      new_travel: userProfile?.travel || [],
-      new_movies: userProfile?.movies || [],
-      new_interests_in: userProfile?.interests_in || [],
-      new_age: userProfile?.age || [],
-      new_location: userProfile?.location || [],
-      new_min_preferred_age: userProfile?.min_preferred_age || [],
-      new_max_preferred_age: userProfile?.max_preferred_age || [],
-      new_preferred_gender: userProfile?.preferred_gender || [],
-      new_preferred_location: userProfile?.preferred_location || [],
-      new_matched: userProfile?.matched || [],
-    };
-
-    console.log("updatedProfileData =>", updatedProfileData);
-    try {
-      await DDate_backend.update_profile(updatedProfileData);
-      navigate("/Swipe");
-    } catch (error) {
-      console.error("Error sending data to the backend:", error);
-    }
-  };
 
   const calculateProgressOffset = (progress) => {
     const radius = 47;
@@ -242,7 +119,7 @@ const Profile = () => {
   };
 
   return (
-    <>
+    <div className="md:grid grid-cols-6">
       {principal && <SidebarComponent />}
       {loader ? (
         <div className="sm:ml-64">
@@ -255,21 +132,20 @@ const Profile = () => {
           </div>
         </div>
       ) : (
-        <div className="h-screen grid grid-cols-12">
-          <div className="md:col-span-2"></div>
-          <div className="col-span-12 lg:col-span-6 xl:col-span-6 px-6 lg:px-10 xl:px-12">
-            <div className="flex items-center md:mt-10 ml-12 gap-2 mb-4">
+        <div className="h-screen md:col-span-5 font-viga ">
+          <div className=" px-6 lg:px-10 xl:px-12">
+            <div className="flex items-center md:mt-15 gap-2 ">
               <img
                 src={back}
                 alt="back"
                 onClick={() => navigate("/Swipe")}
                 className="w-4 h-4 cursor-pointer"
               />
-              <div className="ml-2 text-lg font-medium">Edit Your Profile</div>
+              <div className="text-lg font-medium">My Profile</div>
             </div>
             <div className="px-6 sm:p-4 md:px-8 lg:px-10 xl:px-12 overflow-y-auto">
               <div className="relative flex justify-center items-center w-full mb-16 mt-2">
-                <p className="border-t border-black w-full md:w-3/4 lg:w-2/3"></p>
+                <p className="border-t border-black  w-full "></p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -284,18 +160,12 @@ const Profile = () => {
                   />
                 </svg>
               </div>
-              <div className="h-auto w-auto flex items-center justify-center flex-col">
-                <div className="mb-4 relative">
-                  <input
-                    id="images"
-                    type="file"
-                    name="images"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
+              <div className="h-auto w-auto flex-col">
+                <div className="mb-4 flex justify-center relative">
+
                   <label
                     htmlFor="images"
-                    className="h-32 w-32 rounded-full border-2 border-gray-300 cursor-pointer flex items-center justify-center"
+                    className="h-[220px] w-[220px] rounded-full border-2 border-gray-300 cursor-pointer flex items-center justify-center"
                     style={{
                       background:
                         "linear-gradient(transparent, transparent), radial-gradient(circle at center, #cccccc, #cccccc)",
@@ -308,7 +178,7 @@ const Profile = () => {
                         style={{ top: "0.45rem ", left: "-0.15rem" }}
                       >
                         <svg
-                          className="absolute inset-0 w-32 h-32 -top-2 z-10"
+                          className="absolute inset-0 w-[228px] h-[228px] -top-4 z-10"
                           viewBox="0 0 100 100"
                         >
                           <circle
@@ -349,11 +219,11 @@ const Profile = () => {
                           src={Ellipse}
                           alt="back"
                           className="w-9 h-9 bg-yellow-400 rounded-full absolute top-24 z-20"
-                          style={{ left: "3.10rem" }}
+                          style={{ top: "11.5rem", left: "6.1rem" }}
                         />
                         <div
                           className=" text-white font-bold text-xs absolute z-30"
-                          style={{ top: "6.6rem", left: "3.4rem" }}
+                          style={{ top: "12.0rem", left: "6.4rem" }}
                         >
                           {progress} %
                         </div>
@@ -371,124 +241,232 @@ const Profile = () => {
                     )}
                   </label>
                 </div>
-                <form
-                  onSubmit={handleSubmit}
-                  className="w-full max-w-md mx-auto p-4"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="flex justify-center mb-[32px] items-center">
+                  <p className="text-[20px] font-viga mr-[10px] text-center font-[600]">{formData.name} {formData.gender_pronouns}</p><CiEdit className="text-cursor" size={22} />
+                </div>
+                <div className="w-full font-viga p-4">
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="flex items-center">
                       <label
                         htmlFor="gender"
-                        className="text-lg"
-                        style={{ fontWeight: 600 }}
+                        className="text-[18px] font-[600]"
                       >
                         Gender
                       </label>
                     </div>
-                    <div>
+                    <div className="col-span-2">
                       <input
+                        disabled
                         id="gender"
                         type="text"
                         name="gender"
                         value={formData.gender}
-                        onChange={handleFormChange}
-                        className="form-input w-full px-2 py-1.5 rounded-3xl"
+                        className=" font-[600] w-full px-2 py-1.5 rounded-3xl"
                       />
                     </div>
 
                     <div className="flex items-center">
                       <label
                         htmlFor="email"
-                        className="text-lg"
-                        style={{ fontWeight: 600 }}
+                        className="text-[18px] font-[600]"
                       >
                         Email
                       </label>
                     </div>
-                    <div>
+                    <div className="col-span-2">
                       <input
+                        disabled
                         id="email"
                         type="email"
                         name="email"
                         value={formData.email}
-                        onChange={handleFormChange}
-                        className="form-input w-full px-2 py-1.5 rounded-3xl"
+                        className=" font-[600] w-full px-2 py-1.5 rounded-3xl"
                       />
                     </div>
-
-                    <div className="flex items-center">
-                      <label
-                        htmlFor="name"
-                        className="text-lg"
-                        style={{ fontWeight: 600 }}
-                      >
-                        Username
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleFormChange}
-                        className="form-input w-full px-2 py-1.5 rounded-3xl"
-                      />
-                    </div>
-
+                    
                     <div className="flex items-center">
                       <label
                         htmlFor="mobile_number"
-                        className="text-lg"
-                        style={{ fontWeight: 600 }}
+                        className="text-[18px] font-[600]"
                       >
                         Mobile No.
                       </label>
                     </div>
-                    <div>
+                    <div className="col-span-2">
                       <input
+                        disabled
                         id="mobile_number"
                         type="tel"
                         name="mobile_number"
                         value={formData.mobile_number.toString()}
-                        onChange={handleFormChange}
-                        className="form-input w-full px-2 py-1.5 rounded-3xl"
+                        className="font-[600] w-full px-2 py-1.5 rounded-3xl"
                       />
                     </div>
 
-                    <div className="flex items-center mb-4">
+                    <div className="flex text-[18px] font-[600] items-center">
+                      DOB
+                    </div>
+                    <p className="font-[600] col-span-2 w-full px-2 py-1.5">
+                      {formData.dob}
+                    </p>
+                    <div className="">
                       <label
                         htmlFor="introduction"
-                        className="text-lg"
-                        style={{ fontWeight: 600 }}
+                        className="text-[18px] font-[600]"
                       >
                         My Introduction
                       </label>
                     </div>
-                    <div className="col-auto">
+                    <div className=" col-span-2">
                       <textarea
                         id="introduction"
                         name="introduction"
+                        disabled
                         value={formData.introduction}
-                        onChange={handleFormChange}
                         rows="4"
-                        className="form-input w-full px-2 py-1.5 rounded-3xl bg-gray-200"
+                        className="bg-[#F0F0F0] font-[600] rounded-xl px-2 py-1.5 w-full "
                       ></textarea>
                     </div>
-                  </div> 
-                  <div className="flex justify-center mt-6">
-                <button
-                  type="submit"
-                  className="bg-yellow-500 rounded-full font-sm py-2 px-8 mb-10 text-black hover:bg-yellow-600"
-                >
-                  Save Changes
-                </button>
-              </div>
-                </form>
+                  </div>
+                  <div className="font-[600] text-[20px] font-viga">
+                    <p className="underline underline-offset-4 mb-[35px] font-[600]">About me</p>
+                    <div className="grid text-[18px] grid-cols-3">
+                      <div className="flex   items-center">
+                        Religion
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.religion}
+                      </p>
+                      <div className="flex items-center">
+                        Height
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.height}
+                      </p>
+                      <div className="flex items-center">
+                        Location
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.location}
+                      </p>
+                      <div className="flex items-center">
+                        Smoking
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.smoking}
+                      </p>
+                      <div className="flex items-center">
+                        Alcohol/Drink
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.drinking}
+                      </p>
+                      <div className="flex items-center">
+                        Occupation
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.occupation}
+                      </p>
+                      <div className="flex items-center">
+                        Hobbies
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.hobbies?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Sports
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.sports?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Outdoor Activities
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.outdoor_activities?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Travel
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.travel?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Movies
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.movies?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Zodiac Sign
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.zodiac}
+                      </p><div className="flex items-center">
+                        Diet
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.diet}
+                      </p>
+                      <div className="flex items-center">
+                        General Habits
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.general_habits?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Art & Culture
+                      </div>
+                      <p className="col-span-2 w-full px-2 flex flex-wrap gap-6 py-1.5">
+                        {formData?.art_and_culture?.map((hobby)=>(
+                        <div className="">
+                          <p className="rounded-lg px-2 py-1.5 bg-[#F0F0F0] ">{hobby}</p>
+                        </div>))}
+                      </p>
+                      <div className="flex items-center">
+                        Pets
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.pets}
+                      </p>
+                      <div className="flex items-center">
+                        What are you looking for
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.looking_for}
+                      </p>
+                      <div className="flex items-center">
+                        Your interests in
+                      </div>
+                      <p className="col-span-2 w-full px-2 py-1.5">
+                        {formData.interests_in}
+                      </p>
+                      
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-4 xl:col-span-4 px-4 lg:px-8 xl:px-10">
+          {/* <div className="col-span-12 lg:col-span-4 xl:col-span-4 px-4 lg:px-8 xl:px-10">
             <div className="flex items-center md:mt-10 ml-6 gap-2 mb-6">
               <img
                 src={addProfile}
@@ -522,7 +500,7 @@ const Profile = () => {
 
               <div className="bg-white">
                 <div className="flex items-center flex-wrap p-3 md:p-4 justify-center cursor-pointer gap-4">
-                  {/* First input field for additional photos */}
+                  
                   <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200 flex justify-center items-center">
                     <label htmlFor={`additional-image-1`}>
                       {isLoading[1] ? (
@@ -554,6 +532,7 @@ const Profile = () => {
                         />
                       )}
                       <input
+                      disabled
                         id={`additional-image-1`}
                         type="file"
                         onChange={handleAdditionalImageChange(1)}
@@ -565,7 +544,7 @@ const Profile = () => {
                   {Object.entries(isLoading).map(([key, value]) =>
                     console.log(value)
                   )}
-                  {/* Second input field for additional photos */}
+                  
                   <div className="w-40 h-[180px] md:w-36 md:h-[196px] rounded-[15px] bg-zinc-200  flex justify-center items-center">
                     <label htmlFor={`additional-image-2`}>
                       {isLoading[2] ? (
@@ -597,6 +576,7 @@ const Profile = () => {
                         />
                       )}
                       <input
+                      disabled
                         id={`additional-image-2`}
                         type="file"
                         onChange={handleAdditionalImageChange(2)}
@@ -608,10 +588,10 @@ const Profile = () => {
               </div>
              
             </div>
-          </div>
+          </div> */}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

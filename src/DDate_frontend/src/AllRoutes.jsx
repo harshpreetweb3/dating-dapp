@@ -57,7 +57,7 @@ const AllRoutes = () => {
         const principalToString = principal.toText();
 
         if (userPrincipalInString === principalToString) {
-          navigate("/Swipe");
+          // navigate("/Swipe");
         }
       } catch (error) {
         console.error("Error checking user existence: ", error);
@@ -121,8 +121,8 @@ const AllRoutes = () => {
     <>
        {userCheckComplete && (
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          {/* <Route path="/" element={<CreateAccount1 />} /> */}
+          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<Profile />} />
           <Route path="/CreateAccount1" element={<CreateAccount1 />} />
           <Route path="/Swipe" element={<Swipe />} />
           <Route path="/Profile" element={<Profile />} />
