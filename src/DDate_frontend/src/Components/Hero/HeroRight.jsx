@@ -5,18 +5,21 @@ import { useEffect } from 'react';
 import LogoutModal from '../LogoutModal';
 import createPageImage from '../../../assets/Images/CreateAccount/createPageImage.png'
 import Profile from '../Profile';
+import { useAuth } from '../../auth/useAuthClient';
 
 const HeroRight = () => {
 
   const navigate = useNavigate();
-
+const {principal} = useAuth()
   const [isWalletModalOpen, setWalletModalOpen] = useState(false);
   const [isLogoutModal, setLogoutModal] = useState(false);
 
-  const isUserLoggedIn = localStorage.getItem('id') !== null;
 
   const id =localStorage.getItem('id')
-  console.log(id)
+  console.log("id =?????", id) 
+   const isUserLoggedIn = !!id
+
+  console.log("isUserLoggedIn =?????", isUserLoggedIn)
 
   // const createAccountHandler = () => {
   //   navigate('/CreateAccount1');

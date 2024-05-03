@@ -47,27 +47,30 @@ const AllRoutes = () => {
 
 
   const existingUserHandler = async () => {
-    const principalString = localStorage.getItem("id");
-    const principal = convertStringToPrincipal(principalString);
-
-    if (principal) {
-      try {
-        const userExist = await DDate_backend.get_profile(principal);
-        const userPrincipalInString = userExist.id.toText();
-        const principalToString = principal.toText();
-
-        if (userPrincipalInString === principalToString) {
-          navigate("/Swipe");
+    try {
+      const principalString = localStorage.getItem("id");
+      console.log("Principal string from localStorage:", principalString);
+  
+      if (principalString) {
+        const principal = convertStringToPrincipal(principalString);
+  
+        if (principal) {
+          const userExist = await DDate_backend.get_profile(principal);
+          const userPrincipalInString = userExist.id.toText();
+          const principalToString = principal.toText();
+  
+          if (userPrincipalInString === principalToString) {
+            navigate("/Swipe");
+          }
         }
-      } catch (error) {
-        console.error("Error checking user existence: ", error);
-      } finally {
-        setUserCheckComplete(true);
       }
-    } else {
+    } catch (error) {
+      console.error("Error in existingUserHandler:", error);
+    } finally {
       setUserCheckComplete(true);
     }
   };
+  
 
 
 

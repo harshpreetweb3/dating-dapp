@@ -1,17 +1,22 @@
 import * as React from "react";
+import { useAuth } from "../auth/useAuthClient";
 
 const LogoutModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  const {logout, principal} = useAuth();
 
-  const logoutHandler = () => {
-    localStorage.removeItem("id");
-    localStorage.removeItem("identity");
-    localStorage.removeItem("wallet");
+  console.log("principal in logoutmodal => ",principal);
+  const logoutHandler = async() => {
+    // localStorage.removeItem("id");
+    // localStorage.removeItem("identity");
+    // localStorage.removeItem("wallet");
+     await logout()
+         localStorage.removeItem("id");
 
     onClose();
   };
 
-  let principal = localStorage.getItem("id");
+  // let principal = localStorage.getItem("id");
 
   return (
     <div

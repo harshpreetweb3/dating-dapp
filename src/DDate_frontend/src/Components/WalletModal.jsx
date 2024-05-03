@@ -18,18 +18,18 @@ import { Principal } from "@dfinity/principal";
 const WalletModal = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate()
-  console.log("USeAuth :  ",useAuth);
-  // const {login} = useAuth();
-  // console.log("Login aseAuth",login);
+  // console.log("USeAuth :  ",useAuth);
+  const {login,backendActor,principal} = useAuth();
+  console.log("Login principal",principal)
   const [userToken, setUserToken] = useState('');
   const [userPrincipal, setUserPrincipal] = useState('');
 
-  console.log("tokan aaya after login", userToken);
-  console.log("principal userPrincipal after login", userPrincipal);
+  // console.log("tokan aaya after login", userToken);
+  // console.log("principal userPrincipal after login", userPrincipal);
 
   const onLogin = (token, principal) => {
-    console.log("aha token set state vich jau ga", token);
-    console.log("aha principal set state vich jau ga", principal);
+    // console.log("aha token set state vich jau ga", token);
+    // console.log("aha principal set state vich jau ga", principal);
 
     setUserToken(token);
     setUserPrincipal(principal);
@@ -50,14 +50,14 @@ const WalletModal = ({ isOpen, onClose }) => {
   // };
 
   const existingUserHandler = async () => {
-    const principalString = localStorage.getItem("id");
-
-    if (principalString) {
+    // const principalString = localStorage.getItem("id");
+console.log("dae na mc pricipal =>", principal);
+    if (principal) {
       try {
-        const newPrincipal = Principal.fromText(principalString);
-        const userExist = await DDate_backend.get_profile(newPrincipal);
+        // const newPrincipal = Principal.fromText(principalString);
+        const userExist = await backendActor.get_profile(principal);
         const userPrincipalInString = userExist.id.toText();
-        const principalToString = newPrincipal.toText();
+        const principalToString = principal.toText();
 
         if (userPrincipalInString === principalToString) {
           navigate("/Swipe");
@@ -75,21 +75,24 @@ const WalletModal = ({ isOpen, onClose }) => {
 
   
   const InternetIdentityHandler = async () => {
-    const authClient = await AuthClient.create();
-    authClient.login({
-      identityProvider: "https://identity.ic0.app/#authorize",
-      onSuccess: async () => {
-        const identity = authClient.getIdentity();
-        const principal = identity.getPrincipal();
-        let principalText = principal.toText();
+    // const authClient = await AuthClient.create();
+    // authClient.login({
+    //   identityProvider: "https://identity.ic0.app/#authorize",
+    //   onSuccess: async () => {
+    //     const identity = authClient.getIdentity();
+    //     const principal = identity.getPrincipal();
+    //     let principalText = principal.toText();
 
-        localStorage.setItem("id", principalText);
-        // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
-        localStorage.setItem("identity", JSON.stringify(identity));
-        await existingUserHandler();
-        onClose();
-      },
-    });
+    //     localStorage.setItem("id", principalText);
+    //     // localStorage.setItem('wallet',JSON.stringify('InternetIdentity'))
+    //     localStorage.setItem("identity", JSON.stringify(identity));
+    //     onClose();
+    //   },
+    // });
+   
+      await login('ii');
+      await existingUserHandler();
+
   };
 
 
@@ -145,86 +148,86 @@ const WalletModal = ({ isOpen, onClose }) => {
   //   }
   // }
 
-  async function registerUser(principal, publicKey, signature) {
-    console.log("inside register user!!")
+  // async function registerUser(principal, publicKey, signature) {
+  //   console.log("inside register user!!")
 
-    // Retrieve the necessary information from localStorage
-    // const principal = localStorage.getItem('id');
-    // const publicKey = localStorage.getItem('publicKey'); // Assuming you have stored it already
-    // const signature = localStorage.getItem('signature'); // Assuming you have stored it already
+  //   // Retrieve the necessary information from localStorage
+  //   const principal = localStorage.getItem('id');
+  //   const publicKey = localStorage.getItem('publicKey'); // Assuming you have stored it already
+  //   const signature = localStorage.getItem('signature'); // Assuming you have stored it already
 
-    // Construct the API endpoint (if it's always localhost, you can hardcode it, otherwise, make it configurable)
-    //const apiEndpoint = 'http://localhost:3000/api/v1/register/user';
+  //   // Construct the API endpoint (if it's always localhost, you can hardcode it, otherwise, make it configurable)
+  //   // const apiEndpoint = 'http://localhost:3000/api/v1/register/user';
     
-    const apiEndpoint = 'https://ddate.kaifoundry.com/api/v1/register/user';
-    // Construct the payload
-    const payload = {
-      principal,
-      publicKey,
-      signature
-    };
+  //   const apiEndpoint = 'https://ddate.kaifoundry.com/api/v1/register/user';
+  //   // Construct the payload
+  //   const payload = {
+  //     principal,
+  //     publicKey,
+  //     signature
+  //   };
 
-    // Use fetch to make the API call
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+  //   // Use fetch to make the API call
+  //   try {
+  //     const response = await fetch(apiEndpoint, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(payload)
+  //     });
 
-      // Check if the request was successful
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Registration successful:', data);
+  //     // Check if the request was successful
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log('Registration successful:', data);
 
-        handleLogin(principal, publicKey);
+  //       handleLogin(principal, publicKey);
 
-        // Handle successful registration (e.g., redirect to a login page or display a success message)
-      } else {
-        // If the server response was not ok, handle the error
-        console.error('Registration failed:', response.status, response.statusText);
-        // Handle error (e.g., display an error message to the user)
-      }
-    } catch (error) {
-      // Handle network error
-      console.error('Network error:', error);
-      // Handle error (e.g., display an error message to the user)
-    }
-  }
+  //       // Handle successful registration (e.g., redirect to a login page or display a success message)
+  //     } else {
+  //       // If the server response was not ok, handle the error
+  //       console.error('Registration failed:', response.status, response.statusText);
+  //       // Handle error (e.g., display an error message to the user)
+  //     }
+  //   } catch (error) {
+  //     // Handle network error
+  //     console.error('Network error:', error);
+  //     // Handle error (e.g., display an error message to the user)
+  //   }
+  // }
 
 
 
-  const handleLogin = async (principal, publicKey) => {
-    try {
-      // Replace with actual login API call
-      const response = await axios.post('https://ddate.kaifoundry.com/api/v1/login/user', {
-        principal: principal,
-        publicKey: publicKey // Modify as needed
-      });
+  // const handleLogin = async (principal, publicKey) => {
+  //   try {
+  //     // Replace with actual login API call
+  //     const response = await axios.post('https://ddate.kaifoundry.com/api/v1/login/user', {
+  //       principal: principal,
+  //       publicKey: publicKey // Modify as needed
+  //     });
 
-      if (response.data.status) {
-        onLogin(response.data.userToken, principal);
-        console.log("login sucesssssss__ss");
+  //     if (response.data.status) {
+  //       onLogin(response.data.userToken, principal);
+  //       console.log("login sucesssssss__ss");
 
-        console.log("ls see token updated ja nhi befor local storage", userToken);
-        console.log("ls see userPrincipal updated ja nhi befor local storage", userPrincipal);
+  //       console.log("ls see token updated ja nhi befor local storage", userToken);
+  //       console.log("ls see userPrincipal updated ja nhi befor local storage", userPrincipal);
 
         
-      } else {
-        console.log('Login failed');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-    }
-  };
+  //     } else {
+  //       console.log('Login failed');
+  //     }
+  //   } catch (error) {
+  //     console.error('Login error:', error);
+  //   }
+  // };
 
 
 
 const connectNFID = async()=>{
-  // await login("nfid");
-  // if (isAuthenticated) navigate('/dashboard');
+  await login('nfid');
+
 }
 
 
@@ -311,6 +314,10 @@ localStorage.setItem("id", principalText);
         <p className="border-t border-white w-full md:w-3/4 lg:w-2/3 mx-auto mb-4"></p>
 
         <ul className="space-y-3">
+        <li onClick={InternetIdentityHandler} className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600 ">
+    <img src={InternetIdentity} alt="InternetIdentity" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
+    <span className="text-center flex-grow" >Internet Identity</span>
+</li>
           {/* AstroX ME */}
           <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out  hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600 opacity-50 pointer-events-none">
             <img src={AstroXME} alt="AstroXME" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
@@ -349,10 +356,7 @@ localStorage.setItem("id", principalText);
           </li>
 
           {/* Internet Identity */}
-          <li className="border border-gray-300 rounded-3xl flex items-center p-2 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-yellow-900 hover:border-yellow-500 active:bg-yellow-700 active:border-yellow-600 ">
-    <img src={InternetIdentity} alt="InternetIdentity" className="rounded-full h-8 w-8 flex items-center justify-center text-white mr-2" />
-    <span className="text-center flex-grow" onClick={InternetIdentityHandler}>Internet Identity</span>
-</li>
+      
 
         </ul>
 
