@@ -242,7 +242,7 @@ const Profile = () => {
                   </label>
                 </div>
                 <div className="flex justify-center mb-[32px] items-center">
-                  <p className="text-[20px] font-viga mr-[10px] text-center font-[600]">{formData.name} {formData.gender_pronouns}</p><CiEdit className="text-cursor" size={22} />
+                  <p className="text-[20px] font-viga mr-[10px] text-center font-[600]">{formData.name} {formData.gender_pronouns}</p><Link to="/editProfile"><CiEdit className="text-cursor" size={22} /></Link>
                 </div>
                 <div className="w-full font-viga p-4">
                   <div className="grid grid-cols-3 gap-2">
