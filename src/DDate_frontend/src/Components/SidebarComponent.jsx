@@ -521,7 +521,7 @@ const SidebarComponent = () => {
 <div className="flex flex-col items-center">
                 <button
                   onClick={logoutHandler}
-                  className="text-black hover:text-white font-normal py-2 px-20 text-sm rounded-full "
+                  className="text-black hover:text-white font-normal py-2 w-full mt-2 text-sm rounded-full "
                   style={{
                     background:
                       "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
