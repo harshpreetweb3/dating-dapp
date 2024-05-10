@@ -183,6 +183,8 @@ function Swipe() {
     currentIndexRef.current = val;
   };
 
+  const canGoBack = currentIndex < db.length - 1;
+
   const canSwipe = currentIndex >= 0;
   console.log("selected idd dekhde aa ke milda", selectedId);
 
@@ -190,10 +192,10 @@ function Swipe() {
 
     console.log("this is direction", direction)
 
-    if(direction == 'right'){
+    if (direction == 'right') {
       setSelectedId(db[index].id);
     }
-    
+
 
     setIndexxx(index);
 
@@ -212,7 +214,7 @@ function Swipe() {
     try {
       const isMatch = await DDate_backend.check_user_match(principal, id);
       if (isMatch) {
-        console.log("It's a match response from backend!!!! !!!! !!!! !!!!");
+        console.log("It's a match response from backend!!");
         setMatch(true);
       } else {
         console.log(
@@ -231,7 +233,7 @@ function Swipe() {
     }
   }, [selectedId]);
 
-  
+
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
@@ -249,9 +251,6 @@ function Swipe() {
       }
     } else {
       console.error("Cannot swipe. Index or db length issue.");
-    }
-
-    if (dir == "right") {
     }
   };
 
@@ -391,7 +390,11 @@ function Swipe() {
       images: ["https://via.placeholder.com/300?text=Emily"]
     }
   ];
-  
+
+  useEffect(() => {
+    setSwipeProfiles(sampleProfiles)
+  }, []);
+
 
   return (
     <div className="md:grid grid-cols-9">
@@ -407,26 +410,21 @@ function Swipe() {
           </div>
         </div>
       ) : (
-        <div className="mx-auto md:col-start-5">
-          <div className="container flex justify-center mr-1">
-            <div
-              className="bg-white rounded-xl shadow-2xl shadow-slate-100 md:h-screen relative w-[90%] md:w-[380px] mt-0  mb-0"
-            >
-              <div>
-                {
-                  false
-                // db.length === 0 
-                ? (
-                  <div className="flex justify-center">
-                    <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
-                      <div className="h-screen">
-                        <Loader />
-                      </div>
+        <div className="mx-auto md:col-start-5 w-[220px] ">
+          {
+            false
+              // db.length === 0 
+              ? (
+                <div className="flex justify-center">
+                  <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+                    <div className="h-screen">
+                      <Loader />
                     </div>
                   </div>
-                ) : (
-                  <div>
-                  {sampleProfiles.map((character, index) => (
+                </div>
+              ) : (
+                <div>
+                  {db.map((character, index) => (
                     <TinderCard
                       ref={childRefs[index]}
                       className="swipe"
@@ -434,38 +432,31 @@ function Swipe() {
                       onSwipe={(dir) => swiped(dir, character.name, index)}
                       onCardLeftScreen={() => outOfFrame(character.name, index)}
                     >
-                      {/* <div className="h-screen"> */}
-                      {/* <div className=" pl-2 pb-2 pt-4">
-                      <img src={logo} alt="swapLogo" />
-                    </div> */}
-
-                      <div className="h-[90%] mt-[31px] object-fit relative top-20">
+                      <div className="h-[90%] mt-[31px] object-fit top-20">
                         <img
                           alt="img"
                           src={character.images[0]}
-                          className="h-full object-cover rounded-xl relative w-full -top-[5.5rem]"
+                          className="h-full object-cover w-[256px] md:w-[291px] lg:w-[331px] rounded-xl -top-[5.5rem]"
                           style={{ height: "83vh" }}
                         />
                       </div>
                       <div
-                        className="bg-black rounded-b-xl md:h-[161px] h-[242px] w-full z-10 fixed -bottom-7"
+                        className="bg-black rounded-b-xl w-[256px] md:w-[291px] lg:w-[331px] md:h-[201px] h-[242px] sm:w-[236px] z-10 fixed -bottom-7"
                         style={{
                           background:
-                            "linear-gradient(to top, rgb(0, 0, 0) 80%, rgba(255, 255, 255, 0) 100%)",
+                            "linear-gradient(to top, rgb(0, 0, 0) 50%, rgba(255, 255, 255, 0) 100%)",
                         }}
                       >
                       </div>
                       <div className="pl-4 md:bottom-16 bottom-[8rem] absolute z-21">
-                        <h2 className="text-4xl font-bold text-white z-30 mb-2 relative">
+                        <h2 className="text-4xl font-bold text-white z-30 mb-2 ">
                           {character.name}
                         </h2>
-                        <p className="text-lg text-gray-700 font-bold z-30 relative">
+                        <p className="text-lg text-gray-700 font-bold z-30">
                           {character.location}
                         </p>
-                        {/* {console.log(character.id)}
-                      {console.log(character.location)}
-                      {console.log(character.images[0])} */}
-                        <p className="mt-2 z-30 relative font-bold text-white mb-6">
+
+                        <p className="mt-2 z-30 font-bold text-white mb-6">
                           {character.introduction}
                         </p>
 
@@ -480,33 +471,31 @@ function Swipe() {
                       {/* </div> */}
                     </TinderCard>
                   ))}
-                  </div>
-                )}{" "}
-                <div className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-40 md:bottom-[10%]">
-                  <button
-                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 font-bold text-gray-800"
-                    onClick={() => swipe("left")}
-                    disabled={db.length === 0}
-                  >
-                    <FontAwesomeIcon
-                      icon={faClose}
-                      style={{ color: db.length === 0 ? "#b2b2b2" : "#fd5068" }}
-                    />
-                  </button>
-                  <button
-                    className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 font-bold text-gray-800"
-                    onClick={() => swipe("right")}
-                    disabled={db.length === 0}
-                  >
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      style={{ color: db.length === 0 ? "#b2b2b2" : "#1be4a1" }}
-                    />
-                  </button>
                 </div>
-              </div>
-            </div>
+              )}{" "}
+          <div className="px-0 flex absolute gap-4 pl-4 pt-2 py-6 m-0 z-40 bottom-[10%]">
+            <button
+              className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-pink-700 hover:bg-red-300 font-bold text-gray-800"
+              onClick={() => swipe("left")}
+              disabled={db.length === 0}
+            >
+              <FontAwesomeIcon
+                icon={faClose}
+                style={{ color: db.length === 0 ? "#b2b2b2" : "#fd5068" }}
+              />
+            </button>
+            <button
+              className="rounded-full  h-12 w-12 bg-transparent shadow-md text-3xl border border-green-700 hover:bg-green-700 font-bold text-gray-800"
+              onClick={() => swipe("right")}
+              disabled={db.length === 0}
+            >
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{ color: db.length === 0 ? "#b2b2b2" : "#1be4a1" }}
+              />
+            </button>
           </div>
+
         </div>
       )}
     </div>

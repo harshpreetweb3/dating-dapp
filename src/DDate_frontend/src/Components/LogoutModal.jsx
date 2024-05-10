@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useAuth } from "../auth/useAuthClient";
+import { Principal } from "@dfinity/principal";
 
 const LogoutModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -14,9 +15,9 @@ const LogoutModal = ({ isOpen, onClose }) => {
          localStorage.removeItem("id");
 
     onClose();
-  };
 
-  // let principal = localStorage.getItem("id");
+  };
+// let principal = localStorage.getItem("id");
 
   return (
     <div
@@ -30,7 +31,7 @@ const LogoutModal = ({ isOpen, onClose }) => {
       >
         <h3 className="text-base font-base mb-2 text-center">Wallet Details</h3>
         <p className="border-t border-white w-3/4 mx-auto mb-4">
-          Principal :{principal}
+          Principal :{principal.toText()}
         </p>
 
         <div

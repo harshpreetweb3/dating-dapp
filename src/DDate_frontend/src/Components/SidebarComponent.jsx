@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { DDate_backend } from "../../../declarations/DDate_backend/index";
 import { useNavigate } from "react-router-dom";
 import { Principal } from "@dfinity/principal";
+import { IoLogOut } from "react-icons/io5";
 import Loader from "./Loader";
 
 const SidebarComponent = () => {
@@ -17,7 +18,6 @@ const SidebarComponent = () => {
     images: null,
     combinedAge: "",
 
-    // gender_pronouns: "",
   });
 
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const SidebarComponent = () => {
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
-      if (window.innerWidth <= 768 && !isInputFocused) {
+      if (window.innerWidth <= 1024 && !isInputFocused) {
         setIsSidebarOpen(false);
       } else {
         setIsSidebarOpen(true);
@@ -249,7 +249,7 @@ const SidebarComponent = () => {
       {startLoader ? (
         <div className="sm:ml-64">
           <div className="container flex justify-center">
-            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
+            <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white h-screen ">
               <div className="h-screen">
                 <Loader />
               </div>
@@ -282,7 +282,7 @@ const SidebarComponent = () => {
               style={{ marginTop: "-36.5px" }}
             >
               <img
-                className="h-20 w-20 rounded-full border-2 border-white"
+                className="h-20 w-20 "
                 src={logo}
                 alt="Ddate logo"
               />
@@ -358,8 +358,7 @@ const SidebarComponent = () => {
                 </svg>
                 <button
                   onClick={() => navigate("/ChattingPage")}
-                  className="block p-2 text-white text-sm rounded"
-                >
+                  className="block p-2 text-white text-sm rounded">
                   <span>Messages</span>
                 </button>
               </li>
@@ -521,13 +520,13 @@ const SidebarComponent = () => {
 <div className="flex flex-col items-center">
                 <button
                   onClick={logoutHandler}
-                  className="text-black hover:text-white font-normal py-2 w-full mt-2 text-sm rounded-full "
+                  className="text-black hover:text-white text-left flex gap-3 px-6 font-normal py-2 w-full mt-2 text-sm rounded-full "
                   style={{
                     background:
                       "radial-gradient(68.18% 68.18% at 50% 50%, #FFC107 0%, #E28110 100%)",
                   }}
                 >
-                  Logout
+                  <IoLogOut size={22} /> Logout
                 </button>
               </div>
           </div>
