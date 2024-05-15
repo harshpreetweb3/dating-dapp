@@ -9,7 +9,49 @@ const ChattingSinglePage = () => {
 
     const location = useLocation();
     const { profile } = location.state || {};
-    const [sentMessages, setSentMessages] = useState([]);
+
+    const today = new Date();
+    console.log(today);
+
+    const dummySentMessages = [
+        {
+          fromPrincipal: 'user1',
+          toPrincipal: 'user2',
+          message: 'Hey there! from user1 to user2',
+          privateToken: 'token1',
+          dateTime:"5/8/2024, 10:36:42 AM"
+        },
+        {
+          fromPrincipal: 'user1',
+          toPrincipal: 'user2',
+          message: '2How are you?',
+          privateToken: 'token1',
+          dateTime:"5/8/2024, 10:30:45 AM"
+          
+        }
+      ];
+      
+      const dummyReceivedMessages = [
+        {
+          fromPrincipal: 'user2',
+          toPrincipal: 'user1',
+          message: 'Hi! I am good, thank you. from user2 to user1',
+          privateToken: 'token2',
+          dateTime:"5/8/2024, 10:30:43 AM"
+         
+        },
+        {
+          fromPrincipal: 'user2',
+          toPrincipal: 'user1',
+          message: '2Hi! I am good, thank you. from user2 to user1',
+          privateToken: 'token2',
+          dateTime:"5/8/2024, 10:30:46 AM"
+        
+        }
+      ];
+      
+
+    const [sentMessages, setSentMessages] = useState(dummySentMessages);
     //mera principal
     //userToken
 
@@ -17,10 +59,10 @@ const ChattingSinglePage = () => {
     let userPrincipal = localStorage.getItem('userPrincipal');
 
 
-    if (!profile) {
-        // Handle the case where profile is not available
-        return <div>No profile data available.</div>;
-    }
+    // if (!profile) {
+    //     // Handle the case where profile is not available
+    //     return <div>No profile data available.</div>;
+    // }
 
     console.log("you will be chating with this id", chatId);
 
@@ -28,24 +70,26 @@ const ChattingSinglePage = () => {
     const [socket, setSocket] = useState(null);
     const [message, setMessage] = useState('');
     //const [toPrincipal, setToPrincipal] = useState(''); // State for recipient's principal
-    const [receivedMessages, setReceivedMessages] = useState([]);
+    const [receivedMessages, setReceivedMessages] = useState(dummyReceivedMessages);
 
-    useEffect(() => {
-        //const newSocket = io('http://localhost:3000');
+   
 
-        const newSocket = io('https://ddate.kaifoundry.com', {
-            query: { principal: userPrincipal }
-        });
+    // useEffect(() => {
+    //     //const newSocket = io('http://localhost:3000');
+
+    //     const newSocket = io('https://ddate.kaifoundry.com', {
+    //         query: { principal: userPrincipal }
+    //     });
 
 
-        setSocket(newSocket);
+    //     setSocket(newSocket);
 
-        newSocket.on('receiveMessage', (data) => {
-            setReceivedMessages((prevMessages) => [...prevMessages, data]);
-        });
+    //     newSocket.on('receiveMessage', (data) => {
+    //         setReceivedMessages((prevMessages) => [...prevMessages, data]);
+    //     });
 
-        return () => newSocket.close();
-    }, [userToken]);
+    //     return () => newSocket.close();
+    // }, [userToken]);
 
 
 
@@ -68,8 +112,9 @@ const ChattingSinglePage = () => {
     };
 
     // Function to determine if a message is sent or received
-    const isMessageSent = (msg) => msg.fromPrincipal === userPrincipal;
-
+    // const isMessageSent = (msg) => msg.fromPrincipal === userPrincipal;
+    const isMessageSent =(msg) => {if(msg.fromPrincipal ==='user1') return true; else return false};
+    const sortedMessages = [...receivedMessages, ...sentMessages].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
 
     return (
         <div className="w-full border flex flex-col">
@@ -77,15 +122,17 @@ const ChattingSinglePage = () => {
                 <div className="flex items-center">
                     <div>
                         {/* <img className="w-10 h-10 rounded-full" src="https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg" /> */}
-                        <img className="w-10 h-10 rounded-full" src={profile.images[0]} />
+                        {/* <img className="w-10 h-10 rounded-full" src={profile.images[0]} /> */}
 
                     </div>
                     <div className="ml-4">
                         <p className="text-white ">
-                            {profile.name}
+                            {/* {profile.name} */}
+                            Tushar Jain
                         </p>
                         <p className="text-white text-xs mt-1">
-                            {profile.name}
+                            {/* {profile.name} */}
+                            Tushar Jain
                         </p>
                     </div>
                 </div>
@@ -110,21 +157,14 @@ const ChattingSinglePage = () => {
                 <div className="py-2 px-3" style={{ height: '84vh' }}>
 
                     <div>
-                        {/* {receivedMessages.map((msg, index) => (
-                            <p key={index}><strong>{msg.fromPrincipal}:</strong> {msg.data.message}</p>
-                        ))} */}
 
-                        {receivedMessages.concat(sentMessages).sort(/* sort by timestamp if available */).map((msg, index) => (
+                        {sortedMessages.map((msg, index) => (
                             <div key={index} className={`flex ${isMessageSent(msg) ? 'justify-end' : ''} mb-2`}>
                                 <div className={`rounded-xl py-2 px-3 ${isMessageSent(msg) ? 'bg-[#E2F7CB]' : 'bg-[#F2F2F2]'}`}>
-                                    {!isMessageSent(msg) && <>
-                                    {/* <p className="text-sm text-teal">{msg.fromPrincipal}</p> */}
-                                    <p className="text-sm mt-1">{msg.data.message}</p></>}
+                                  
                                     <p className="text-sm mt-1">{msg.message}</p>
-                                    {/* <p>{console.log("here is the message", msg.data.message)}</p> */}
-                                    <p>{console.log("here is the message", msg.message)}</p>
-                                    <p>{console.log("object", msg)}</p>
-                                    {/* Include timestamp if available */}
+                                    <p className='text-xs opacity-75 pl-
+                                    6 flex justify-end '> {msg.dateTime}</p>
                                 </div>
                             </div>
                         ))}
@@ -132,130 +172,9 @@ const ChattingSinglePage = () => {
 
 
 
-                    {/* <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-teal">
-                                Sylverter Stallone
-                            </p>
-                            <p className="text-sm mt-1">
-                                Hi everyone! Glad you could join! I am making a new movie.
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-purple">
-                                Tom Cruise
-                            </p>
-                            <p className="text-sm mt-1">
-                                Hi all! I have one question for the movie
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-orange">
-                                Harrison Ford
-                            </p>
-                            <p className="text-sm mt-1">
-                                Again?
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-orange">
-                                Russell Crowe
-                            </p>
-                            <p className="text-sm mt-1">
-                                Is Andrés coming for this one?
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-teal">
-                                Sylverter Stallone
-                            </p>
-                            <p className="text-sm mt-1">
-                                He is. Just invited him to join.
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex justify-end mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#E2F7CB" }}>
-                            <p className="text-sm mt-1">
-                                Hi guys.
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex justify-end mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#E2F7CB" }}>
-                            <p className="text-sm mt-1">
-                                Count me in
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-purple">
-                                Tom Cruise
-                            </p>
-                            <p className="text-sm mt-1">
-                                Get Andrés on this movie ASAP!
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex mb-2">
-                        <div className="rounded-xl py-2 px-3" style={{ backgroundColor: "#F2F2F2" }}>
-                            <p className="text-sm text-purple">
-                                Tom Cruise
-                            </p>
-                            <p className="text-sm mt-1">
-                                Get Andrés on this movie ASAP!
-                            </p>
-                            <p className="text-right text-xs text-grey-dark mt-1">
-                                12:45 pm
-                            </p>
-                        </div> */}
-                    {/* </div> */}
+               
                 </div>
             </div>
-
-            {/* messages will be shown both sent and received */}
-            {/* received msg; as of yet*/}
-
 
             <div
                 className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
@@ -288,7 +207,7 @@ const ChattingSinglePage = () => {
                         <input
                             type="text"
                             value={message}
-                            onChange={(e) => setMessage(e.target.value)}
+                            // onChange={(e) => setMessage(e.target.value)}
                             placeholder="write your message!"
                             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                         />
@@ -318,7 +237,7 @@ const ChattingSinglePage = () => {
                 <div className="ml-4">
                     <button
                         className="flex items-center justify-center bg-gradient-to-b from-[#DB7D11] to-[#6B3018]  dark:hover:bg-yellow-500 rounded-xl text-white px-4 py-1 flex-shrink-0"
-                        onClick={sendMessage}
+                        // onClick={sendMessage}
                     >
                         <span>Send</span>
                         <span className="ml-2">

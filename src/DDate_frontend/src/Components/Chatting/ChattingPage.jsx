@@ -8,77 +8,96 @@ import Loader from "../Loader";
 import { Principal } from "@dfinity/principal";
 
 
-
 const ChattingPage = () => {
 
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const [fetchedProfiles, setFetchedProfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // // const [fetchedProfiles, setFetchedProfiles] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  const [finalMatchedPrincipals, setFinalMatchedPrincipals] = useState({});
+  // const [finalMatchedPrincipals, setFinalMatchedPrincipals] = useState({});
 
-  const [iterate, setIterate] = useState();
+  // const [iterate, setIterate] = useState();
 
-  const myPrincipal = localStorage.getItem('id');
+  // const myPrincipal = localStorage.getItem('id');
 
-  const principal = Principal.fromText(myPrincipal);
+  // const principal = Principal.fromText(myPrincipal);
 
-  const get_chatList = async () => {
-    const currentProfileData = await DDate_backend.get_profile(principal);
-    console.log("for chatList", currentProfileData);
-    console.log("will be shown in chatList", currentProfileData.matches)
-    setFinalMatchedPrincipals(currentProfileData.matches);
-    setIterate(true)
-  }
-
-
-  console.log("finalMatchedPrincipals", finalMatchedPrincipals);
+  // const get_chatList = async () => {
+  //   const currentProfileData = await DDate_backend.get_profile(principal);
+  //   console.log("for chatList", currentProfileData);
+  //   console.log("will be shown in chatList", currentProfileData.matches)
+  //   setFinalMatchedPrincipals(currentProfileData.matches);
+  //   setIterate(true)
+  // }
 
 
-  useEffect(() => {
-    get_chatList()
-  }, [])
+  // console.log("finalMatchedPrincipals", finalMatchedPrincipals);
 
-  useEffect(() => {
-    const fetchProfiles = async () => {
-      try {
-        setLoading(true);
-        const profilePromises = finalMatchedPrincipals.map(principal =>
-          DDate_backend.get_profile(principal)
-        );
 
-        const profiles = await Promise.all(profilePromises);
-        setFetchedProfiles(profiles);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   // get_chatList()
+  // }, [])
 
-    if (finalMatchedPrincipals.length > 0) {
-      console.log("message list should be shown as profiles are being fetched from backend!")
-      fetchProfiles();
-    } else {
-      console.log("matched profiles array is empty!!! No Message List will be shown");
-    }
-  }, [iterate == true]);
+  // useEffect(() => {
+  //   const fetchProfiles = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const profilePromises = finalMatchedPrincipals.map(principal =>
+  //         DDate_backend.get_profile(principal)
+  //       );
 
-  if (error) {
-    return <div>Error fetching profiles: {error}</div>;
-  }
+  //       const profiles = await Promise.all(profilePromises);
+  //       // setFetchedProfiles(profiles);
+  //     } catch (err) {
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-  console.log("these are the fetched profiles whom you can send messages #@#@#@", fetchedProfiles);
+  //   if (finalMatchedPrincipals.length > 0) {
+  //     console.log("message list should be shown as profiles are being fetched from backend!")
+  //     // fetchProfiles();
+  //   } else {
+  //     console.log("matched profiles array is empty!!! No Message List will be shown");
+  //   }
+  // }, [iterate == true]);
+
+  // if (error) {
+  //   return <div>Error fetching profiles: {error}</div>;
+  // }
+
+      const fetchedProfiles = [
+        {
+          id: 1,
+          name: "John Doe",
+          images: ["https://via.placeholder.com/150"],
+        },
+        {
+          id: 2,
+          name: "Jane Smith",
+          images: ["https://via.placeholder.com/150"],
+        },
+        {
+          id: 3,
+          name: "Alice Johnson",
+          images: ["https://via.placeholder.com/150"],
+        },
+      ];
+  
 
 
   return (
     <>
       <SidebarComponent />
 
-      {loading ? (
+      {
+        false
+      // loading
+       ? (
         <div className="sm:ml-64">
           <div className="container flex justify-center">
             <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-white  h-screen ">
@@ -90,7 +109,9 @@ const ChattingPage = () => {
         </div>
       ) : (
 
-        finalMatchedPrincipals ?
+        // finalMatchedPrincipals 
+        true
+        ?
           <div className="h-screen grid grid-cols-12">
             {/* Sidebar - hidden on smaller screens */}
             <div className="hidden md:block md:col-span-2"></div>
@@ -127,7 +148,7 @@ const ChattingPage = () => {
 
                 <div className="border-b border-gray-300">
                   {/* Search or title bar */}
-                  <div className="flex items-center p-4 bg-white">
+                  <div className="flex items-center p-4 bg-white"> 
                     <input
                       className="flex-grow py-2 px-4 border bg-gray-200 rounded-full"
                       type="text"
