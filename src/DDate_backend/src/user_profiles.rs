@@ -117,7 +117,7 @@ impl UserProfiles {
     pub fn create_profile(&mut self, params: UserProfileParams) {
         let profile = UserProfile {
             id: params.id.clone(),
-            name: params.name.clone(),
+            name: params.name.clone(),  
             age: params.age,
             gender: params.gender.clone(),
             email: params.email.clone(),

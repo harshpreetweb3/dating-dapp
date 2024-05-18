@@ -1,3 +1,38 @@
+type Result = variant { Ok : UserProfileParams; Err : text };
+type UserProfileParams = record {
+  age : opt nat64;
+  dob : opt text;
+  occupation : opt text;
+  height : opt text;
+  mobile_number : opt text;
+  diet : opt text;
+  travel : opt vec text;
+  name : opt text;
+  pets : opt text;
+  outdoor_activities : opt vec text;
+  min_preferred_age : opt nat64;
+  email : opt text;
+  smoking : opt text;
+  drinking : opt text;
+  introduction : opt text;
+  art_and_culture : opt vec text;
+  preferred_location : opt text;
+  gender : opt text;
+  interests_in : opt text;
+  preferred_gender : opt text;
+  gender_pronouns : opt text;
+  looking_for : opt text;
+  general_habits : opt vec text;
+  sports : opt vec text;
+  religion : opt text;
+  movies : opt vec text;
+  location : opt text;
+  zodiac : opt text;
+  hobbies : opt vec text;
+  max_preferred_age : opt nat64;
+  images : opt vec text;
+};
 service : {
-    "greet": (text) -> (text) query;
+  create_an_account : (UserProfileParams) -> (text);
+  get_an_account : () -> (Result) query;
 }
