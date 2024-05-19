@@ -46,11 +46,11 @@ pub struct UserProfileCreationInfo {
     user_id: String,
     created_at: u64,
     params: UserProfileParams,
-    creator_principal : Principal
+    creator_principal: Principal,
 }
 
 thread_local! {
-    pub static PROFILES : RefCell<Profile> = RefCell::new(Profile::new())
+    pub static PROFILES: RefCell<Profile> = RefCell::new(Profile::new())
 }
 
 pub struct Profile {
@@ -64,22 +64,134 @@ impl Profile {
         }
     }
 
-    pub fn create_account(&mut self, user_id : String, params: UserProfileCreationInfo) -> String {
+    pub fn create_account(&mut self, user_id: String, params: UserProfileCreationInfo) -> String {
         ic_cdk::println!("profile {:?}", params.params);
-        self.profiles.insert(user_id, params.clone());
-        format!("User profile created with id : {}", params.user_id.clone())
+        self.profiles.insert(user_id.clone(), params);
+        format!("User profile created with id: {}", user_id)
     }
 
-    pub fn get_account(&self, user_id: String) -> Result<UserProfileCreationInfo, String> {
-        let open = self.profiles.get(&user_id).cloned();
+    pub fn get_account(&self, user_id: &String) -> Result<UserProfileCreationInfo, String> {
+        match self.profiles.get(user_id) {
+            Some(profile) => Ok(profile.clone()),
+            None => Err("Account profile not found, do create one.".to_string()),
+        }
+    }
 
-        let result = match open {
-            Some(profile) => profile,
-            None => return Err("account profile is not found, do create one".to_string()),
-        };
-        ic_cdk::println!("got this result {:?}", result);
-        Ok(result)
+    pub fn update_account(&mut self, user_id: &String, new_params: UserProfileParams) -> Result<String, String> {
+        match self.profiles.get_mut(user_id) {
+            Some(profile) => {
+                profile.params = profile.params.merge(new_params).clone();
+                Ok(format!("User profile updated with id: {}", user_id))
+            }
+            None => Err("Account profile not found, please create one.".to_string()),
+        }
+    }
 
+    pub fn delete_account(&mut self, user_id: &String) -> Result<String, String> {
+        if self.profiles.remove(user_id).is_some() {
+            Ok("User profile deleted.".to_string())
+        } else {
+            Err("Account profile not found, nothing to delete.".to_string())
+        }
+    }
+}
+
+impl UserProfileParams {
+    pub fn merge(&mut self, other: UserProfileParams) -> &Self {
+        if other.gender.is_some() {
+            self.gender = other.gender;
+        }
+        if other.email.is_some() {
+            self.email = other.email;
+        }
+        if other.name.is_some() {
+            self.name = other.name;
+        }
+        if other.mobile_number.is_some() {
+            self.mobile_number = other.mobile_number;
+        }
+        if other.dob.is_some() {
+            self.dob = other.dob;
+        }
+        if other.gender_pronouns.is_some() {
+            self.gender_pronouns = other.gender_pronouns;
+        }
+        if other.religion.is_some() {
+            self.religion = other.religion;
+        }
+        if other.height.is_some() {
+            self.height = other.height;
+        }
+        if other.zodiac.is_some() {
+            self.zodiac = other.zodiac;
+        }
+        if other.diet.is_some() {
+            self.diet = other.diet;
+        }
+        if other.occupation.is_some() {
+            self.occupation = other.occupation;
+        }
+        if other.looking_for.is_some() {
+            self.looking_for = other.looking_for;
+        }
+        if other.smoking.is_some() {
+            self.smoking = other.smoking;
+        }
+        if other.drinking.is_some() {
+            self.drinking = other.drinking;
+        }
+        if other.hobbies.is_some() {
+            self.hobbies = other.hobbies;
+        }
+        if other.sports.is_some() {
+            self.sports = other.sports;
+        }
+        if other.art_and_culture.is_some() {
+            self.art_and_culture = other.art_and_culture;
+        }
+        if other.pets.is_some() {
+            self.pets = other.pets;
+        }
+        if other.general_habits.is_some() {
+            self.general_habits = other.general_habits;
+        }
+        if other.outdoor_activities.is_some() {
+            self.outdoor_activities = other.outdoor_activities;
+        }
+        if other.travel.is_some() {
+            self.travel = other.travel;
+        }
+        if other.movies.is_some() {
+            self.movies = other.movies;
+        }
+        if other.interests_in.is_some() {
+            self.interests_in = other.interests_in;
+        }
+        if other.age.is_some() {
+            self.age = other.age;
+        }
+        if other.location.is_some() {
+            self.location = other.location;
+        }
+        if other.min_preferred_age.is_some() {
+            self.min_preferred_age = other.min_preferred_age;
+        }
+        if other.max_preferred_age.is_some() {
+            self.max_preferred_age = other.max_preferred_age;
+        }
+        if other.preferred_gender.is_some() {
+            self.preferred_gender = other.preferred_gender;
+        }
+        if other.preferred_location.is_some() {
+            self.preferred_location = other.preferred_location;
+        }
+        if other.introduction.is_some() {
+            self.introduction = other.introduction;
+        }
+        if other.images.is_some() {
+            self.images = other.images;
+        }
+        self
     }
 }
 
@@ -91,17 +203,26 @@ pub async fn create_an_account(params: UserProfileParams) -> String {
     let unique_user_id = format!("{:x}", Sha256::digest(&u_ids));
 
     let profile_info = UserProfileCreationInfo {
-        user_id: unique_user_id,
+        user_id: unique_user_id.clone(),
         created_at: time(),
         params: params.clone(),
-        creator_principal : caller
+        creator_principal: caller,
     };
 
-    PROFILES.with(|profiles| profiles.borrow_mut().create_account(profile_info.user_id.clone(), profile_info))
+    PROFILES.with(|profiles| profiles.borrow_mut().create_account(unique_user_id.clone(), profile_info))
+}
+
+#[update]
+pub fn update_an_account(user_id: String, params: UserProfileParams) -> Result<String, String> {
+    PROFILES.with(|profiles| profiles.borrow_mut().update_account(&user_id, params))
+}
+
+#[update]
+pub fn delete_an_account(user_id: String) -> Result<String, String> {
+    PROFILES.with(|profiles| profiles.borrow_mut().delete_account(&user_id))
 }
 
 #[query]
-pub fn get_an_account(user_id : String) -> Result<UserProfileCreationInfo, String> {
-    PROFILES.with(|profiles| profiles.borrow().get_account(user_id))
+pub fn get_an_account(user_id: String) -> Result<UserProfileCreationInfo, String> {
+    PROFILES.with(|profiles| profiles.borrow().get_account(&user_id))
 }
-

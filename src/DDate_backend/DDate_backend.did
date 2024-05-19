@@ -1,4 +1,5 @@
-type Result = variant { Ok : UserProfileCreationInfo; Err : text };
+type Result = variant { Ok : text; Err : text };
+type Result_1 = variant { Ok : UserProfileCreationInfo; Err : text };
 type UserProfileCreationInfo = record {
   created_at : nat64;
   user_id : text;
@@ -40,5 +41,7 @@ type UserProfileParams = record {
 };
 service : {
   create_an_account : (UserProfileParams) -> (text);
-  get_an_account : (text) -> (Result) query;
+  delete_an_account : (text) -> (Result);
+  get_an_account : (text) -> (Result_1) query;
+  update_an_account : (text, UserProfileParams) -> (Result);
 }
