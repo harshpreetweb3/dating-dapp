@@ -1,7 +1,7 @@
 mod profile_creation;
 use ic_cdk::export_candid;
 
-use crate::profile_creation::UserProfileParams;
+use crate::profile_creation::*;
 // mod notification;
 // mod profile_matcher;
 // mod right_and_left_swipe;

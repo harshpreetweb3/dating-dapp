@@ -12,6 +12,7 @@ dependencies = [
  "ic-cdk-macros 0.5.7",
  "ic-cdk-timers",
  "serde",
+ "sha2",
 ]
 
 [[package]]
