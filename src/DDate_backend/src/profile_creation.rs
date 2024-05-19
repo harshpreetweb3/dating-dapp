@@ -1,4 +1,4 @@
-use ic_cdk::api::{caller, management_canister::main::raw_rand, print, time};
+use ic_cdk::api::{caller, management_canister::main::raw_rand, time};
 use ic_cdk::{query, update};
 use sha2::{Digest, Sha256};
 use std::{cell::RefCell, collections::HashMap};
@@ -115,3 +115,4 @@ pub fn get_an_account() -> Result<UserProfileCreationInfo, String> {
     let caller = caller();
     PROFILES.with(|profiles| profiles.borrow().get_account(caller))
 }
+
