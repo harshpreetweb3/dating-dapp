@@ -40,7 +40,7 @@ type UserProfileParams = record {
   images : opt vec text;
 };
 service : {
-  create_an_account : (UserProfileParams) -> (text);
+  create_an_account : (UserProfileParams) -> (Result);
   delete_an_account : (text) -> (Result);
   get_an_account : (text) -> (Result_1) query;
   update_an_account : (text, UserProfileParams) -> (Result);

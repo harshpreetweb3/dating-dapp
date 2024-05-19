@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, CandidType, Debug)]
 pub struct UserProfileParams {
-    gender: Option<String>,
+    gender: Option<String>, // name , email, gender, preffered gender, age, max, min preffered-age, location, p -loc
     email: Option<String>,
     name: Option<String>,
     mobile_number: Option<String>,
@@ -64,10 +64,39 @@ impl Profile {
         }
     }
 
-    pub fn create_account(&mut self, user_id: String, params: UserProfileCreationInfo) -> String {
+    pub fn create_account(&mut self, user_id: String, params: UserProfileCreationInfo) -> Result<String, String> {
+        // Validation
+        if params.params.name.is_none() || params.params.name.as_ref().unwrap().trim().is_empty() {
+            return Err("Name is required".to_string());
+        }
+        if params.params.email.is_none() || params.params.email.as_ref().unwrap().trim().is_empty() {
+            return Err("Email is required".to_string());
+        }
+        if params.params.age.is_none() {
+            return Err("Age is required".to_string());
+        }
+        if params.params.min_preferred_age.is_none() {
+            return Err("Minimum preferred age is required".to_string());
+        }
+        if params.params.max_preferred_age.is_none() {
+            return Err("Maximum preferred age is required".to_string());
+        }
+        if params.params.location.is_none() || params.params.location.as_ref().unwrap().trim().is_empty() {
+            return Err("Location is required".to_string());
+        }
+        if params.params.preferred_location.is_none() || params.params.preferred_location.as_ref().unwrap().trim().is_empty() {
+            return Err("Preferred location is required".to_string());
+        }
+        if params.params.gender.is_none() || params.params.gender.as_ref().unwrap().trim().is_empty() {
+            return Err("Gender is required".to_string());
+        }
+        if params.params.preferred_gender.is_none() || params.params.preferred_gender.as_ref().unwrap().trim().is_empty() {
+            return Err("Preferred gender is required".to_string());
+        }
+
         ic_cdk::println!("profile {:?}", params.params);
         self.profiles.insert(user_id.clone(), params);
-        format!("User profile created with id: {}", user_id)
+        Ok(format!("User profile created with id: {}", user_id))
     }
 
     pub fn get_account(&self, user_id: &String) -> Result<UserProfileCreationInfo, String> {
@@ -196,7 +225,7 @@ impl UserProfileParams {
 }
 
 #[update]
-pub async fn create_an_account(params: UserProfileParams) -> String {
+pub async fn create_an_account(params: UserProfileParams) -> Result<String, String> {
     let caller = caller();
 
     let u_ids = raw_rand().await.unwrap().0;
