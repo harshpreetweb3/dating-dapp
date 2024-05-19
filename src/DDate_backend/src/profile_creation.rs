@@ -46,6 +46,7 @@ pub struct UserProfileCreationInfo {
     user_id: String,
     created_at: u64,
     params: UserProfileParams,
+    creator_principal : Principal
 }
 
 thread_local! {
@@ -53,7 +54,7 @@ thread_local! {
 }
 
 pub struct Profile {
-    pub profiles: HashMap<Principal, UserProfileCreationInfo>,
+    pub profiles: HashMap<String, UserProfileCreationInfo>,
 }
 
 impl Profile {
@@ -63,26 +64,14 @@ impl Profile {
         }
     }
 
-    pub fn create_account(&mut self, caller: Principal, params: UserProfileCreationInfo) -> String {
+    pub fn create_account(&mut self, user_id : String, params: UserProfileCreationInfo) -> String {
         ic_cdk::println!("profile {:?}", params.params);
-        self.profiles.insert(caller, params.clone());
+        self.profiles.insert(user_id, params.clone());
         format!("User profile created with id : {}", params.user_id.clone())
     }
 
-    // pub fn get_account() -> Result<UserProfileParams, String> {
-    //     let caller = caller();
-    //     PROFILES.with(|profiles| {
-    //         let profiles = profiles.borrow().profiles.get(&caller).cloned();
-    //         let result = match profiles {
-    //             Some(profiles) => profiles,
-    //             None => return Err("account profile is not found, do create one".to_string()),
-    //         };
-    //         Ok(result)
-    //     })
-    // }
-
-    pub fn get_account(&self, caller: Principal) -> Result<UserProfileCreationInfo, String> {
-        let open = self.profiles.get(&caller).cloned();
+    pub fn get_account(&self, user_id: String) -> Result<UserProfileCreationInfo, String> {
+        let open = self.profiles.get(&user_id).cloned();
 
         let result = match open {
             Some(profile) => profile,
@@ -105,14 +94,14 @@ pub async fn create_an_account(params: UserProfileParams) -> String {
         user_id: unique_user_id,
         created_at: time(),
         params: params.clone(),
+        creator_principal : caller
     };
 
-    PROFILES.with(|profiles| profiles.borrow_mut().create_account(caller, profile_info))
+    PROFILES.with(|profiles| profiles.borrow_mut().create_account(profile_info.user_id.clone(), profile_info))
 }
 
 #[query]
-pub fn get_an_account() -> Result<UserProfileCreationInfo, String> {
-    let caller = caller();
-    PROFILES.with(|profiles| profiles.borrow().get_account(caller))
+pub fn get_an_account(user_id : String) -> Result<UserProfileCreationInfo, String> {
+    PROFILES.with(|profiles| profiles.borrow().get_account(user_id))
 }
 

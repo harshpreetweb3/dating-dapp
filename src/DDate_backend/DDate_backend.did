@@ -2,6 +2,7 @@ type Result = variant { Ok : UserProfileCreationInfo; Err : text };
 type UserProfileCreationInfo = record {
   created_at : nat64;
   user_id : text;
+  creator_principal : principal;
   params : UserProfileParams;
 };
 type UserProfileParams = record {
@@ -39,5 +40,5 @@ type UserProfileParams = record {
 };
 service : {
   create_an_account : (UserProfileParams) -> (text);
-  get_an_account : () -> (Result) query;
+  get_an_account : (text) -> (Result) query;
 }
