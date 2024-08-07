@@ -6,7 +6,7 @@ use std::{cell::RefCell, collections::HashMap};
 use candid::{CandidType, Principal};
 use serde::Deserialize;
 
-#[derive(Clone, Deserialize, CandidType, Debug)]
+#[derive(Clone, Deserialize, CandidType, Debug, PartialEq)]
 pub struct UserProfileParams {
     gender: Option<String>, // name , email, gender, preffered gender, age, max, min preffered-age, location, p -loc
     email: Option<String>,
@@ -51,10 +51,12 @@ pub struct UserProfileCreationInfo {
 
 thread_local! {
     pub static PROFILES: RefCell<Profile> = RefCell::new(Profile::new())
+
 }
 
 pub struct Profile {
     pub profiles: HashMap<String, UserProfileCreationInfo>,
+
 }
 
 impl Profile {
@@ -66,37 +68,38 @@ impl Profile {
 
     pub fn create_account(&mut self, user_id: String, params: UserProfileCreationInfo) -> Result<String, String> {
         // Validation
-        if params.params.name.is_none() || params.params.name.as_ref().unwrap().trim().is_empty() {
-            return Err("Name is required".to_string());
-        }
-        if params.params.email.is_none() || params.params.email.as_ref().unwrap().trim().is_empty() {
-            return Err("Email is required".to_string());
-        }
-        if params.params.age.is_none() {
-            return Err("Age is required".to_string());
-        }
-        if params.params.min_preferred_age.is_none() {
-            return Err("Minimum preferred age is required".to_string());
-        }
-        if params.params.max_preferred_age.is_none() {
-            return Err("Maximum preferred age is required".to_string());
-        }
-        if params.params.location.is_none() || params.params.location.as_ref().unwrap().trim().is_empty() {
-            return Err("Location is required".to_string());
-        }
-        if params.params.preferred_location.is_none() || params.params.preferred_location.as_ref().unwrap().trim().is_empty() {
-            return Err("Preferred location is required".to_string());
-        }
-        if params.params.gender.is_none() || params.params.gender.as_ref().unwrap().trim().is_empty() {
-            return Err("Gender is required".to_string());
-        }
-        if params.params.preferred_gender.is_none() || params.params.preferred_gender.as_ref().unwrap().trim().is_empty() {
-            return Err("Preferred gender is required".to_string());
-        }
+        // if params.params.name.is_none() || params.params.name.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Name is required".to_string());
+        // }
+        // if params.params.email.is_none() || params.params.email.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Email is required".to_string());
+        // }
+        // if params.params.age.is_none() {
+        //     return Err("Age is required".to_string());
+        // }
+        // if params.params.min_preferred_age.is_none() {
+        //     return Err("Minimum preferred age is required".to_string());
+        // }
+        // if params.params.max_preferred_age.is_none() {
+        //     return Err("Maximum preferred age is required".to_string());
+        // }
+        // if params.params.location.is_none() || params.params.location.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Location is required".to_string());
+        // }
+        // if params.params.preferred_location.is_none() || params.params.preferred_location.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Preferred location is required".to_string());
+        // }
+        // if params.params.gender.is_none() || params.params.gender.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Gender is required".to_string());
+        // }
+        // if params.params.preferred_gender.is_none() || params.params.preferred_gender.as_ref().unwrap().trim().is_empty() {
+        //     return Err("Preferred gender is required".to_string());
+        // }
 
         ic_cdk::println!("profile {:?}", params.params);
         self.profiles.insert(user_id.clone(), params);
         Ok(format!("User profile created with id: {}", user_id))
+        
     }
 
     pub fn get_account(&self, user_id: &String) -> Result<UserProfileCreationInfo, String> {
@@ -123,6 +126,35 @@ impl Profile {
             Err("Account profile not found, nothing to delete.".to_string())
         }
     }
+
+    pub fn find_matched_profiles(&self, user_id: &String) -> Vec<String> {
+        let mut matched_ids = Vec::new();
+
+        // Retrieve the current user's profile using the provided user_id
+        if let Some(current_profile) = self.profiles.get(user_id) {
+            // Iterate over all profiles stored in the hashmap
+            for (profile_id, profile_info) in &self.profiles {
+                // Check all necessary conditions including unwrapping Option values safely
+                if let (Some(age), Some(min_age), Some(max_age)) = (
+                    profile_info.params.age,
+                    current_profile.params.min_preferred_age,
+                    current_profile.params.max_preferred_age
+                ) {
+                    // Ensure gender and location are not None and then compare their contained values
+                    if age >= min_age && age <= max_age
+                        && profile_info.params.gender.as_ref() == current_profile.params.preferred_gender.as_ref()
+                        && profile_info.params.location.as_ref() == current_profile.params.preferred_location.as_ref()
+                        && profile_id != user_id
+                    {
+                        matched_ids.push(profile_id.clone());
+                    }
+                }
+            }
+        }
+
+        matched_ids
+    }
+
 }
 
 impl UserProfileParams {
@@ -254,4 +286,9 @@ pub fn delete_an_account(user_id: String) -> Result<String, String> {
 #[query]
 pub fn get_an_account(user_id: String) -> Result<UserProfileCreationInfo, String> {
     PROFILES.with(|profiles| profiles.borrow().get_account(&user_id))
+}
+
+#[query]
+pub fn get_matched_profiles(user_id: String) -> Vec<String> {
+    PROFILES.with(|profiles| profiles.borrow().find_matched_profiles(&user_id))
 }

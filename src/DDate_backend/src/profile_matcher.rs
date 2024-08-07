@@ -3,7 +3,7 @@ use ic_cdk::export::candid::Principal;
 use std::collections::HashMap;
 
 
-pub fn find_matches(
+pub fn find_matches_for_user(
     profiles: &HashMap<Principal, UserProfile>,
     profile_id: &Principal,
 ) -> Vec<Principal> {
@@ -24,7 +24,7 @@ pub fn find_matches(
                 Some(*id)
             } else {
                 None
-            }
+            }  
         })
         .collect()
 }

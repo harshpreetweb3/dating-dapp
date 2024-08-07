@@ -1,5 +1,12 @@
+type Notification = record {
+  receiver_id : text;
+  notification_type : NotificationType;
+  sender_id : text;
+};
+type NotificationType = variant { Like };
 type Result = variant { Ok : text; Err : text };
 type Result_1 = variant { Ok : UserProfileCreationInfo; Err : text };
+type Result_2 = variant { Ok : vec text; Err : text };
 type UserProfileCreationInfo = record {
   created_at : nat64;
   user_id : text;
@@ -43,5 +50,11 @@ service : {
   create_an_account : (UserProfileParams) -> (Result);
   delete_an_account : (text) -> (Result);
   get_an_account : (text) -> (Result_1) query;
+  get_matched_profiles : (text) -> (vec text) query;
+  get_user_notifications : (text) -> (vec Notification) query;
+  like_and_check_match : (text, text) -> (bool);
+  like_profile : (text, text) -> ();
+  send_like : (text, text) -> (text);
   update_an_account : (text, UserProfileParams) -> (Result);
+  who_liked_my_profile : (text) -> (Result_2) query;
 }

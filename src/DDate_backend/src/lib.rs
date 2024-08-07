@@ -1,7 +1,20 @@
 mod profile_creation;
+mod right_and_left_swipe;
+mod notification;
+
 use ic_cdk::export_candid;
 
 use crate::profile_creation::*;
+use crate::right_and_left_swipe::*;
+
+use crate::notification::*;
+
+use std::{collections::HashMap, cell::RefCell};
+use serde::{Deserialize, Serialize};
+use candid::CandidType;
+use ic_cdk::{update, query};
+
+
 // mod notification;
 // mod profile_matcher;
 // mod right_and_left_swipe;
